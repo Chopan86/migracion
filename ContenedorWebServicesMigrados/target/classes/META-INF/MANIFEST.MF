@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Built-By: fsaavedr
+Build-Jdk: 17.0.6
+Implementation-Title: ContenedorWebserviceMigrados
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: cl.tchile
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: http://projects.spring.io/spring-boot/ContenedorWebs
+ erviceMigrados/
+Created-By: Maven Integration for Eclipse
+
