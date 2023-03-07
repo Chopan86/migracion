@@ -7,6 +7,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ContenedorWebServicesApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ContenedorWebServicesApplication.class, args); 
-	}
+		SpringApplication.run(ContenedorWebServicesApplication.class, args);  
 }
