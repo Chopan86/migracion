@@ -1,77 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <bindings xmlns="http://java.sun.com/xml/ns/jaxb" if-exists="true" version="2.1">
-      
-    <!--
+  <!--
 
 Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.11 
 Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-Generado el: 2023.03.07 a las 11:59:19 AM CLST 
+Generado el: 2023.03.07 a las 04:06:18 PM CLST 
 
   -->
-      
-    <bindings xmlns:tns="http://www.AWLC02WS.AWLC02WI.Response.com" if-exists="true" scd="x-schema::tns">
-            
-        <schemaBindings map="false">
-                  
-            <package name="com.response.awlc02wi.awlc02ws"/>
-                
-        </schemaBindings>
-            
-        <bindings if-exists="true" scd="~tns:ProgramInterface">
-                  
-            <class ref="com.response.awlc02wi.awlc02ws.ProgramInterface"/>
-                
-        </bindings>
-          
+  <bindings xmlns:tns="http://www.AWLC02WS.AWLC02WI.Response.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.response.awlc02wi.awlc02ws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.response.awlc02wi.awlc02ws.ProgramInterface"/>
     </bindings>
-      
-    <bindings xmlns:tns="http://www.AWLC02WS.AWLC02WI.Request.com" if-exists="true" scd="x-schema::tns">
-            
-        <schemaBindings map="false">
-                  
-            <package name="com.request.awlc02wi.awlc02ws"/>
-                
-        </schemaBindings>
-            
-        <bindings if-exists="true" scd="~tns:ProgramInterface">
-                  
-            <class ref="com.request.awlc02wi.awlc02ws.ProgramInterface"/>
-                
-        </bindings>
-          
+  </bindings>
+  <bindings xmlns:tns="http://www.AWLC02WS.AWLC02WI.Request.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.request.awlc02wi.awlc02ws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.request.awlc02wi.awlc02ws.ProgramInterface"/>
     </bindings>
-      
-    <bindings xmlns:tns="http://www.AWLC01WS.AWLC01WI.Response.com" if-exists="true" scd="x-schema::tns">
-            
-        <schemaBindings map="false">
-                  
-            <package name="com.response.awlc01wi.awlc01ws"/>
-                
-        </schemaBindings>
-            
-        <bindings if-exists="true" scd="~tns:ProgramInterface">
-                  
-            <class ref="com.response.awlc01wi.awlc01ws.ProgramInterface"/>
-                
-        </bindings>
-          
+  </bindings>
+  <bindings xmlns:tns="http://www.AWLC01WS.AWLC01WI.Response.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.response.awlc01wi.awlc01ws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.response.awlc01wi.awlc01ws.ProgramInterface"/>
     </bindings>
-      
-    <bindings xmlns:tns="http://www.AWLC01WS.AWLC01WI.Request.com" if-exists="true" scd="x-schema::tns">
-            
-        <schemaBindings map="false">
-                  
-            <package name="com.request.awlc01wi.awlc01ws"/>
-                
-        </schemaBindings>
-            
-        <bindings if-exists="true" scd="~tns:ProgramInterface">
-                  
-            <class ref="com.request.awlc01wi.awlc01ws.ProgramInterface"/>
-                
-        </bindings>
-          
+  </bindings>
+  <bindings xmlns:tns="http://www.AWLC01WS.AWLC01WI.Request.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.request.awlc01wi.awlc01ws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.request.awlc01wi.awlc01ws.ProgramInterface"/>
     </bindings>
-    
+  </bindings>
+  <bindings xmlns:tns="http://midrange.telefonica.com/queryproductService/types" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.telefonica.midrange.queryproductservice.types"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:queryproductRequest">
+      <class ref="com.telefonica.midrange.queryproductservice.types.QueryproductRequest"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:queryproductResponse">
+      <class ref="com.telefonica.midrange.queryproductservice.types.QueryproductResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:ResponseMsj">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ResponseMsj"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:product">
+      <class ref="com.telefonica.midrange.queryproductservice.types.Product"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:productBundle">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ProductBundle"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:validFor">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ValidFor"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:productCapacity">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ProductCapacity"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:productOffering">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ProductOffering"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:productCharacteristic">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ProductCharacteristic"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:place">
+      <class ref="com.telefonica.midrange.queryproductservice.types.Place"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:localAddress">
+      <class ref="com.telefonica.midrange.queryproductservice.types.LocalAddress"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:productInvolvementRole">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ProductInvolvementRole"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:partyRole">
+      <class ref="com.telefonica.midrange.queryproductservice.types.PartyRole"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:customerAccount">
+      <class ref="com.telefonica.midrange.queryproductservice.types.CustomerAccount"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:customerFacingService">
+      <class ref="com.telefonica.midrange.queryproductservice.types.CustomerFacingService"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:productPrice">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ProductPrice"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:productSpecification">
+      <class ref="com.telefonica.midrange.queryproductservice.types.ProductSpecification"/>
+    </bindings>
+  </bindings>
 </bindings>

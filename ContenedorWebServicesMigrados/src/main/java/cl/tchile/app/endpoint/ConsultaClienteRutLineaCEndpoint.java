@@ -26,7 +26,6 @@ public class ConsultaClienteRutLineaCEndpoint {
 	/** The Constant NAMESPACE_URI_CONSULTA_CLIENTE_RUT_LINEA_C. */
 	private static final String NAMESPACE_URI = "http://www.AWLC02WS.AWLC02WI.Request.com";
 	
-	
 	/**
 	 * Consulta cliente rut linea C.
 	 *
