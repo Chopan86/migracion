@@ -123,7 +123,7 @@ public class ConsultaClienteRutLineaBDelegate {
 	}
 
 	public void callConsultaClienteRutLinaBxFono(String area,String fono) {
-		String fonoCompleto = area + fono;
+		String fonoCompleto = area + fono.substring(1);
 		try {
 			boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOS");
 			if (fonoRepetido) {
@@ -138,7 +138,7 @@ public class ConsultaClienteRutLineaBDelegate {
 				entrada.setAwlc01Z3_i_num_com(generalHelper.formatearFono(area,fono));
 				entrada.setAwlc01Z3_i_rut("");
 				entrada.setAwlc01Z3_i_dv("");
-				entrada.setAwlc01Z3_i_criterio(Constantes.sCOD_ONE);
+				entrada.setAwlc01Z3_i_criterio(Character.toString(Constantes.cCOD_ZERO));
 				entrada.setFiller1("");
 				URL endpointURL = new URL("http://esb2.ctc.cl:8080/services/consultaClienteRutLineaB");
 				String timeOut = "15000";
