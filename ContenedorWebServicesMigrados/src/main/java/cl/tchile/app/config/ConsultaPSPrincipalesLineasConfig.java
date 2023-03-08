@@ -8,21 +8,22 @@ import org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition;
 import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
 
 /**
- * The Class ConsultaClienteRutLineaCConfig.
+ * The Class ConsultaPSPrincipalesLineasConfig.
  */
 @EnableWs
 @Configuration
-public class ConsultaClienteRutLineaCConfig {
-	
+public class ConsultaPSPrincipalesLineasConfig {
+
 	/**
 	 * Consulta cliente rut linea C definition.
 	 *
 	 * @return the wsdl 11 definition
 	 */
-	@Bean(name="consultaClienteRutLineaC")
-	public Wsdl11Definition consultaClienteRutLineaCDefinition() {
+	@Bean(name="consultaPSPrincipalesLineas")
+	public Wsdl11Definition consultaPSPrincipalesLineasDefinition() {
 		SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
-		wsdl11Definition.setWsdl(new ClassPathResource("/wsdl/consultaClienteRutLineaC.wsdl"));
+		wsdl11Definition.setWsdl(new ClassPathResource("/wsdl/consultaPSPrincipalesLineas.wsdl"));
 		return wsdl11Definition;
 	}
+	
 }

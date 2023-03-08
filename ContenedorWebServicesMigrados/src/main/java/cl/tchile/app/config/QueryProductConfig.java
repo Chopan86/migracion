@@ -20,7 +20,7 @@ public class QueryProductConfig {
 	 * @return the wsdl 11 definition
 	 */
 	@Bean(name="queryProduct")
-	public Wsdl11Definition QueryProductDefinition() {
+	public Wsdl11Definition queryProductDefinition() {
 		SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
 		wsdl11Definition.setWsdl(new ClassPathResource("/wsdl/queryproduct.wsdl"));
 		return wsdl11Definition;

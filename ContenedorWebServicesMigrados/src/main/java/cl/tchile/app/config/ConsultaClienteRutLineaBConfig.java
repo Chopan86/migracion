@@ -20,7 +20,7 @@ public class ConsultaClienteRutLineaBConfig {
 	 * @return the wsdl 11 definition
 	 */
 	@Bean(name="consultaClienteRutLineaB")
-	public Wsdl11Definition ConsultaClienteRutLineaBDefinition() {
+	public Wsdl11Definition consultaClienteRutLineaBDefinition() {
 		SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
 		wsdl11Definition.setWsdl(new ClassPathResource("/wsdl/consultaClienteRutLinea.wsdl"));
 		return wsdl11Definition;

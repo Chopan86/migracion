@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.ACCPSPWS.ACCPSPWI.com" xmlns:reqns="http://www.ACCPSPWS.ACCPSPWI.Request.com" xmlns:resns="http://www.ACCPSPWS.ACCPSPWI.Response.com" xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.com" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dpx="http://www.DPWPROXY.DPWPROXI.Response.com" xmlns:dp="http://www.datapower.com/extensions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+	<wsdl:types>
+		<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.ACCPSPWS.ACCPSPWI.Request.com" xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.Request.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+				<xsd:sequence>
+					<xsd:element nillable="false" name="accpspwi_entrada" minOccurs="0" maxOccurs="1">
+						<xsd:complexType mixed="false">
+							<xsd:sequence>
+								<xsd:element nillable="false" name="accpspwi_i_lineas" minOccurs="50" maxOccurs="50">
+									<xsd:complexType mixed="false">
+										<xsd:sequence>
+											<xsd:element nillable="false" name="accpspwi_i_area">
+												<xsd:simpleType>
+													<xsd:restriction base="xsd:string">
+														<xsd:maxLength value="3"/>
+														<xsd:whiteSpace value="preserve"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element nillable="false" name="accpspwi_i_num_com">
+												<xsd:simpleType>
+													<xsd:restriction base="xsd:string">
+														<xsd:maxLength value="8"/>
+														<xsd:whiteSpace value="preserve"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element nillable="false" name="accpspwi_i_ini_vi">
+												<xsd:simpleType>
+													<xsd:restriction base="xsd:string">
+														<xsd:maxLength value="10"/>
+														<xsd:whiteSpace value="preserve"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element nillable="false" type="tns:ProgramInterface" name="ACCPSPWSOperation"/>
+		</xsd:schema>
+		<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.ACCPSPWS.ACCPSPWI.Response.com" xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.Response.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+				<xsd:sequence>
+					<xsd:element nillable="false" name="accpspwo_salida" minOccurs="0" maxOccurs="1">
+						<xsd:complexType mixed="false">
+							<xsd:sequence>
+								<xsd:element nillable="true" name="accpspwo_o_cod_error">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:unsignedInt">
+											<xsd:maxInclusive value="999999999"/>
+											<xsd:minInclusive value="0"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element nillable="true" name="accpspwo_o_desc_error">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="100"/>
+											<xsd:whiteSpace value="preserve"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element nillable="true" name="accpspwo_o_programa">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="8"/>
+											<xsd:whiteSpace value="preserve"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element nillable="true" name="accpspwo_o_cod_db">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:unsignedInt">
+											<xsd:maxInclusive value="999999999"/>
+											<xsd:minInclusive value="0"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+								<xsd:element nillable="false" name="accpspwo_o_lineas" minOccurs="50" maxOccurs="50">
+									<xsd:complexType mixed="false">
+										<xsd:sequence>
+											<xsd:element nillable="true" name="accpspwo_o_area">
+												<xsd:simpleType>
+													<xsd:restriction base="xsd:string">
+														<xsd:maxLength value="3"/>
+														<xsd:whiteSpace value="preserve"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element nillable="true" name="accpspwo_o_fono">
+												<xsd:simpleType>
+													<xsd:restriction base="xsd:string">
+														<xsd:maxLength value="8"/>
+														<xsd:whiteSpace value="preserve"/>
+													</xsd:restriction>
+												</xsd:simpleType>
+											</xsd:element>
+											<xsd:element nillable="false" name="accpspwo_ps_lineas" minOccurs="0" maxOccurs="3">
+												<xsd:complexType mixed="false">
+													<xsd:sequence>
+														<xsd:element nillable="true" name="accpspwo_o_ps">
+															<xsd:simpleType>
+																<xsd:restriction base="xsd:unsignedInt">
+																	<xsd:maxInclusive value="999999999"/>
+																	<xsd:minInclusive value="0"/>
+																</xsd:restriction>
+															</xsd:simpleType>
+														</xsd:element>
+														<xsd:element nillable="true" name="accpspwo_o_desc">
+															<xsd:simpleType>
+																<xsd:restriction base="xsd:string">
+																	<xsd:maxLength value="30"/>
+																	<xsd:whiteSpace value="preserve"/>
+																</xsd:restriction>
+															</xsd:simpleType>
+														</xsd:element>
+														<xsd:element nillable="true" name="accpspwo_o_cod_fam">
+															<xsd:simpleType>
+																<xsd:restriction base="xsd:string">
+																	<xsd:maxLength value="5"/>
+																	<xsd:whiteSpace value="preserve"/>
+																</xsd:restriction>
+															</xsd:simpleType>
+														</xsd:element>
+														<xsd:element nillable="true" name="accpspwo_o_subgr2">
+															<xsd:simpleType>
+																<xsd:restriction base="xsd:unsignedInt">
+																	<xsd:maxInclusive value="99999"/>
+																	<xsd:minInclusive value="0"/>
+																</xsd:restriction>
+															</xsd:simpleType>
+														</xsd:element>
+													</xsd:sequence>
+												</xsd:complexType>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element nillable="false" type="tns:ProgramInterface" name="ACCPSPWSOperationResponse"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="ACCPSPWSOperationRequest">
+		<wsdl:part name="RequestPart" element="reqns:ACCPSPWSOperation"/>
+	</wsdl:message>
+	<wsdl:message name="ACCPSPWSOperationResponse">
+		<wsdl:part name="ResponsePart" element="resns:ACCPSPWSOperationResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="ACCPSPWSPort">
+		<wsdl:operation name="ACCPSPWSOperation">
+			<wsdl:input message="tns:ACCPSPWSOperationRequest" name="ACCPSPWSOperationRequest"/>
+			<wsdl:output message="tns:ACCPSPWSOperationResponse" name="ACCPSPWSOperationResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ACCPSPWSHTTPSoapBinding" type="tns:ACCPSPWSPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="ACCPSPWSOperation">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="ACCPSPWSOperationRequest">
+				<soap:body parts="RequestPart" use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="ACCPSPWSOperationResponse">
+				<soap:body parts="ResponsePart" use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ACCPSPWSService">
+		<wsdl:port binding="tns:ACCPSPWSHTTPSoapBinding" name="ACCPSPWSPort">
+			<soap:address location="http://esb.ctc.cl/services/ConsultaPSPrincipalesLineas"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

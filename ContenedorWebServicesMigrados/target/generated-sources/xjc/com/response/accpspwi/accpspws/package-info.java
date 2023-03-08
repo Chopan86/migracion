@@ -5,5 +5,5 @@
 // Generado el: 2023.03.08 a las 12:48:28 AM CLST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.AWLC02WS.AWLC02WI.Request.com", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package com.request.awlc02wi.awlc02ws;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.ACCPSPWS.ACCPSPWI.Response.com", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package com.response.accpspwi.accpspws;

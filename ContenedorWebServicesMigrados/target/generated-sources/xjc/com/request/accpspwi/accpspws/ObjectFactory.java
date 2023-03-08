@@ -6,7 +6,7 @@
 //
 
 
-package com.request.awlc01wi.awlc01ws;
+package com.request.accpspwi.accpspws;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;
@@ -17,7 +17,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the com.request.awlc01wi.awlc01ws package. 
+ * generated in the com.request.accpspwi.accpspws package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -31,10 +31,10 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _AWLC01WSOperation_QNAME = new QName("http://www.AWLC01WS.AWLC01WI.Request.com", "AWLC01WSOperation");
+    private final static QName _ACCPSPWSOperation_QNAME = new QName("http://www.ACCPSPWS.ACCPSPWI.Request.com", "ACCPSPWSOperation");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.request.awlc01wi.awlc01ws
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.request.accpspwi.accpspws
      * 
      */
     public ObjectFactory() {
@@ -49,20 +49,28 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ProgramInterface.Awlc01Z3Entrada }
+     * Create an instance of {@link ProgramInterface.AccpspwiEntrada }
      * 
      */
-    public ProgramInterface.Awlc01Z3Entrada createProgramInterfaceAwlc01Z3Entrada() {
-        return new ProgramInterface.Awlc01Z3Entrada();
+    public ProgramInterface.AccpspwiEntrada createProgramInterfaceAccpspwiEntrada() {
+        return new ProgramInterface.AccpspwiEntrada();
+    }
+
+    /**
+     * Create an instance of {@link ProgramInterface.AccpspwiEntrada.AccpspwiILineas }
+     * 
+     */
+    public ProgramInterface.AccpspwiEntrada.AccpspwiILineas createProgramInterfaceAccpspwiEntradaAccpspwiILineas() {
+        return new ProgramInterface.AccpspwiEntrada.AccpspwiILineas();
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ProgramInterface }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://www.AWLC01WS.AWLC01WI.Request.com", name = "AWLC01WSOperation")
-    public JAXBElement<ProgramInterface> createAWLC01WSOperation(ProgramInterface value) {
-        return new JAXBElement<ProgramInterface>(_AWLC01WSOperation_QNAME, ProgramInterface.class, null, value);
+    @XmlElementDecl(namespace = "http://www.ACCPSPWS.ACCPSPWI.Request.com", name = "ACCPSPWSOperation")
+    public JAXBElement<ProgramInterface> createACCPSPWSOperation(ProgramInterface value) {
+        return new JAXBElement<ProgramInterface>(_ACCPSPWSOperation_QNAME, ProgramInterface.class, null, value);
     }
 
 }
