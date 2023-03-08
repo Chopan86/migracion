@@ -96,7 +96,7 @@ public class GeneralHelper {
 	 *
 	 * @param listClientsNoResponse List<String>
 	 */
-	public void outputErrorRuts(List<String> listClientsNoResponse) {
+	public void outputErrorClients(List<String> listClientsNoResponse, String path) {
 		LOGGER.info("****************** Inicio escritura clientes Sin Respuesta ******************");
 		AtomicInteger indexListaRutClientes = new AtomicInteger();
 		try {
@@ -104,7 +104,7 @@ public class GeneralHelper {
 			clearDuplicatesList.stream().forEach(obj -> {
 				indexListaRutClientes.getAndIncrement();
 				LOGGER.info(progressPercent(indexListaRutClientes.get(), clearDuplicatesList.size()));
-				writeRutsOnFile(obj, "C:/clientesSinRespuesta.txt");
+				writeRutsOnFile(obj, path);
 		});
 			LOGGER.info("****************** Escritura clientes Sin Respuesta Finalizada ******************");
 		} catch (Exception e) {
@@ -114,17 +114,17 @@ public class GeneralHelper {
 
 	/**
 	 *
-	 * @param listRepeatRutClients List<String>
+	 * @param listRepeat List<String>
 	 */
-	public void outputRepeatClients(List<String> listRepeatRutClients) {
+	public void outputRepeatClients(List<String> listRepeat, String path) {
 		LOGGER.info("****************** Inicio escritura clientes repetidos ******************");
 		AtomicInteger indexListaRutClientes = new AtomicInteger();
 		try {
-			List<String> clearDuplicatesList = deleteDuplicatedElements(listRepeatRutClients);
+			List<String> clearDuplicatesList = deleteDuplicatedElements(listRepeat);
 			clearDuplicatesList.stream().forEach( obj -> {
 				indexListaRutClientes.getAndIncrement();
 				LOGGER.info(progressPercent(indexListaRutClientes.get(), clearDuplicatesList.size()));
-				writeRutsOnFile(obj,"C:/clientesRepetidos.txt");
+				writeRutsOnFile(obj,path);
 			});
 			LOGGER.info("****************** Escritura clientes repetidos Finalizada ******************");
 		} catch (Exception e) {
