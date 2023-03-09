@@ -18,7 +18,7 @@ import com.response.awlc01wi.awlc01ws.ProgramInterface.Awlc01Z3Salida;
 @Endpoint
 public class ConsultaClienteRutLineaBEndPoint {
 
-	/** The Constant NAMESPACE_URI_CONSULTA_CLIENTE_RUT_LINEA_B. */
+	/** The Constant NAMESPACE_URI. */
 	private static final String NAMESPACE_URI = "http://www.AWLC01WS.AWLC01WI.Request.com";
 	
 	/**

@@ -25,7 +25,7 @@ public class ConsultaPSPrincipalesLineasEndPoint {
 	@Autowired
 	ConsultaPSPrincipalesLineasHerlper consultaPSPrincipalesLineasHerlper;
 	
-	/** The Constant NAMESPACE_URI_CONSULTA_CLIENTE_RUT_LINEA_C. */
+	/** The Constant NAMESPACE_URI. */
 	private static final String NAMESPACE_URI = "http://www.ACCPSPWS.ACCPSPWI.Request.com";
 	
 	/**

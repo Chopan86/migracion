@@ -5,9 +5,41 @@
 Este archivo ha sido generado por la arquitectura JavaTM para la implantación de la referencia de enlace (JAXB) XML v2.2.11 
 Visite <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-Generado el: 2023.03.07 a las 04:06:18 PM CLST 
+Generado el: 2023.03.09 a las 03:51:20 PM CLST 
 
   -->
+  <bindings xmlns:tns="http://www.AWPSL2WS.AWPSL2WI.Response.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.response.awpsl2wi.awpsl2ws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.response.awpsl2wi.awpsl2ws.ProgramInterface"/>
+    </bindings>
+  </bindings>
+  <bindings xmlns:tns="http://www.AWPSL2WS.AWPSL2WI.Request.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.request.awpsl2wi.awpsl2ws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.request.awpsl2wi.awpsl2ws.ProgramInterface"/>
+    </bindings>
+  </bindings>
+  <bindings xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.Response.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.response.accpspwi.accpspws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.response.accpspwi.accpspws.ProgramInterface"/>
+    </bindings>
+  </bindings>
+  <bindings xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.Request.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.request.accpspwi.accpspws"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.request.accpspwi.accpspws.ProgramInterface"/>
+    </bindings>
+  </bindings>
   <bindings xmlns:tns="http://www.AWLC02WS.AWLC02WI.Response.com" if-exists="true" scd="x-schema::tns">
     <schemaBindings map="false">
       <package name="com.response.awlc02wi.awlc02ws"/>
@@ -38,6 +70,22 @@ Generado el: 2023.03.07 a las 04:06:18 PM CLST
     </schemaBindings>
     <bindings if-exists="true" scd="~tns:ProgramInterface">
       <class ref="com.request.awlc01wi.awlc01ws.ProgramInterface"/>
+    </bindings>
+  </bindings>
+  <bindings xmlns:tns="http://www.APELAFAC.WSPMS.Response.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.response.wspms.apelafac"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.response.wspms.apelafac.ProgramInterface"/>
+    </bindings>
+  </bindings>
+  <bindings xmlns:tns="http://www.APELAFAC.WSPMS.Request.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.request.wspms.apelafac"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:ProgramInterface">
+      <class ref="com.request.wspms.apelafac.ProgramInterface"/>
     </bindings>
   </bindings>
   <bindings xmlns:tns="http://midrange.telefonica.com/queryproductService/types" if-exists="true" scd="x-schema::tns">
