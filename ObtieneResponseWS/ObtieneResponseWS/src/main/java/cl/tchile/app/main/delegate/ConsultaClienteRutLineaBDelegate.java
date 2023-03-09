@@ -1,7 +1,7 @@
 package cl.tchile.app.main.delegate;
 
 import cl.tchile.app.constant.Constantes;
-import cl.tchile.app.helper.ConsultaClienteRutLineaBHelper;
+import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.vo.FonoClienteVO;
 import cl.tchile.vo.RutClienteVO;
@@ -40,13 +40,13 @@ public class ConsultaClienteRutLineaBDelegate {
      * The general helper.
      */
     @Autowired
-    ConsultaClienteRutLineaBHelper consultarClienteRutLineaBHelper;
+    ConsultaClienteRutFonoLineaHelper consultarClienteRutFonoLineaHelper;
     /**
-     * Lista rut clientes repetidos
+     * Lista clientes repetidos
      */
     List<String> listRepeatClients = new ArrayList<>();
     /**
-     * Lista rut clientes con error
+     * Lista clientes con error
      */
     List<String> listClientsNoResponse = new ArrayList<>();
 
@@ -54,16 +54,16 @@ public class ConsultaClienteRutLineaBDelegate {
      * consultaClienteRutlineaBxFono
      */
     public void consultaClienteRutlineaBxFono() {
-		listClientsNoResponse = new ArrayList<>();
-		listRepeatClients = new ArrayList<>();
-		String pathSalidaRepetidos = "C:/telefonosRepetidos.txt";
+        listClientsNoResponse = new ArrayList<>();
+        listRepeatClients = new ArrayList<>();
+        String pathSalidaRepetidos = "C:/telefonosRepetidos.txt";
         String pathSalidaNoResponse = "C:/telefonosNoResponse.txt";
         LOGGER.info("******** INICIO PROCESO LINEAS X FONO  ********");
-        List<FonoClienteVO> fonoClienteVOS = consultarClienteRutLineaBHelper.obtenerFonoClientesDesdeFichero();
-        int indexListaRutClientes = 0;
+        List<FonoClienteVO> fonoClienteVOS = consultarClienteRutFonoLineaHelper.obtenerFonoClientesDesdeFichero();
+        int indexLista = 0;
         for (FonoClienteVO fonoClienteVO : fonoClienteVOS) {
-            indexListaRutClientes++;
-            LOGGER.info(generalHelper.progressPercent(indexListaRutClientes, fonoClienteVOS.size()));
+            indexLista++;
+            LOGGER.info(generalHelper.progressPercent(indexLista, fonoClienteVOS.size()));
             callConsultaClienteRutLinaBxFono(fonoClienteVO.getArea(), fonoClienteVO.getFono());
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
@@ -74,23 +74,22 @@ public class ConsultaClienteRutLineaBDelegate {
      * Consulta cliente rut linea B impl.
      */
     public void consultaClienteRutLineaBImpl() {
-		listClientsNoResponse = new ArrayList<>();
-		listRepeatClients = new ArrayList<>();
-		String pathSalidaRepetidos = "C:/clientesRepetidos.txt";
+        listClientsNoResponse = new ArrayList<>();
+        listRepeatClients = new ArrayList<>();
+        String pathSalidaRepetidos = "C:/clientesRepetidos.txt";
         String pathSalidaNoResponse = "C:/clientesSinRespuesta.txt";
         LOGGER.info("******** INICIO PROCESO ********");
-        List<RutClienteVO> listaRutClientes = consultarClienteRutLineaBHelper.obtieneRutClienteDesdeFichero();
+        List<RutClienteVO> listaRutClientes = consultarClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero();
         LOGGER.info("Cantidad Total Ruts a Buscar: " + listaRutClientes.size());
-        int indexListaRutClientes = 0;
+        int indexLista = 0;
         for (RutClienteVO rutClienteVO : listaRutClientes) {
-            indexListaRutClientes++;
-            LOGGER.info(generalHelper.progressPercent(indexListaRutClientes, listaRutClientes.size()));
+            indexLista++;
+            LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size()));
             callConsultaClienteRutLinaB(rutClienteVO.getRut(), rutClienteVO.getDv());
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
-
 
     /**
      * Call consulta cliente rut lina C.
@@ -102,7 +101,7 @@ public class ConsultaClienteRutLineaBDelegate {
         String rutCompleto = null;
         try {
             rutCompleto = rut + "-" + dv;
-            boolean rutRepetido = generalHelper.isRepeatValue(rutCompleto, "RUTA_SALIDA_DATOS");
+            boolean rutRepetido = generalHelper.isRepeatValue(rutCompleto, "RUTA_SALIDA_RUT_B");
             if (rutRepetido) {
                 LOGGER.info("SE AGREGA RUT A REPETIDOS: " + rutCompleto);
                 listRepeatClients.add(rutCompleto);
@@ -128,11 +127,11 @@ public class ConsultaClienteRutLineaBDelegate {
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
-                consultarClienteRutLineaBHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_DATOS");
+                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_B");
             }
 
         } catch (Exception e) {
-            LOGGER.error("No se proceso el rut: " + rutCompleto + " por la siguiente razon: " + e);
+            LOGGER.error("No se proceso el rut: " + rutCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA A RUT SIN RESPUESTA : " + rutCompleto);
             listClientsNoResponse.add(rutCompleto + " | " + e);
         }
@@ -141,12 +140,11 @@ public class ConsultaClienteRutLineaBDelegate {
     public void callConsultaClienteRutLinaBxFono(String area, String fono) {
         String fonoCompleto = area + fono.substring(1);
         try {
-            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOS");
+            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSB");
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: " + fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
             }
-
             if (!fonoRepetido) {
                 ProgramInterfaceAwlc01Z3_salida salida = null;
                 ProgramInterfaceAwlc01Z3_entrada entrada = new ProgramInterfaceAwlc01Z3_entrada();
@@ -167,7 +165,7 @@ public class ConsultaClienteRutLineaBDelegate {
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
-                consultarClienteRutLineaBHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_FONOS");
+                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_FONOSB");
             }
 
         } catch (Exception e) {

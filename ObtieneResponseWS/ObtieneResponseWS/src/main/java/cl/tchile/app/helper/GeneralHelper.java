@@ -143,8 +143,8 @@ public class GeneralHelper {
 
 	/**
 	 *
-	 * @param list List<String>
-	 * @param bw BufferedWriter
+	 * @param rut List<String>
+	 * @param path BufferedWriter
 	 */
 	public void writeRutsOnFile(String rut, String path){
 			try {

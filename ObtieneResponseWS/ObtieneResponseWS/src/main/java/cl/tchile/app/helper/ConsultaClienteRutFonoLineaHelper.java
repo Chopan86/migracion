@@ -1,13 +1,20 @@
 package cl.tchile.app.helper;
 
 import cl.tchile.app.constant.Constantes;
+import cl.tchile.vo.EndPointDataVO;
 import cl.tchile.vo.FonoClienteVO;
 import cl.tchile.vo.RutClienteVO;
+import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
+import com.Request.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_entrada;
+import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.xml.bind.JAXB;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +22,19 @@ import java.util.List;
  * The Class ConsultaClienteRutLineaCHelper.
  */
 @Component
-public class ConsultaClienteRutLineaBHelper {
+public class ConsultaClienteRutFonoLineaHelper {
 
+
+    /**
+     * The general helper.
+     */
+    @Autowired
+    GeneralHelper generalHelper;
 
     /**
      * The Constant LOGGER.
      */
-    private static final Logger LOGGER = LogManager.getLogger(ConsultaClienteRutLineaBHelper.class);
+    private static final Logger LOGGER = LogManager.getLogger(ConsultaClienteRutFonoLineaHelper.class);
 
     /**
      * Crear salida response.
@@ -38,7 +51,7 @@ public class ConsultaClienteRutLineaBHelper {
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(response);
             bw.close();
-            LOGGER.info("SE CREA SALIDA PARA EL CLIENTE : " + identificador);
+            LOGGER.info("SE CREAR SALIDA PARA EL CLIENTE RUT/FONO: {}", identificador);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,15 +107,13 @@ public class ConsultaClienteRutLineaBHelper {
         List<FonoClienteVO> fonoClienteVOS = new ArrayList<>();
         FonoClienteVO fonoCliente = null;
         try {
-            archivo = new File("C:/fonos.txt");
+            archivo = new File(System.getenv("RUTA_LECTURA_FONOS"));
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             String linea;
             while ((linea = br.readLine()) != null) {
                 if (!linea.isEmpty()) {
                     fonoCliente = new FonoClienteVO();
-                    //56 22 835342 6
-                    //01 23 456789 10
                     fonoCliente.setArea(linea.substring(2, 4));
                     fonoCliente.setFono(linea.substring(linea.length() - 8));
                     fonoClienteVOS.add(fonoCliente);
@@ -122,5 +133,7 @@ public class ConsultaClienteRutLineaBHelper {
 
         return fonoClienteVOS;
     }
+
+
 }
 

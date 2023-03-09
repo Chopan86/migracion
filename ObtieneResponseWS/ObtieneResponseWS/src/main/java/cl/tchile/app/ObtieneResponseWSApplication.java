@@ -46,9 +46,10 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
     public void run(String... args) {
     	LOGGER.info("Inicia Ejecucion");
     	Integer codigoSalida = 0;
-//    	consultaClienteRutLineaCDelegate.consultaClienteRutLineaCImpl();
+    	consultaClienteRutLineaCDelegate.consultaClienteRutLineaCImpl();
+		consultaClienteRutLineaCDelegate.consultaClienteRutlineaCxFono();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutLineaBImpl();
-		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
+//		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
 
     	System.exit(codigoSalida);
     }
