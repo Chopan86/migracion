@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.APELAFAC.WSPMS.com" xmlns:reqns="http://www.APELAFAC.WSPMS.Request.com" xmlns:resns="http://www.APELAFAC.WSPMS.Response.com" xmlns:tns="http://www.APELAFAC.WSPMS.com" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dpx="http://www.DPWPROXY.DPWPROXI.Response.com" xmlns:dp="http://www.datapower.com/extensions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+	<wsdl:types>
+		<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.APELAFAC.WSPMS.Request.com" xmlns:tns="http://www.APELAFAC.WSPMS.Request.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+				<xsd:sequence>
+					<xsd:element nillable="false" name="apel_afac_pms_i" minOccurs="0" maxOccurs="1">
+						<xsd:complexType mixed="false">
+							<xsd:sequence>
+								<xsd:element nillable="false" name="datain">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="1100"/>
+											<xsd:whiteSpace value="preserve"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element nillable="false" type="tns:ProgramInterface" name="APELAFACOperation"/>
+		</xsd:schema>
+		<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.APELAFAC.WSPMS.Response.com" xmlns:tns="http://www.APELAFAC.WSPMS.Response.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+			<xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+				<xsd:sequence>
+					<xsd:element nillable="false" name="apel_afac_pms_o" minOccurs="0" maxOccurs="1">
+						<xsd:complexType mixed="false">
+							<xsd:sequence>
+								<xsd:element nillable="true" name="dataout">
+									<xsd:simpleType>
+										<xsd:restriction base="xsd:string">
+											<xsd:maxLength value="1100"/>
+											<xsd:whiteSpace value="preserve"/>
+										</xsd:restriction>
+									</xsd:simpleType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element nillable="false" type="tns:ProgramInterface" name="APELAFACOperationResponse"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="APELAFACOperationRequest">
+		<wsdl:part name="RequestPart" element="reqns:APELAFACOperation"/>
+	</wsdl:message>
+	<wsdl:message name="APELAFACOperationResponse">
+		<wsdl:part name="ResponsePart" element="resns:APELAFACOperationResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="APELAFACPort">
+		<wsdl:operation name="APELAFACOperation">
+			<wsdl:input message="tns:APELAFACOperationRequest" name="APELAFACOperationRequest"/>
+			<wsdl:output message="tns:APELAFACOperationResponse" name="APELAFACOperationResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="APELAFACHTTPSoapBinding" type="tns:APELAFACPort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="APELAFACOperation">
+			<soap:operation soapAction="" style="document"/>
+			<wsdl:input name="APELAFACOperationRequest">
+				<soap:body parts="RequestPart" use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="APELAFACOperationResponse">
+				<soap:body parts="ResponsePart" use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="APELAFACService">
+		<wsdl:port binding="tns:APELAFACHTTPSoapBinding" name="APELAFACPort">
+			<soap:address location="http://esbd3.tchile.local:6060/F/services/PMSServices"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

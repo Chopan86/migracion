@@ -17,13 +17,13 @@ import cl.tchile.app.helper.ConsultaRutLineaCHelper;
  * The Class WebServiceEndpoint.
  */
 @Endpoint
-public class ConsultaClienteRutLineaCEndpoint {
+public class ConsultaClienteRutLineaCEndPoint {
 
 	/** The consulta rut linea C heper. */
 	@Autowired
 	ConsultaRutLineaCHelper consultaRutLineaCHeper;
 	
-	/** The Constant NAMESPACE_URI_CONSULTA_CLIENTE_RUT_LINEA_C. */
+	/** The Constant NAMESPACE_URI. */
 	private static final String NAMESPACE_URI = "http://www.AWLC02WS.AWLC02WI.Request.com";
 	
 	/**
