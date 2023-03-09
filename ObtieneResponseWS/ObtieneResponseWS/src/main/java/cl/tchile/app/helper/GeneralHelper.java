@@ -31,7 +31,9 @@ public class GeneralHelper {
      */
     public String rellenarCadenaPorIzquierda(String cadena, int nuevoLargo, char relleno) {
     	LOGGER.info("RELLENAR CADENA POR IZQUIERDA");
-		StringBuffer result = new StringBuffer(cadena);
+
+		if(cadena.isEmpty()) return "";
+		StringBuilder result = new StringBuilder(cadena);
 		int numDigActual = result.length();
 		if (numDigActual > 0) {
 			int numDigFaltantes = nuevoLargo - numDigActual;
@@ -51,6 +53,9 @@ public class GeneralHelper {
 	}
 
 	public String formatearFono(String area, String fono){
+		if(area.isEmpty()){
+			return fono;
+		}
 		fono = validarFonoCompleto(area, fono);
 		fono = rellenarCadenaPorIzquierda(fono,8,Constantes.cCOD_ZERO);
 		return fono;
@@ -68,6 +73,9 @@ public class GeneralHelper {
 	}
 
 	public String formatearAreaFono(String area){
+		if(area.isEmpty()){
+			return area;
+		}
 		area = validarAreaFono(area);
 		area = rellenarCadenaPorIzquierda(area,3, Constantes.cCOD_ZERO);
 		return area;

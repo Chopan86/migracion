@@ -3,6 +3,8 @@ package cl.tchile.app.main.delegate;
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.vo.ClienteVO;
+import cl.tchile.vo.EndPointDataVO;
 import cl.tchile.vo.FonoClienteVO;
 import cl.tchile.vo.RutClienteVO;
 import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
@@ -50,6 +52,12 @@ public class ConsultaClienteRutLineaBDelegate {
      */
     List<String> listClientsNoResponse = new ArrayList<>();
 
+    EndPointDataVO endPointDataVO = new EndPointDataVO(
+        "http://esb2.ctc.cl:8080/services/consultaClienteRutLineaB",
+        Constantes.TIMEOUT15,
+        "com.AWLC01WI.AWLC01WS.www.AWLC01WSServiceLocator"
+    );
+
     /**
      * consultaClienteRutlineaBxFono
      */
@@ -59,12 +67,12 @@ public class ConsultaClienteRutLineaBDelegate {
         String pathSalidaRepetidos = "C:/telefonosRepetidos.txt";
         String pathSalidaNoResponse = "C:/telefonosNoResponse.txt";
         LOGGER.info("******** INICIO PROCESO LINEAS X FONO  ********");
-        List<FonoClienteVO> fonoClienteVOS = consultarClienteRutFonoLineaHelper.obtenerFonoClientesDesdeFichero();
+        List<ClienteVO> clienteVOList = consultarClienteRutFonoLineaHelper.obtenerFonoClientesDesdeFichero();
         int indexLista = 0;
-        for (FonoClienteVO fonoClienteVO : fonoClienteVOS) {
+        for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;
-            LOGGER.info(generalHelper.progressPercent(indexLista, fonoClienteVOS.size()));
-            callConsultaClienteRutLinaBxFono(fonoClienteVO.getArea(), fonoClienteVO.getFono());
+            LOGGER.info(generalHelper.progressPercent(indexLista, clienteVOList.size()));
+            callConsultaClienteRutLinaBxFono(clienteVO.getArea(), clienteVO.getFono(),endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
@@ -79,13 +87,13 @@ public class ConsultaClienteRutLineaBDelegate {
         String pathSalidaRepetidos = "C:/clientesRepetidos.txt";
         String pathSalidaNoResponse = "C:/clientesSinRespuesta.txt";
         LOGGER.info("******** INICIO PROCESO ********");
-        List<RutClienteVO> listaRutClientes = consultarClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero();
+        List<ClienteVO> listaRutClientes = consultarClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero();
         LOGGER.info("Cantidad Total Ruts a Buscar: " + listaRutClientes.size());
         int indexLista = 0;
-        for (RutClienteVO rutClienteVO : listaRutClientes) {
+        for (ClienteVO clienteVO : listaRutClientes) {
             indexLista++;
             LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size()));
-            callConsultaClienteRutLinaB(rutClienteVO.getRut(), rutClienteVO.getDv());
+            callConsultaClienteRutLinaB(clienteVO.getRut(), clienteVO.getDv(),endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
@@ -97,13 +105,13 @@ public class ConsultaClienteRutLineaBDelegate {
      * @param rut the rut
      * @param dv  the dv
      */
-    public void callConsultaClienteRutLinaB(String rut, String dv) {
+    public void callConsultaClienteRutLinaB(String rut, String dv, EndPointDataVO endPointDataVO) {
         String rutCompleto = null;
         try {
             rutCompleto = rut + "-" + dv;
             boolean rutRepetido = generalHelper.isRepeatValue(rutCompleto, "RUTA_SALIDA_RUT_B");
             if (rutRepetido) {
-                LOGGER.info("SE AGREGA RUT A REPETIDOS: " + rutCompleto);
+                LOGGER.info("SE AGREGA RUT A REPETIDOS: {}", rutCompleto);
                 listRepeatClients.add(rutCompleto);
             }
 
@@ -116,13 +124,13 @@ public class ConsultaClienteRutLineaBDelegate {
                 entrada.setAwlc01Z3_i_dv(dv);
                 entrada.setAwlc01Z3_i_criterio(Constantes.sCOD_ONE);
                 entrada.setFiller1("");
-                URL endpointURL = new URL("http://esb2.ctc.cl:8080/services/consultaClienteRutLineaB");
-                String timeOut = "15000";
-                String servlocator = "com.AWLC01WI.AWLC01WS.www.AWLC01WSServiceLocator";
+                URL endpointURL = new URL(endPointDataVO.getEndPointUrl());
+                String timeOut = endPointDataVO.getTimeOut();
+                String servlocator = endPointDataVO.getServLocator();
                 Class servicelocator = Class.forName(servlocator);
                 org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
                 AWLC01WSHTTPSoapBindingStub stub = new AWLC01WSHTTPSoapBindingStub(endpointURL, service);
-                stub.setTimeout(Integer.valueOf(timeOut));
+                stub.setTimeout(Integer.parseInt(timeOut));
                 salida = stub.AWLC01WSOperation(entrada);
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
@@ -137,7 +145,7 @@ public class ConsultaClienteRutLineaBDelegate {
         }
     }
 
-    public void callConsultaClienteRutLinaBxFono(String area, String fono) {
+    public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
         String fonoCompleto = area + fono.substring(1);
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSB");

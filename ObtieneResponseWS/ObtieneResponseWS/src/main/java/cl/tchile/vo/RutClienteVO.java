@@ -3,15 +3,29 @@ package cl.tchile.vo;
 /**
  * The Class RutClienteVO.
  */
-public class RutClienteVO {
+public class RutClienteVO extends FonoClienteVO{
 
 		/** The rut. */
 		private String rut;
 		
 		/** The dv. */
 		private String dv;
-		
-		/**
+
+	public RutClienteVO() {
+	}
+
+	public RutClienteVO(String rut, String dv) {
+		this.rut = rut;
+		this.dv = dv;
+	}
+
+	public RutClienteVO(String area, String fono, String rut, String dv) {
+		super(area, fono);
+		this.rut = rut;
+		this.dv = dv;
+	}
+
+	/**
 		 * Gets the rut.
 		 *
 		 * @return the rut

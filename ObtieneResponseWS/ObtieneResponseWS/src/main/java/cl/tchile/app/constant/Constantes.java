@@ -23,4 +23,6 @@ public class Constantes {
      */
     public static final String TIMEOUT15 = "15000";
 
+    public static final String outputRutsB = System.getenv("aqui_esta");
+
 }

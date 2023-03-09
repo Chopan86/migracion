@@ -1,6 +1,8 @@
 package cl.tchile.app.helper;
 
 import cl.tchile.app.constant.Constantes;
+import cl.tchile.app.constant.ConstantesRutas;
+import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import cl.tchile.vo.FonoClienteVO;
 import cl.tchile.vo.RutClienteVO;
@@ -63,23 +65,23 @@ public class ConsultaClienteRutFonoLineaHelper {
      *
      * @return the list
      */
-    public List<RutClienteVO> obtieneRutClienteDesdeFichero() {
+    public List<ClienteVO> obtieneRutClienteDesdeFichero() {
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
-        List<RutClienteVO> listaRutCliente = new ArrayList<>();
-        RutClienteVO rutCliente = null;
+        List<ClienteVO> clienteVOList = new ArrayList<>();
+        ClienteVO clienteVO = null;
         try {
-            archivo = new File(System.getenv("RUTA_LECTURA_RUTS"));
+            archivo = new File(ConstantesRutas.lecturaRuts);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             String linea;
             while ((linea = br.readLine()) != null) {
                 if (!linea.isEmpty()) {
-                    rutCliente = new RutClienteVO();
-                    rutCliente.setRut(linea.substring(0, linea.length() - 1));
-                    rutCliente.setDv(linea.substring(linea.length() - 1));
-                    listaRutCliente.add(rutCliente);
+                    clienteVO = new ClienteVO("","","","");
+                    clienteVO.setRut(linea.substring(0, linea.length() - 1));
+                    clienteVO.setDv(linea.substring(linea.length() - 1));
+                    clienteVOList.add(clienteVO);
                 }
             }
         } catch (Exception e) {
@@ -94,29 +96,29 @@ public class ConsultaClienteRutFonoLineaHelper {
             }
         }
 
-        return listaRutCliente;
+        return clienteVOList;
     }
 
     /**
      * @return List<FonoClienteVO> List<FonoClienteVO>
      */
-    public List<FonoClienteVO> obtenerFonoClientesDesdeFichero() {
+    public List<ClienteVO> obtenerFonoClientesDesdeFichero() {
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
-        List<FonoClienteVO> fonoClienteVOS = new ArrayList<>();
-        FonoClienteVO fonoCliente = null;
+        List<ClienteVO> clienteVOList = new ArrayList<>();
+        ClienteVO clienteVO = null;
         try {
-            archivo = new File(System.getenv("RUTA_LECTURA_FONOS"));
+            archivo = new File(ConstantesRutas.lecturaFonos);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             String linea;
             while ((linea = br.readLine()) != null) {
                 if (!linea.isEmpty()) {
-                    fonoCliente = new FonoClienteVO();
-                    fonoCliente.setArea(linea.substring(2, 4));
-                    fonoCliente.setFono(linea.substring(linea.length() - 8));
-                    fonoClienteVOS.add(fonoCliente);
+                    clienteVO = new ClienteVO("","","","");
+                    clienteVO.setArea(linea.substring(2, 4));
+                    clienteVO.setFono(linea.substring(linea.length() - 8));
+                    clienteVOList.add(clienteVO);
                 }
             }
         } catch (Exception e) {
@@ -131,7 +133,7 @@ public class ConsultaClienteRutFonoLineaHelper {
             }
         }
 
-        return fonoClienteVOS;
+        return clienteVOList;
     }
 
 
