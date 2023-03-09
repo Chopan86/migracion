@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ObtieneResponseWS/ObtenerResponseWs.iml" filepath="$PROJECT_DIR$/ObtieneResponseWS/ObtenerResponseWs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ObtieneResponseWS.iml" filepath="$PROJECT_DIR$/.idea/ObtieneResponseWS.iml" />
+    </modules>
+  </component>
+</project>
