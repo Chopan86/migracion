@@ -1,6 +1,7 @@
 package cl.tchile.app;
 
 import cl.tchile.app.main.delegate.ConsultaClienteRutLineaBDelegate;
+import cl.tchile.app.main.delegate.ConsultaListaPSFrontEndDelegate;
 import cl.tchile.app.main.delegate.ConsultaPsPrincipalesLineasDelegate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +31,9 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 	ConsultaClienteRutLineaBDelegate consultaClienteRutLineaBDelegate;
 	@Autowired
 	ConsultaPsPrincipalesLineasDelegate consultaPsPrincipalesLineasDelegate;
+	@Autowired
+	ConsultaListaPSFrontEndDelegate consultaListaPSFrontEndDelegate;
+
 
 	/**
 	 * The main method.
@@ -53,8 +57,9 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 //		consultaClienteRutLineaCDelegate.consultaClienteRutlineaCxFono();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutLineaBImpl();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
-		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
 
+//		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
+		consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
 
     	System.exit(codigoSalida);
     }

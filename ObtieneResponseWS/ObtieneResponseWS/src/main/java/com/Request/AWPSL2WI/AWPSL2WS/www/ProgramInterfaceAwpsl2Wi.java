@@ -12,7 +12,7 @@ public class ProgramInterfaceAwpsl2Wi  implements java.io.Serializable {
 
     private java.lang.String awpsl2Wi_num_com;
 
-    private org.apache.axis.types.UnsignedInt awpsl2Wi_cod_ps;
+    private String awpsl2Wi_cod_ps;
 
     private java.lang.String awpsl2Wi_fec_ini_li;
 
@@ -22,7 +22,7 @@ public class ProgramInterfaceAwpsl2Wi  implements java.io.Serializable {
     public ProgramInterfaceAwpsl2Wi(
            java.lang.String awpsl2Wi_area,
            java.lang.String awpsl2Wi_num_com,
-           org.apache.axis.types.UnsignedInt awpsl2Wi_cod_ps,
+           java.lang.String awpsl2Wi_cod_ps,
            java.lang.String awpsl2Wi_fec_ini_li) {
            this.awpsl2Wi_area = awpsl2Wi_area;
            this.awpsl2Wi_num_com = awpsl2Wi_num_com;
@@ -73,10 +73,10 @@ public class ProgramInterfaceAwpsl2Wi  implements java.io.Serializable {
 
     /**
      * Gets the awpsl2Wi_cod_ps value for this ProgramInterfaceAwpsl2Wi.
-     * 
+     *
      * @return awpsl2Wi_cod_ps
      */
-    public org.apache.axis.types.UnsignedInt getAwpsl2Wi_cod_ps() {
+    public String getAwpsl2Wi_cod_ps() {
         return awpsl2Wi_cod_ps;
     }
 
@@ -86,7 +86,7 @@ public class ProgramInterfaceAwpsl2Wi  implements java.io.Serializable {
      * 
      * @param awpsl2Wi_cod_ps
      */
-    public void setAwpsl2Wi_cod_ps(org.apache.axis.types.UnsignedInt awpsl2Wi_cod_ps) {
+    public void setAwpsl2Wi_cod_ps(String awpsl2Wi_cod_ps) {
         this.awpsl2Wi_cod_ps = awpsl2Wi_cod_ps;
     }
 
