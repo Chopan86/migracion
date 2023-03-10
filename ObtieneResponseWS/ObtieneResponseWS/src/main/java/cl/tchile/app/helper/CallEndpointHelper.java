@@ -1,5 +1,6 @@
 package cl.tchile.app.helper;
 
+import cl.movistar.queryproduct.queryproduct.QueryproductBindingStub;
 import cl.tch.unifica.fe.services.consultaclienterutlineac.AWLC02WSHTTPSoapBindingStub;
 import cl.tch.unifica.services.consultapsprincipaleslineas.ACCPSPWSHTTPSoapBindingStub;
 import cl.tchile.vo.EndPointDataVO;
@@ -45,6 +46,7 @@ public class CallEndpointHelper {
         stub.setTimeout(Integer.parseInt(timeOut));
         return stub;
     }
+
     public AWPSL2WSHTTPSoapBindingStub callEndPointSoapStubLienasPsFrontEnd(EndPointDataVO endPointDataVO)
         throws InstantiationException, IllegalAccessException, AxisFault, ClassNotFoundException,
         MalformedURLException {
@@ -54,6 +56,19 @@ public class CallEndpointHelper {
         Class<?> servicelocator = Class.forName(servlocator);
         org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
         AWPSL2WSHTTPSoapBindingStub stub = new AWPSL2WSHTTPSoapBindingStub(endpointURL, service);
+        stub.setTimeout(Integer.parseInt(timeOut));
+        return stub;
+    }
+
+    public QueryproductBindingStub callEndPointSoapStubQueryProducts(EndPointDataVO endPointDataVO)
+        throws InstantiationException, IllegalAccessException, AxisFault, ClassNotFoundException,
+        MalformedURLException {
+        URL endpointURL = new URL(endPointDataVO.getEndPointUrl());
+        String timeOut = endPointDataVO.getTimeOut();
+        String servlocator = endPointDataVO.getServLocator();
+        Class<?> servicelocator = Class.forName(servlocator);
+        org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
+        QueryproductBindingStub stub = new QueryproductBindingStub(endpointURL, service);
         stub.setTimeout(Integer.parseInt(timeOut));
         return stub;
     }

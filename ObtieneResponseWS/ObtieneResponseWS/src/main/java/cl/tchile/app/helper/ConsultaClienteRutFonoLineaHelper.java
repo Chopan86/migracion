@@ -108,10 +108,10 @@ public class ConsultaClienteRutFonoLineaHelper {
             while ((linea = br.readLine()) != null) {
                 if (!linea.isEmpty()) {
                     String[] partes = linea.split("\\|");
-                    clienteVO = new ClienteVO("","","","","");
+                    clienteVO = new ClienteVO("","","","","","","");
                     clienteVO.setArea(linea.substring(2, 4));
                     clienteVO.setFono(linea.substring(linea.length() - 8));
-//                    clienteVO.setInicioVigencia(partes[1]);
+                    clienteVO.setIdFono(linea.substring(2));
                     clienteVOList.add(clienteVO);
                 }
             }

@@ -25,4 +25,6 @@ public class Constantes {
 
     public static final String outputRutsB = System.getenv("aqui_esta");
 
+    public static final String idTypeQueryProducts = "fonoFijo";
+
 }

@@ -1,8 +1,6 @@
 package cl.tchile.app;
 
-import cl.tchile.app.main.delegate.ConsultaClienteRutLineaBDelegate;
-import cl.tchile.app.main.delegate.ConsultaListaPSFrontEndDelegate;
-import cl.tchile.app.main.delegate.ConsultaPsPrincipalesLineasDelegate;
+import cl.tchile.app.main.delegate.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-
-import cl.tchile.app.main.delegate.ConsultaClienteRutLineaCDelegate;
 
 /**
  * The Class ObtieneResponseWSApplication.
@@ -33,6 +29,8 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 	ConsultaPsPrincipalesLineasDelegate consultaPsPrincipalesLineasDelegate;
 	@Autowired
 	ConsultaListaPSFrontEndDelegate consultaListaPSFrontEndDelegate;
+	@Autowired
+	ConsultaQueryProductDelegate consultaQueryProductDelegate;
 
 
 	/**
@@ -59,7 +57,8 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 //		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
 
 //		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
-		consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
+//		consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
+		consultaQueryProductDelegate.consultaQueryProduct();
 
     	System.exit(codigoSalida);
     }

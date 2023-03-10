@@ -40,4 +40,8 @@ public class ConstantesRutas {
      * sinRespuestaPSPrincipales
      */
     public static final String SINRESPUESTAPSFRONTEND = "C:/ps_FRONTEND_sin_respuesta.txt";
+
+    public static final String REPETIDOSQUERYPRODUCTS = "C:/QUERYPRODUCTS_repetidos.txt";
+
+    public static final String SINRESPUESTAQUERYPRODUCTS = "C:/QUERYPRODUCTS_sin_respuesta.txt";
 }
