@@ -125,6 +125,15 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: cl.tch.unifica:consultapsprincipaleslineas:{version}">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/main/libs/consultapsprincipaleslineas.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.apache.axis2:axis2-kernel:1.6.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.ws.commons.axiom:axiom-api:1.2.13" level="project" />
     <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-activation_1.1_spec:1.1" level="project" />

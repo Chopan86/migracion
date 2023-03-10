@@ -5,9 +5,32 @@ package cl.tchile.app.constant;
  */
 public class ConstantesRutas {
 
-    public static final String outputRutsB = "escribe tu variable aqui";
-    public static final String outputFonosB = "";
-    public static final String outputRutsC = "";
-    public static final String lecturaFonos = System.getenv("RUTA_LECTURA_FONOS");
-    public static final String lecturaRuts = System.getenv("RUTA_LECTURA_RUTS");
+    /**
+     * outputRutsB
+     */
+    public static final String OUTPUTRUTSB = "escribe tu variable aqui";
+    /**
+     * outputFonosB
+     */
+    public static final String OUTPUTFONOSB = "";
+    /**
+     * outputRutsC
+     */
+    public static final String OUTPUTRUTSC = "";
+    /**
+     * lecturaFonos
+     */
+    public static final String LECTURAFONOS = System.getenv("RUTA_LECTURA_FONOS");
+    /**
+     * lecturaRuts
+     */
+    public static final String LECTURARUTS = System.getenv("RUTA_LECTURA_RUTS");
+    /**
+     * repetidosPsprincipales
+     */
+    public static final String REPETIDOSPSPRINCIPALES = "C:/ps_principales_repetidos.txt\"";
+    /**
+     * sinRespuestaPSPrincipales
+     */
+    public static final String SINRESPUESTAPSPRINCIPALES = "C:/ps_principales_sin_respuesta.txt";
 }

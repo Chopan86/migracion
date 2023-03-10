@@ -115,7 +115,15 @@
 			<systemPath>${project.basedir}/src/main/libs/consultaclienterutlineac.jar</systemPath>
 			<version>{version}</version>
 		</dependency>
-		
+
+		<dependency>
+			<artifactId>consultapsprincipaleslineas</artifactId>
+			<groupId>cl.tch.unifica</groupId>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/libs/consultapsprincipaleslineas.jar</systemPath>
+			<version>{version}</version>
+		</dependency>
+
 		<!-- Integracion SOAP -->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
@@ -205,7 +213,7 @@
 							<mainClass>cl.tchile.app.MovistarPayPagoRecurrenteApplication</mainClass>
 						</manifest>
 						<manifestEntries>
-				             <Class-Path>./ConsultaClienteRutLineaB.jar ./consultaclienterutlineac.jar</Class-Path>
+				             <Class-Path>./ConsultaClienteRutLineaB.jar ./consultaclienterutlineac.jar ./consultapsprincipaleslineas.jar</Class-Path>
 				        </manifestEntries>
 					</archive>
 					<excludes>

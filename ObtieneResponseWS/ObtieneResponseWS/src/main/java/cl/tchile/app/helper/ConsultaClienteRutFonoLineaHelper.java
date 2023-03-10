@@ -3,20 +3,12 @@ package cl.tchile.app.helper;
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.vo.ClienteVO;
-import cl.tchile.vo.EndPointDataVO;
-import cl.tchile.vo.FonoClienteVO;
-import cl.tchile.vo.RutClienteVO;
-import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
-import com.Request.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_entrada;
-import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXB;
 import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +64,7 @@ public class ConsultaClienteRutFonoLineaHelper {
         List<ClienteVO> clienteVOList = new ArrayList<>();
         ClienteVO clienteVO = null;
         try {
-            archivo = new File(ConstantesRutas.lecturaRuts);
+            archivo = new File(ConstantesRutas.LECTURARUTS);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             String linea;
@@ -109,7 +101,7 @@ public class ConsultaClienteRutFonoLineaHelper {
         List<ClienteVO> clienteVOList = new ArrayList<>();
         ClienteVO clienteVO = null;
         try {
-            archivo = new File(ConstantesRutas.lecturaFonos);
+            archivo = new File(ConstantesRutas.LECTURAFONOS);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             String linea;
