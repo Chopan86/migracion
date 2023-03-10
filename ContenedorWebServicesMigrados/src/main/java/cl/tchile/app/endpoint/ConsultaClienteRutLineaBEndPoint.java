@@ -3,6 +3,7 @@ package cl.tchile.app.endpoint;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -10,13 +11,17 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.response.awlc01wi.awlc01ws.ObjectFactory;
 import com.response.awlc01wi.awlc01ws.ProgramInterface;
-import com.response.awlc01wi.awlc01ws.ProgramInterface.Awlc01Z3Salida;
+
+import cl.tchile.app.helper.ConsultaRutLineaBHelper;
 
 /**
  * The Class ConsultaClienteRutLineaB.
  */
 @Endpoint
 public class ConsultaClienteRutLineaBEndPoint {
+	
+	@Autowired
+	ConsultaRutLineaBHelper consultaRutLineaBHelper;
 
 	/** The Constant NAMESPACE_URI. */
 	private static final String NAMESPACE_URI = "http://www.AWLC01WS.AWLC01WI.Request.com";
@@ -30,12 +35,9 @@ public class ConsultaClienteRutLineaBEndPoint {
 	 */
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AWLC01WSOperation")
 	@ResponsePayload
-	public JAXBElement<ProgramInterface> consultaClienteRutLineaB(@RequestPayload com.request.awlc01wi.awlc01ws.ProgramInterface request) throws JAXBException {
+	public JAXBElement<ProgramInterface> consultaClienteRutLineaB(@RequestPayload com.request.awlc01wi.awlc01ws.ProgramInterface request) throws JAXBException{
 		System.out.println(request.getAwlc01Z3Entrada().getAwlc01Z3IRut() + " - " +request.getAwlc01Z3Entrada().getAwlc01Z3IDv());
-		ProgramInterface pInterface = new ProgramInterface();
-		Awlc01Z3Salida salida = new Awlc01Z3Salida();
-		salida.setAwlc01Z3OCodRet("000");
-		pInterface.setAwlc01Z3Salida(salida);
+		ProgramInterface pInterface =  consultaRutLineaBHelper.setResponseConsultaRutLinea();
 		ObjectFactory factory = new ObjectFactory();
 		return factory.createAWLC01WSOperationResponse(pInterface);
 	}
