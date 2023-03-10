@@ -213,7 +213,9 @@
 							<mainClass>cl.tchile.app.MovistarPayPagoRecurrenteApplication</mainClass>
 						</manifest>
 						<manifestEntries>
-				             <Class-Path>./ConsultaClienteRutLineaB.jar ./consultaclienterutlineac.jar ./consultapsprincipaleslineas.jar</Class-Path>
+				             <Class-Path>./ConsultaClienteRutLineaB.jar ./consultaclienterutlineac.jar ./consultapsprincipaleslineas.jar
+
+							 </Class-Path>
 				        </manifestEntries>
 					</archive>
 					<excludes>

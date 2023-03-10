@@ -25,6 +25,12 @@ public class RutClienteVO extends FonoClienteVO{
 		this.dv = dv;
 	}
 
+	public RutClienteVO(String area, String fono, String inicioVigencia, String rut, String dv) {
+		super(area, fono, inicioVigencia);
+		this.rut = rut;
+		this.dv = dv;
+	}
+
 	/**
 		 * Gets the rut.
 		 *

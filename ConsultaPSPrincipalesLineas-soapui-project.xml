@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="ConsultaPSPrincipalesLineas" resourceRoot="${projectDir}" soapui-version="5.7.0" abortOnError="false" runType="SEQUENTIAL" id="b3a9a152-e3ef-46ed-8479-cb7c0cb378f5" activeEnvironment="Default" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ACCPSPWSHTTPSoapBinding" type="wsdl" bindingName="{http://www.ACCPSPWS.ACCPSPWI.com}ACCPSPWSHTTPSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://arqweb.telefonicachile.cl/wsdl/ConsultaPSPrincipalesLineas.wsdl" id="fcdf4faf-24c2-46ef-a3b4-ee5c695bb2ce" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://arqweb.telefonicachile.cl/wsdl/ConsultaPSPrincipalesLineas.wsdl"><con:part><con:url>http://arqweb.telefonicachile.cl/wsdl/ConsultaPSPrincipalesLineas.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.ACCPSPWS.ACCPSPWI.com" xmlns:reqns="http://www.ACCPSPWS.ACCPSPWI.Request.com" xmlns:resns="http://www.ACCPSPWS.ACCPSPWI.Response.com" xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.com" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dpx="http://www.DPWPROXY.DPWPROXI.Response.com" xmlns:dp="http://www.datapower.com/extensions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.ACCPSPWS.ACCPSPWI.Request.com" xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.Request.com">
+      <xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+        <xsd:sequence>
+          <xsd:element nillable="false" name="accpspwi_entrada" minOccurs="0" maxOccurs="1">
+            <xsd:complexType mixed="false">
+              <xsd:sequence>
+                <xsd:element nillable="false" name="accpspwi_i_lineas" minOccurs="50" maxOccurs="50">
+                  <xsd:complexType mixed="false">
+                    <xsd:sequence>
+                      <xsd:element nillable="false" name="accpspwi_i_area">
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="3"/>
+                            <xsd:whiteSpace value="preserve"/>
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element nillable="false" name="accpspwi_i_num_com">
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="8"/>
+                            <xsd:whiteSpace value="preserve"/>
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element nillable="false" name="accpspwi_i_ini_vi">
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="10"/>
+                            <xsd:whiteSpace value="preserve"/>
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                    </xsd:sequence>
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element nillable="false" type="tns:ProgramInterface" name="ACCPSPWSOperation"/>
+    </xsd:schema>
+    <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.ACCPSPWS.ACCPSPWI.Response.com" xmlns:tns="http://www.ACCPSPWS.ACCPSPWI.Response.com">
+      <xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+        <xsd:sequence>
+          <xsd:element nillable="false" name="accpspwo_salida" minOccurs="0" maxOccurs="1">
+            <xsd:complexType mixed="false">
+              <xsd:sequence>
+                <xsd:element nillable="true" name="accpspwo_o_cod_error">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:unsignedInt">
+                      <xsd:maxInclusive value="999999999"/>
+                      <xsd:minInclusive value="0"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element nillable="true" name="accpspwo_o_desc_error">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:maxLength value="100"/>
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element nillable="true" name="accpspwo_o_programa">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                      <xsd:maxLength value="8"/>
+                      <xsd:whiteSpace value="preserve"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element nillable="true" name="accpspwo_o_cod_db">
+                  <xsd:simpleType>
+                    <xsd:restriction base="xsd:unsignedInt">
+                      <xsd:maxInclusive value="999999999"/>
+                      <xsd:minInclusive value="0"/>
+                    </xsd:restriction>
+                  </xsd:simpleType>
+                </xsd:element>
+                <xsd:element nillable="false" name="accpspwo_o_lineas" minOccurs="50" maxOccurs="50">
+                  <xsd:complexType mixed="false">
+                    <xsd:sequence>
+                      <xsd:element nillable="true" name="accpspwo_o_area">
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="3"/>
+                            <xsd:whiteSpace value="preserve"/>
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element nillable="true" name="accpspwo_o_fono">
+                        <xsd:simpleType>
+                          <xsd:restriction base="xsd:string">
+                            <xsd:maxLength value="8"/>
+                            <xsd:whiteSpace value="preserve"/>
+                          </xsd:restriction>
+                        </xsd:simpleType>
+                      </xsd:element>
+                      <xsd:element nillable="false" name="accpspwo_ps_lineas" minOccurs="0" maxOccurs="3">
+                        <xsd:complexType mixed="false">
+                          <xsd:sequence>
+                            <xsd:element nillable="true" name="accpspwo_o_ps">
+                              <xsd:simpleType>
+                                <xsd:restriction base="xsd:unsignedInt">
+                                  <xsd:maxInclusive value="999999999"/>
+                                  <xsd:minInclusive value="0"/>
+                                </xsd:restriction>
+                              </xsd:simpleType>
+                            </xsd:element>
+                            <xsd:element nillable="true" name="accpspwo_o_desc">
+                              <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                  <xsd:maxLength value="30"/>
+                                  <xsd:whiteSpace value="preserve"/>
+                                </xsd:restriction>
+                              </xsd:simpleType>
+                            </xsd:element>
+                            <xsd:element nillable="true" name="accpspwo_o_cod_fam">
+                              <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                  <xsd:maxLength value="5"/>
+                                  <xsd:whiteSpace value="preserve"/>
+                                </xsd:restriction>
+                              </xsd:simpleType>
+                            </xsd:element>
+                            <xsd:element nillable="true" name="accpspwo_o_subgr2">
+                              <xsd:simpleType>
+                                <xsd:restriction base="xsd:unsignedInt">
+                                  <xsd:maxInclusive value="99999"/>
+                                  <xsd:minInclusive value="0"/>
+                                </xsd:restriction>
+                              </xsd:simpleType>
+                            </xsd:element>
+                          </xsd:sequence>
+                        </xsd:complexType>
+                      </xsd:element>
+                    </xsd:sequence>
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:sequence>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element nillable="false" type="tns:ProgramInterface" name="ACCPSPWSOperationResponse"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ACCPSPWSOperationRequest">
+    <wsdl:part name="RequestPart" element="reqns:ACCPSPWSOperation"/>
+  </wsdl:message>
+  <wsdl:message name="ACCPSPWSOperationResponse">
+    <wsdl:part name="ResponsePart" element="resns:ACCPSPWSOperationResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="ACCPSPWSPort">
+    <wsdl:operation name="ACCPSPWSOperation">
+      <wsdl:input message="tns:ACCPSPWSOperationRequest" name="ACCPSPWSOperationRequest"/>
+      <wsdl:output message="tns:ACCPSPWSOperationResponse" name="ACCPSPWSOperationResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ACCPSPWSHTTPSoapBinding" type="tns:ACCPSPWSPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ACCPSPWSOperation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ACCPSPWSOperationRequest">
+        <soap:body parts="RequestPart" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ACCPSPWSOperationResponse">
+        <soap:body parts="ResponsePart" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ACCPSPWSService">
+    <wsdl:port binding="tns:ACCPSPWSHTTPSoapBinding" name="ACCPSPWSPort">
+      <soap:address location="http://esb.ctc.cl/services/ConsultaPSPrincipalesLineas"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://10.232.3.22:8080/services/ConsultaPSPrincipalesLineas</con:endpoint><con:endpoint>http://esbd2.tchile.local:6060/F/services/ConsultaPSPrincipalesLineas</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="ACCPSPWSOperation" bindingOperationName="ACCPSPWSOperation" type="Request-Response" outputName="ACCPSPWSOperationResponse" inputName="ACCPSPWSOperationRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional" id="c4970ef4-f9d4-4214-b549-340b0084b7cf"><con:settings/><con:call name="Request 1" id="07dd6e61-f7dd-4fac-8b80-af114a9bd99d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/services/ConsultaPSPrincipalesLineas</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:acc="http://www.ACCPSPWS.ACCPSPWI.Request.com">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <acc:ACCPSPWSOperation>
+         <!--Optional:-->
+         <acc:accpspwi_entrada>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area>002</acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com>2213</acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+            <acc:accpspwi_i_lineas>
+               <acc:accpspwi_i_area></acc:accpspwi_i_area>
+               <acc:accpspwi_i_num_com></acc:accpspwi_i_num_com>
+               <acc:accpspwi_i_ini_vi></acc:accpspwi_i_ini_vi>
+            </acc:accpspwi_i_lineas>
+         </acc:accpspwi_entrada>
+      </acc:ACCPSPWSOperation>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.ACCPSPWS.ACCPSPWI.com/ACCPSPWSPort/ACCPSPWSOperationRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

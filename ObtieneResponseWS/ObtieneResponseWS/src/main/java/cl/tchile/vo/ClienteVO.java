@@ -15,4 +15,8 @@ public class ClienteVO extends RutClienteVO{
 	public ClienteVO(String area, String fono, String rut, String dv) {
 		super(area, fono, rut, dv);
 	}
+
+	public ClienteVO(String area, String fono, String inicioVigencia, String rut, String dv) {
+		super(area, fono, inicioVigencia, rut, dv);
+	}
 }

@@ -1,6 +1,7 @@
 package cl.tchile.app;
 
 import cl.tchile.app.main.delegate.ConsultaClienteRutLineaBDelegate;
+import cl.tchile.app.main.delegate.ConsultaPsPrincipalesLineasDelegate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 
 	@Autowired
 	ConsultaClienteRutLineaBDelegate consultaClienteRutLineaBDelegate;
-	
+	@Autowired
+	ConsultaPsPrincipalesLineasDelegate consultaPsPrincipalesLineasDelegate;
+
 	/**
 	 * The main method.
 	 *
@@ -50,6 +53,7 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 //		consultaClienteRutLineaCDelegate.consultaClienteRutlineaCxFono();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutLineaBImpl();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
+		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
 
 
     	System.exit(codigoSalida);

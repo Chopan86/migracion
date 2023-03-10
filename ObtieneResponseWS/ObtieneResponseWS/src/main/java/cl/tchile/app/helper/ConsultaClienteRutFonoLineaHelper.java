@@ -92,9 +92,9 @@ public class ConsultaClienteRutFonoLineaHelper {
     }
 
     /**
-     * @return List<FonoClienteVO> List<FonoClienteVO>
+     * @return List<ClienteVO> List<ClienteVO>
      */
-    public List<ClienteVO> obtenerFonoClientesDesdeFichero() {
+    public List<ClienteVO> obtenerDatosDesdeFichero() {
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
@@ -107,9 +107,11 @@ public class ConsultaClienteRutFonoLineaHelper {
             String linea;
             while ((linea = br.readLine()) != null) {
                 if (!linea.isEmpty()) {
-                    clienteVO = new ClienteVO("","","","");
+                    String[] partes = linea.split("\\|");
+                    clienteVO = new ClienteVO("","","","","");
                     clienteVO.setArea(linea.substring(2, 4));
                     clienteVO.setFono(linea.substring(linea.length() - 8));
+//                    clienteVO.setInicioVigencia(partes[1]);
                     clienteVOList.add(clienteVO);
                 }
             }

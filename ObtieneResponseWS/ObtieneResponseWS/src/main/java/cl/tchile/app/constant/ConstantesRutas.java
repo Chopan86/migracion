@@ -28,9 +28,16 @@ public class ConstantesRutas {
     /**
      * repetidosPsprincipales
      */
-    public static final String REPETIDOSPSPRINCIPALES = "C:/ps_principales_repetidos.txt\"";
+    public static final String REPETIDOSPSPRINCIPALES = "C:/ps_principales_repetidos.txt";
     /**
      * sinRespuestaPSPrincipales
      */
-    public static final String SINRESPUESTAPSPRINCIPALES = "C:/ps_principales_sin_respuesta.txt";
+    public static final String SINRESPUESTAPSPRINCIPALES = "C:/ps_principales_sin_respuesta.txt";    /**
+     * repetidosPsprincipales
+     */
+    public static final String REPETIDOSPSFRONTEND = "C:/ps_FRONTEND_repetidos.txt";
+    /**
+     * sinRespuestaPSPrincipales
+     */
+    public static final String SINRESPUESTAPSFRONTEND = "C:/ps_FRONTEND_sin_respuesta.txt";
 }

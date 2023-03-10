@@ -5,8 +5,6 @@ import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
-import cl.tchile.vo.FonoClienteVO;
-import cl.tchile.vo.RutClienteVO;
 import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
 import com.Request.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_entrada;
 import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
@@ -67,7 +65,7 @@ public class ConsultaClienteRutLineaBDelegate {
         String pathSalidaRepetidos = "C:/telefonosRepetidos.txt";
         String pathSalidaNoResponse = "C:/telefonosNoResponse.txt";
         LOGGER.info("******** INICIO PROCESO LINEAS X FONO  ********");
-        List<ClienteVO> clienteVOList = consultarClienteRutFonoLineaHelper.obtenerFonoClientesDesdeFichero();
+        List<ClienteVO> clienteVOList = consultarClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
         for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;

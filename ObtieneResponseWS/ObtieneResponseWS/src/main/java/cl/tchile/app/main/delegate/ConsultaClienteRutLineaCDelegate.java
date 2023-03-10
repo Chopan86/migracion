@@ -85,7 +85,7 @@ public class ConsultaClienteRutLineaCDelegate {
         String pathSalidaRepetidos = "C:/telefonosCRepetidos.txt";
         String pathSalidaNoResponse = "C:/telefonosCNoResponse.txt";
         LOGGER.info("******** INICIO PROCESO LINEAS X FONO  ********");
-        List<ClienteVO> clienteVOList = consultaClienteRutFonoLineaHelper.obtenerFonoClientesDesdeFichero();
+        List<ClienteVO> clienteVOList = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
         for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;

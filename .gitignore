@@ -31,3 +31,6 @@
 hs_err_pid*
 replay_pid*
 *.idea*
+ObtieneResponseWS/ObtieneResponseWS/.settings/org.eclipse.m2e.core.prefs
+*.prefs
+ObtieneResponseWS/ObtieneResponseWS/.idea/sonarlint/issuestore/a/e/aeb6c9cd52b3f01f9926aeb2ce505009c99812c8
