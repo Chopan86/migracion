@@ -10,6 +10,7 @@ package com.response.awps01wi.awps01ws;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -2054,9 +2055,21 @@ public class ProgramInterface {
                 }
                 return this.awps01CoOPiCliente2;
             }
-
+            
+            
 
             /**
+			 * @param awps01CoOPiCliente2 the awps01CoOPiCliente2 to set
+			 */
+			public void setAwps01CoOPiCliente2(
+					List<ProgramInterface.Awps01CoSalida.Awps01CoOPiCliente.Awps01CoOPiCliente2> awps01CoOPiCliente2) {
+				this.awps01CoOPiCliente2 = awps01CoOPiCliente2;
+			}
+
+
+
+
+			/**
              * <p>Clase Java para anonymous complex type.
              * 
              * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.

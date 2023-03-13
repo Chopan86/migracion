@@ -5,6 +5,7 @@ package cl.tchile.app.helper;
 
 import javax.xml.bind.JAXBException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.XML;
 import org.springframework.stereotype.Component;
@@ -238,6 +239,13 @@ public class QueryProductHelper {
 		try {
 			xmlR = xmlR.replace("resp", "");
 			JSONObject soapDatainJsonObject = XML.toJSONObject(xmlR);
+			
+			
+			
+			String sJson = new Gson().toJson(soapDatainJsonObject);
+			
+			//recorrer json - modificar a listas.
+			
 			QueryProductResponseVO rBD = new Gson().fromJson(soapDatainJsonObject.toString(), QueryProductResponseVO.class);
 			salidaMsj.setCodError(rBD.getResponseMsj().getCodError());
 			salidaMsj.setMsgError(rBD.getResponseMsj().getMsgError());
@@ -250,7 +258,7 @@ public class QueryProductHelper {
 			//continuar
 
 			response.setResponseMsj(salidaMsj);
-			
+			response.getResponseData().set(0, responseData);
 		}catch(Exception e) {
 			System.out.println();
 		}

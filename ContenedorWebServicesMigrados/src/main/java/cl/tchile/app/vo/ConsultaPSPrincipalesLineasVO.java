@@ -21,7 +21,7 @@ public class ConsultaPSPrincipalesLineasVO {
 	/** The accpspwo o programa. */
 	private String accpspwo_o_programa;
 	
-	/** The accpspwo o lineas. */
+//	/** The accpspwo o lineas. */
 	private List<AccpspwoOLineas> accpspwo_o_lineas;
 	
 	/**
@@ -121,10 +121,8 @@ public class ConsultaPSPrincipalesLineasVO {
 		/** The accpspwo o fono. */
 		private String accpspwo_o_fono;
 		
-		/** The accpspwo O fono. */
-		private String accpspwoOFono;
 		
-		/** The accpspwo ps lineas. */
+//		/** The accpspwo ps lineas. */
 		private List<AccpspwoPsLineas> accpspwo_ps_lineas;
 		
 		/**
@@ -163,23 +161,6 @@ public class ConsultaPSPrincipalesLineasVO {
 			this.accpspwo_o_fono = accpspwo_o_fono;
 		}
 		
-		/**
-		 * Gets the accpspwo O fono.
-		 *
-		 * @return the accpspwoOFono
-		 */
-		public String getAccpspwoOFono() {
-			return accpspwoOFono;
-		}
-		
-		/**
-		 * Sets the accpspwo O fono.
-		 *
-		 * @param accpspwoOFono the accpspwoOFono to set
-		 */
-		public void setAccpspwoOFono(String accpspwoOFono) {
-			this.accpspwoOFono = accpspwoOFono;
-		}
 		
 		/**
 		 * Gets the accpspwo ps lineas.

@@ -24,6 +24,7 @@ public class ConsultaPSPrincipalesLineasHerlper {
 	 * @return the program interface
 	 */
 	public ProgramInterface setResponseConsultaPSPrincipalesLineas() {
+//		String respuestaDummy ="";
 		String respuestaDummy = "<resp:accpspwo_o_cod_error>0</resp:accpspwo_o_cod_error>\r\n"
 				+ "            <resp:accpspwo_o_desc_error>PROCESO EXITOSO</resp:accpspwo_o_desc_error>\r\n"
 				+ "            <resp:accpspwo_o_programa>ACCPSPWS</resp:accpspwo_o_programa>\r\n"
@@ -753,26 +754,35 @@ public class ConsultaPSPrincipalesLineasHerlper {
 		AccpspwoOLineas lineas = null;
 		
 		for (cl.tchile.app.vo.ConsultaPSPrincipalesLineasVO.AccpspwoOLineas lineaBd : respuestaBd.getAccpspwo_o_lineas()) {
-			if( null != lineaBd.getAccpspwo_o_area()) {
 				lineas = new AccpspwoOLineas();
-				lineas.setAccpspwoOArea(lineaBd.getAccpspwo_o_area());
-				lineas.setAccpspwoOFono(lineaBd.getAccpspwo_o_fono());
-				
+				if(null != lineaBd.getAccpspwo_o_area()) {
+					lineas.setAccpspwoOArea(lineaBd.getAccpspwo_o_area());
+				}
+				if(null != lineaBd.getAccpspwo_o_fono()) {
+					lineas.setAccpspwoOFono(lineaBd.getAccpspwo_o_fono());
+				}
+
 				AccpspwoPsLineas psLinea = null;
 				for (cl.tchile.app.vo.ConsultaPSPrincipalesLineasVO.AccpspwoOLineas.AccpspwoPsLineas psLineaBd : lineaBd.getAccpspwo_ps_lineas()) {
 					psLinea = new AccpspwoPsLineas();
-					psLinea.setAccpspwoOPs(psLineaBd.getAccpspwo_o_ps());
-					psLinea.setAccpspwoODesc(psLineaBd.getAccpspwo_o_desc());
-					psLinea.setAccpspwoOCodFam(psLineaBd.getAccpspwo_o_cod_fam());
-					psLinea.setAccpspwoOSubgr2(psLineaBd.getAccpspwo_o_subgr2());
+					if(null != psLineaBd.getAccpspwo_o_ps()) {
+						psLinea.setAccpspwoOPs(psLineaBd.getAccpspwo_o_ps());
+					}
+					if(null != psLineaBd.getAccpspwo_o_desc()) {
+						psLinea.setAccpspwoODesc(psLineaBd.getAccpspwo_o_desc());
+					}
+					if(null != psLineaBd.getAccpspwo_o_cod_fam()) {
+						psLinea.setAccpspwoOCodFam(psLineaBd.getAccpspwo_o_cod_fam());
+					}
+					if(null != psLineaBd.getAccpspwo_o_subgr2()) {
+						psLinea.setAccpspwoOSubgr2(psLineaBd.getAccpspwo_o_subgr2());
+					}					
 					lineas.getAccpspwoPsLineas().add(psLinea);
 				}
 				
 				camposSalida.getAccpspwoOLineas().add(lineas);
-			}
-
 		}
-		
+//		
 		response.setAccpspwoSalida(camposSalida);
 		return response;
 	}
