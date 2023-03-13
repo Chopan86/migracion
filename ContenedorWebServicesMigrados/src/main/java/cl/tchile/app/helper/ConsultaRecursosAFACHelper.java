@@ -1,48 +1,44 @@
-/**
- * 
- */
 package cl.tchile.app.helper;
 
 import javax.xml.bind.JAXBException;
 
 import org.json.JSONObject;
 import org.json.XML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.response.wspms.apelafac.ProgramInterface;
-import com.response.wspms.apelafac.ProgramInterface.ApelAfacPmsO;
 
-import cl.tchile.app.vo.ConsultaRecursosAFACResponseVO;
+import cl.tchile.app.vo.ConsultaRecursosAFACVO;
 
 /**
- * ConsultaRecursosAFACHelper
- *
+ * The Class ConsultaRecursosAFACHelper.
  */
 @Component
 public class ConsultaRecursosAFACHelper {
-	
+  
+	/** The Constant logger. */
+    final static Logger logger = LoggerFactory.getLogger(ConsultaRecursosAFACHelper.class);
+    
 	/**
-	 * 
-	 * @return
-	 * @throws JAXBException
+	 * Sets the response consulta recursos AFAC.
+	 *
+	 * @param xmlReturn the xml return
+	 * @return the com.response.wspms.apelafac. program interface
+	 * @throws JAXBException the JAXB exception
 	 */
-	public ProgramInterface setResponseConsultaRecursosAFAC() throws JAXBException{
-		String xmlR ="<resp:dataout>34025106252101SAN FELIPE          05060000000000000009  00  07097     H10097 010400PROCESO EXITOSO</resp:dataout>\r\n"
-				+ "";
-		ProgramInterface pInterface = new ProgramInterface();
-		ApelAfacPmsO salida = new ApelAfacPmsO();
-		try {
-			xmlR = xmlR.replace("resp:", "");
-			JSONObject soapDatainJsonObject = XML.toJSONObject(xmlR);
-			ConsultaRecursosAFACResponseVO rBD = new Gson().fromJson(soapDatainJsonObject.toString(), ConsultaRecursosAFACResponseVO.class);
-			salida.setDataout(rBD.getDataout());
-			pInterface.setApelAfacPmsO(salida);
-		}catch(Exception e) {
-			System.out.println();
-		}
-		
-		
-		return pInterface;
+	public com.response.wspms.apelafac.ProgramInterface setResponseConsultaRecursosAFAC(String xmlReturn) throws JAXBException{
+		logger.info("response recuperado: \n"+xmlReturn);
+		com.response.wspms.apelafac.ProgramInterface response = new com.response.wspms.apelafac.ProgramInterface();
+		xmlReturn = xmlReturn.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "").replace("<programInterfaceApel_afac_pms_o>", "").replace("</programInterfaceApel_afac_pms_o>", "");
+		JSONObject soapDatainJsonObject = XML.toJSONObject(xmlReturn);
+		ConsultaRecursosAFACVO rBD = new Gson().fromJson(soapDatainJsonObject.toString(), ConsultaRecursosAFACVO.class);
+		ProgramInterface.ApelAfacPmsO salida = new ProgramInterface.ApelAfacPmsO();
+		salida.setDataout(rBD.getDataout());
+		response.setApelAfacPmsO(salida);
+		return response;
 	}
+
 }

@@ -1,6 +1,14 @@
 server:
-  port: 8081
+  port: ${CONTENEDOR_MAINFRAME_PUERTO_SERVER}
   
 logging:
   level:
     com.zaxxer.hikari.HikariConfig: DEBUG
+
+bd:
+  username: ${ORACLE_USERNAME}
+  password: ${ORACLE_PASSWORD}
+  driver-class-name: oracle.jdbc.OracleDriver
+  jdbcUrl: ${CONTENEDOR_MAINFRAME_URL}   
+  schema: ${CONTENEDOR_MAINFRAME_SCHEMA}  
+  dialect: org.hibernate.dialect.Oracle10gDialect

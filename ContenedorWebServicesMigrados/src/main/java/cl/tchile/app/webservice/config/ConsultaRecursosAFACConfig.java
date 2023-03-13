@@ -1,4 +1,4 @@
-package cl.tchile.app.config;
+package cl.tchile.app.webservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,21 +8,23 @@ import org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition;
 import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
 
 /**
- * The Class ListaPSFrontEndConfig.
+ * The Class ConsultaRecursosAFACConfig.
  */
 @EnableWs
 @Configuration
-public class ListaPSFrontEndConfig {
+public class ConsultaRecursosAFACConfig {
 
+	
 	/**
-	 * Lista PS front end definition.
+	 * Consulta cliente rut linea C definition.
 	 *
 	 * @return the wsdl 11 definition
 	 */
-	@Bean(name="ListaPSFrontEnd")
-	public Wsdl11Definition listaPSFrontEndDefinition() {
+	@Bean(name="ConsultaRecursosAFAC")
+	public Wsdl11Definition consultaRecursosAFACDefinition() {
 		SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
-		wsdl11Definition.setWsdl(new ClassPathResource("/wsdl/ListaPSFrontEnd.wsdl"));
+		wsdl11Definition.setWsdl(new ClassPathResource("/wsdl/ApelAfac.wsdl"));
 		return wsdl11Definition;
 	}
+	
 }
