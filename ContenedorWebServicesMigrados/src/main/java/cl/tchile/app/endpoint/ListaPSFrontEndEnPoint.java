@@ -3,6 +3,7 @@ package cl.tchile.app.endpoint;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -13,12 +14,18 @@ import com.response.awpsl2wi.awpsl2ws.ObjectFactory;
 import com.response.awpsl2wi.awpsl2ws.ProgramInterface.Awpsl2Wo;
 import com.response.awpsl2wi.awpsl2ws.ProgramInterface.Awpsl2Wo.Awpsl2WoSalida;
 
+import cl.tchile.app.helper.ListaPSFrontEndHelper;
+
 
 /**
  * The Class ListaPSFrontEndEnPoint.
  */
 @Endpoint
 public class ListaPSFrontEndEnPoint {
+	
+	/** ListaPSFrontEndHelper */
+	@Autowired
+	ListaPSFrontEndHelper listaPSFrontEndHelper;
 
 	
 	/** The Constant NAMESPACE_URI. */
@@ -35,13 +42,7 @@ public class ListaPSFrontEndEnPoint {
 	@ResponsePayload
 	public JAXBElement<com.response.awpsl2wi.awpsl2ws.ProgramInterface> listaPSFrontEnd(@RequestPayload ProgramInterface request) throws JAXBException {
 		System.out.println(request.getAwpsl2Wi().getAwpsl2WiArea() +  " " + request.getAwpsl2Wi().getAwpsl2WiNumCom());
-		com.response.awpsl2wi.awpsl2ws.ProgramInterface response = new com.response.awpsl2wi.awpsl2ws.ProgramInterface();
-		Awpsl2WoSalida salida = new Awpsl2WoSalida();
-		salida.setAwpsl2WoCodRet("000");
-		salida.setAwpsl2WoDescRet("PROCESO EXITOSO");
-		Awpsl2Wo contenedorSalida = new Awpsl2Wo();
-		contenedorSalida.setAwpsl2WoSalida(salida);
-		response.setAwpsl2Wo(contenedorSalida);
+		com.response.awpsl2wi.awpsl2ws.ProgramInterface response = listaPSFrontEndHelper.setResponseListaPSFrontEnd();
 		ObjectFactory factory = new ObjectFactory();
 		return factory.createAWPSL2WSOperationResponse(response);
 	}
