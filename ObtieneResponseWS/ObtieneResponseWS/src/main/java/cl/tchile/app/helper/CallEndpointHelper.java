@@ -5,6 +5,7 @@ import cl.tch.unifica.fe.services.consultaclienterutlineac.AWLC02WSHTTPSoapBindi
 import cl.tch.unifica.services.consultapsprincipaleslineas.ACCPSPWSHTTPSoapBindingStub;
 import cl.tchile.vo.EndPointDataVO;
 import com.AWPSL2WI.AWPSL2WS.www.AWPSL2WSHTTPSoapBindingStub;
+import com.WSPMS.APELAFAC.www.APELAFACHTTPSoapBindingStub;
 import org.apache.axis.AxisFault;
 import org.springframework.stereotype.Component;
 
@@ -69,6 +70,18 @@ public class CallEndpointHelper {
         Class<?> servicelocator = Class.forName(servlocator);
         org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
         QueryproductBindingStub stub = new QueryproductBindingStub(endpointURL, service);
+        stub.setTimeout(Integer.parseInt(timeOut));
+        return stub;
+    }
+    public APELAFACHTTPSoapBindingStub callEndPointSoapStubAfac(EndPointDataVO endPointDataVO)
+        throws InstantiationException, IllegalAccessException, AxisFault, ClassNotFoundException,
+        MalformedURLException {
+        URL endpointURL = new URL(endPointDataVO.getEndPointUrl());
+        String timeOut = endPointDataVO.getTimeOut();
+        String servlocator = endPointDataVO.getServLocator();
+        Class<?> servicelocator = Class.forName(servlocator);
+        org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
+        APELAFACHTTPSoapBindingStub stub = new APELAFACHTTPSoapBindingStub(endpointURL, service);
         stub.setTimeout(Integer.parseInt(timeOut));
         return stub;
     }

@@ -44,4 +44,7 @@ public class ConstantesRutas {
     public static final String REPETIDOSQUERYPRODUCTS = "C:/QUERYPRODUCTS_repetidos.txt";
 
     public static final String SINRESPUESTAQUERYPRODUCTS = "C:/QUERYPRODUCTS_sin_respuesta.txt";
+    public static final String REPETIDOSAFAC = "C:/afac_repetidos.txt";
+
+    public static final String SINRESPUESTAAFAC = "C:/afac_sin_respuesta.txt";
 }

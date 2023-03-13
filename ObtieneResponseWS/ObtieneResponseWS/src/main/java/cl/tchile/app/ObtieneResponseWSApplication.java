@@ -31,6 +31,8 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 	ConsultaListaPSFrontEndDelegate consultaListaPSFrontEndDelegate;
 	@Autowired
 	ConsultaQueryProductDelegate consultaQueryProductDelegate;
+	@Autowired
+	ConsultaAFACDelegate consultaAFACDelegate;
 
 
 	/**
@@ -55,10 +57,13 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 //		consultaClienteRutLineaCDelegate.consultaClienteRutlineaCxFono();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutLineaBImpl();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
+// TODO: correr los meotdos de abajo
 
 //		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
 //		consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
-		consultaQueryProductDelegate.consultaQueryProduct();
+//		consultaQueryProductDelegate.consultaQueryProduct();
+		consultaAFACDelegate.consultaAfac();
+
 
     	System.exit(codigoSalida);
     }
