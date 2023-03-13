@@ -15,7 +15,7 @@ public class QueryProductResponseVO {
 	/** responseMsj */
     private ResponseMsj ResponseMsj;
     /** responseData */
-    private Product ResponseData;
+    private List<Product> ResponseData;
         
     /**
 	 * @return the responseMsj
@@ -34,16 +34,18 @@ public class QueryProductResponseVO {
 	/**
 	 * @return the responseData
 	 */
-	public Product getResponseData() {
+	public List<Product> getResponseData() {
 		return ResponseData;
 	}
 
 	/**
 	 * @param responseData the responseData to set
 	 */
-	public void setResponseData(Product responseData) {
-		this.ResponseData = responseData;
+	public void setResponseData(List<Product> responseData) {
+		ResponseData = responseData;
 	}
+
+
 
 	public static class ResponseMsj{
 		/** codError */
@@ -190,15 +192,15 @@ public class QueryProductResponseVO {
 		    /** productSerialNumber*/
 		    private String productSerialNumber;
 		    
-		    private ValidFor validFor;
-		    private ProductCapacity productCapacity;
+		    private ValidFor validFor; //WSDL indica MAX 1
+		    private ProductCapacity productCapacity; //WSDL indica MAX 1
 		    private List<ProductOffering> productOffering;
 		    private List<ProductCharacteristic> productCharacteristic;
-		    private Place place;
-		    private ProductInvolvementRole productInvolvementRole;
-		    private CustomerFacingService customerFacingService;
-		    private ProductPrice productPrice;
-		    private ProductSpecification productSpecification;
+		    private Place place; //WSDL indica MAX 1
+		    private ProductInvolvementRole productInvolvementRole; //WSDL indica MAX 1
+		    private List<CustomerFacingService> customerFacingService;
+		    private ProductPrice productPrice; //WSDL indica MAX 1
+		    private ProductSpecification productSpecification; //WSDL indica MAX 1
 		    
 		    
 		    /**
@@ -369,17 +371,19 @@ public class QueryProductResponseVO {
 				this.productInvolvementRole = productInvolvementRole;
 			}
 
+			
+
 			/**
 			 * @return the customerFacingService
 			 */
-			public CustomerFacingService getCustomerFacingService() {
+			public List<CustomerFacingService> getCustomerFacingService() {
 				return customerFacingService;
 			}
 
 			/**
 			 * @param customerFacingService the customerFacingService to set
 			 */
-			public void setCustomerFacingService(CustomerFacingService customerFacingService) {
+			public void setCustomerFacingService(List<CustomerFacingService> customerFacingService) {
 				this.customerFacingService = customerFacingService;
 			}
 
