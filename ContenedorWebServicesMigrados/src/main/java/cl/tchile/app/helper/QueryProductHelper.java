@@ -3,6 +3,11 @@
  */
 package cl.tchile.app.helper;
 
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.xml.bind.JAXBException;
 
 import org.json.JSONArray;
@@ -11,7 +16,9 @@ import org.json.XML;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.telefonica.midrange.queryproductservice.types.Product;
+import com.telefonica.midrange.queryproductservice.types.ProductBundle;
 import com.telefonica.midrange.queryproductservice.types.QueryproductResponse;
 import com.telefonica.midrange.queryproductservice.types.ResponseMsj;
 
@@ -240,25 +247,47 @@ public class QueryProductHelper {
 			xmlR = xmlR.replace("resp", "");
 			JSONObject soapDatainJsonObject = XML.toJSONObject(xmlR);
 			
-			
-			
-			String sJson = new Gson().toJson(soapDatainJsonObject);
-			
-			//recorrer json - modificar a listas.
+			//TRANSFORMAR los siguientes elementos de JSON OBJECT a JSON ARRAY en caso de ser necesario:
+			//			ResponseData
+			//			productOffering
+			// 			productCharacteristic
+			//			customerFacingService
 			
 			QueryProductResponseVO rBD = new Gson().fromJson(soapDatainJsonObject.toString(), QueryProductResponseVO.class);
 			salidaMsj.setCodError(rBD.getResponseMsj().getCodError());
 			salidaMsj.setMsgError(rBD.getResponseMsj().getMsgError());
 			
-			Product responseData = new Product();
-			responseData.setIdType(rBD.getResponseData().getIdType());
-			responseData.setId(rBD.getResponseData().getId());
-			responseData.setDescription(rBD.getResponseData().getDescription());
-			responseData.setName(rBD.getResponseData().getName());
+			List<Product> listResponseData = new ArrayList<Product>();
+			Product responseData = null;
+			ProductBundle productBundle = null;
+			
+			for(cl.tchile.app.vo.QueryProductResponseVO.Product rData: rBD.getResponseData()) {
+				responseData = new Product();
+				responseData.setIdType(rData.getIdType());
+				responseData.setId(rData.getId());
+				responseData.setDescription(rData.getDescription());
+				responseData.setName(rData.getName());
+				
+				
+				for(cl.tchile.app.vo.QueryProductResponseVO.Product.ProductBundle pB: rData.getProductBundle()) {
+					productBundle = new ProductBundle();
+					productBundle.setIdType(pB.getIdType());
+					productBundle.setId(pB.getId());
+					productBundle.setName(pB.getName());
+					productBundle.setDescription(pB.getDescription());
+					productBundle.setProductStatus(pB.getProductStatus());
+					productBundle.setProductSerialNumber(pB.getProductSerialNumber());
+					// ITERAR PRODUCTBUNDLE
+					//...
+				}
+				
+				listResponseData.add(responseData);
+			}
+
 			//continuar
 
 			response.setResponseMsj(salidaMsj);
-			response.getResponseData().set(0, responseData);
+			response.getResponseData().addAll(listResponseData);
 		}catch(Exception e) {
 			System.out.println();
 		}
