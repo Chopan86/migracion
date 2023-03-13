@@ -47,4 +47,7 @@ public class ConstantesRutas {
     public static final String REPETIDOSAFAC = "C:/afac_repetidos.txt";
 
     public static final String SINRESPUESTAAFAC = "C:/afac_sin_respuesta.txt";
+
+    public static final String REPETIDOSPSPORLINEA = "C:/ps_porlinea_repetidos.txt";
+    public static final String SINRESPUESTAPSPORLINEA = "C:/ps_porlinea_sin_respuesta.txt";
 }

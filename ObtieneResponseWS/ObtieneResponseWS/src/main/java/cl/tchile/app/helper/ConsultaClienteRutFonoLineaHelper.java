@@ -107,8 +107,11 @@ public class ConsultaClienteRutFonoLineaHelper {
             String linea;
             while ((linea = br.readLine()) != null) {
                 if (!linea.isEmpty()) {
-                    String[] partes = linea.split("\\|");
                     clienteVO = new ClienteVO("","","","","","","");
+                    if(linea.contains("|")){
+                        String[] partes = separarColumnasDeDatos(linea);
+                        clienteVO.setInicioVigencia(partes[1]);
+                    }
                     clienteVO.setArea(linea.substring(2, 4));
                     clienteVO.setFono(linea.substring(linea.length() - 8));
                     clienteVO.setIdFono(linea.substring(2));
@@ -128,6 +131,11 @@ public class ConsultaClienteRutFonoLineaHelper {
         }
 
         return clienteVOList;
+    }
+
+    public String[] separarColumnasDeDatos(String linea){
+        String [] result = linea.split("\\|");
+        return result;
     }
 
 

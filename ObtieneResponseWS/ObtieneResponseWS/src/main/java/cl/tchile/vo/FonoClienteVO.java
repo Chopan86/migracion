@@ -9,6 +9,9 @@ public class FonoClienteVO {
 
     private String fono;
 
+    /**
+     * Fecha inicio linea /  vigencia
+     */
     private String inicioVigencia;
 
     public String getInicioVigencia() {
