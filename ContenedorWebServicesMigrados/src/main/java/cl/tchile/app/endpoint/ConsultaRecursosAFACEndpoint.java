@@ -13,7 +13,6 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.request.wspms.apelafac.ProgramInterface;
 import com.response.wspms.apelafac.ObjectFactory;
-import com.response.wspms.apelafac.ProgramInterface.ApelAfacPmsO;
 
 import cl.tchile.app.entity.MigradosEntity;
 import cl.tchile.app.helper.ConsultaRecursosAFACHelper;
@@ -50,7 +49,7 @@ public class ConsultaRecursosAFACEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "APELAFACOperation")
 	@ResponsePayload
 	public JAXBElement<com.response.wspms.apelafac.ProgramInterface> consultaRecursosAFAC(@RequestPayload ProgramInterface request) throws JAXBException {
-		logger.info("Dato entrada: "+ request.getApelAfacPmsI().getDatain());
+		logger.info("DATOS ENTRADA CONSULTARECURSOSAFAC: "+ request.getApelAfacPmsI().getDatain());
 		MigradosEntity entity = repositorio.SelectByLinea(request.getApelAfacPmsI().getDatain());
 		com.response.wspms.apelafac.ProgramInterface response = helper.setResponseConsultaRecursosAFAC(entity.getResponse());
 		ObjectFactory factory = new ObjectFactory();

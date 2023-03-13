@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import com.response.wspms.apelafac.ProgramInterface;
 
+import cl.tchile.app.util.Constantes;
 import cl.tchile.app.vo.ConsultaRecursosAFACVO;
 
 /**
@@ -30,9 +31,9 @@ public class ConsultaRecursosAFACHelper {
 	 * @throws JAXBException the JAXB exception
 	 */
 	public com.response.wspms.apelafac.ProgramInterface setResponseConsultaRecursosAFAC(String xmlReturn) throws JAXBException{
-		logger.info("response recuperado: \n"+xmlReturn);
+		logger.info("RESPONSE RECUPERADO: \n"+xmlReturn);
 		com.response.wspms.apelafac.ProgramInterface response = new com.response.wspms.apelafac.ProgramInterface();
-		xmlReturn = xmlReturn.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>", "").replace("<programInterfaceApel_afac_pms_o>", "").replace("</programInterfaceApel_afac_pms_o>", "");
+		xmlReturn = xmlReturn.replace(Constantes.REEMPLAZO_CABECERA_AFAC, Constantes.S_EMPTY).replace(Constantes.REEMPLAZO_INI_RESPONSE_AFAC, Constantes.S_EMPTY).replace(Constantes.REEMPLAZO_FIN_RESPONSE_AFAC, Constantes.S_EMPTY);
 		JSONObject soapDatainJsonObject = XML.toJSONObject(xmlReturn);
 		ConsultaRecursosAFACVO rBD = new Gson().fromJson(soapDatainJsonObject.toString(), ConsultaRecursosAFACVO.class);
 		ProgramInterface.ApelAfacPmsO salida = new ProgramInterface.ApelAfacPmsO();
