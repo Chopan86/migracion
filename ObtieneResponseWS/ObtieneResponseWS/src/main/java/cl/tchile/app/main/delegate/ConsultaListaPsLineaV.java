@@ -1,7 +1,5 @@
 package cl.tchile.app.main.delegate;
 
-import cl.tch.unifica.services.consultapsprincipaleslineas.ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas;
-import cl.tch.unifica.services.consultapsprincipaleslineas.ProgramInterfaceAccpspwo_salida;
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
@@ -9,7 +7,9 @@ import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import com.Request.AWMLIP8I.AWLIW8CO.www.ProgramInterfaceAwlip8Co_entrada;
 import com.Request.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_entrada;
+import com.Response.AWMLIP8I.AWLIW8CO.www.ProgramInterfaceAwlip8Co_salida;
 import com.Response.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_salida;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +26,9 @@ import java.util.List;
  */
 // TODO: todo
 @Component
-public class ConsultaPsPorLiena {
+public class ConsultaListaPsLineaV {
 
-    private static final Logger LOGGER = LogManager.getLogger(ConsultaPsPorLiena.class);
+    private static final Logger LOGGER = LogManager.getLogger(ConsultaListaPsLineaV.class);
     /**
      * The general helper.
      */
@@ -55,47 +55,47 @@ public class ConsultaPsPorLiena {
      * endPointDataVO
      */
     EndPointDataVO endPointDataVO = new EndPointDataVO(
-        "http://esb2.ctc.cl:8081/services/consultaPSporLinea",
+        "http://TCHMFPROD.ctc.cl:8080/services/listaPsLineaV8",
         Constantes.TIMEOUT15,
-        "com.AWPS01WI.AWPS01WS.www.AWPS01WSServiceLocator"
+        "com.AWMLIP8I.AWLIW8CO.www.AWLIW8COServiceLocator"
     );
 
-    public void consultaPsPorLinea() {
+    public void consultaListaPsLineaV8() {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
-        LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
-        String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSPORLINEA;
-        String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSPORLINEA;
+        LOGGER.info("******** INICIO PROCESO CONSULTA ListaPsLineaV8 ********");
+        String pathSalidaRepetidos = ConstantesRutas.REPETIDOSLISTAPSLINEAV8;
+        String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTALISTAPSLINEAV8;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel("C:/psporlinea.xlsx");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
-            callConsultaPsPorLinea(clienteVO, endPointDataVO);
+            callConsultaListaPsLineaV8(clienteVO, endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
-    public void callConsultaPsPorLinea(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
+    public void callConsultaListaPsLineaV8(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto =
-            clienteVO.getArea() + clienteVO.getFono() + "-" + clienteVO.getInicioVigencia();
+            clienteVO.getArea() + clienteVO.getFono();
         try {
-            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_PSPORLINEA");
+            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LISTAPSLINEAV8");
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: {}", fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
             }
             if (!fonoRepetido) {
-                ProgramInterfaceAwps01Co_salida salida;
-                ProgramInterfaceAwps01Co_entrada entrada = fillRequestIn(clienteVO);
+                ProgramInterfaceAwlip8Co_salida salida;
+                ProgramInterfaceAwlip8Co_entrada entrada = fillRequestIn(clienteVO);
                 salida = callEndpointHelper
-                    .callEndPointSoapStubConsultaPorLinea(endPointDataVO).AWPS01WSOperation(entrada);
+                    .callEndPointSoapStubConsultaListaPsLineaV8(endPointDataVO).AWLIW8COOperation(entrada);
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
                 consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto,
-                    "RUTA_SALIDA_PSPORLINEA");
+                    "RUTA_SALIDA_LISTAPSLINEAV8");
             }
 
         } catch (Exception e) {
@@ -105,11 +105,10 @@ public class ConsultaPsPorLiena {
         }
     }
 
-    private ProgramInterfaceAwps01Co_entrada fillRequestIn(ClienteVO clienteVO) {
-        ProgramInterfaceAwps01Co_entrada entrada = new ProgramInterfaceAwps01Co_entrada();
-        entrada.setAwps01Co_i_area(clienteVO.getArea());
-        entrada.setAwps01Co_i_num_com(clienteVO.getFono());
-        entrada.setAwps01Co_i_fec_ini_li(clienteVO.getInicioVigencia());
+    private ProgramInterfaceAwlip8Co_entrada fillRequestIn(ClienteVO clienteVO) {
+        ProgramInterfaceAwlip8Co_entrada entrada = new ProgramInterfaceAwlip8Co_entrada();
+        entrada.setAwlip8Co_i_area(clienteVO.getArea());
+        entrada.setAwlip8Co_i_num_com(clienteVO.getFono());
         entrada.setFiller1("");
         return entrada;
     }

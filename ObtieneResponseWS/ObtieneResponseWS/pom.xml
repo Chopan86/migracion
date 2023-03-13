@@ -125,6 +125,14 @@
 			<version>{version}</version>
 		</dependency>
 
+		<dependency>
+			<artifactId>ListaPsLineaV8</artifactId>
+			<groupId>cl.tch.unifica</groupId>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/libs/ListaPsLineaV8.jar</systemPath>
+			<version>{version}</version>
+		</dependency>
+
 		<!-- Integracion SOAP -->
 		<dependency>
 			<groupId>org.apache.axis2</groupId>
@@ -215,7 +223,7 @@
 						</manifest>
 						<manifestEntries>
 				             <Class-Path>./ConsultaClienteRutLineaB.jar ./consultaclienterutlineac.jar ./consultapsprincipaleslineas.jar
-								./queryproduct.jar
+								./queryproduct.jar ./ListaPsLineaV8.jar
 							 </Class-Path>
 				        </manifestEntries>
 					</archive>

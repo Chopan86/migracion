@@ -37,6 +37,9 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 	@Autowired
 	ConsultaPsPorLiena consultaPsPorLiena;
 
+	@Autowired
+	ConsultaListaPsLineaV consultaListaPsLineaV;
+
 
 	/**
 	 * The main method.
@@ -66,7 +69,8 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 //		consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
 //		consultaQueryProductDelegate.consultaQueryProduct();
 //		consultaAFACDelegate.consultaAfac();
-		consultaPsPorLiena.consultaPsPorLinea();
+//		consultaPsPorLiena.consultaPsPorLinea();
+		consultaListaPsLineaV.consultaListaPsLineaV8();
 
 
     	System.exit(codigoSalida);
