@@ -5,11 +5,17 @@ import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.vo.ClienteVO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -88,6 +94,35 @@ public class ConsultaClienteRutFonoLineaHelper {
             }
         }
 
+        return clienteVOList;
+    }
+
+    public List<ClienteVO> obtenerDatosDesdeExcel(String filePath){
+        List<ClienteVO> clienteVOList = new ArrayList<>();
+        try {
+            Workbook workbook = WorkbookFactory.create(new File(filePath));
+            Sheet sheet = workbook.getSheetAt(0); // assuming first sheet
+            boolean isFirstRow = true;
+            for (Row row : sheet) {
+                if (isFirstRow){
+                    isFirstRow = false;
+                    continue;
+                }
+                // Cada fila es una celda del excel
+                String FP_LINC_AREA = row.getCell(0).getStringCellValue();
+                String FP_LINC_NUM_COM = row.getCell(1).getStringCellValue();
+                String FP_LINC_FEC_INI_VI = row.getCell(2).getStringCellValue();
+                String FP_LINC_FEC_FIN_VI = row.getCell(3).getStringCellValue();
+                String FP_LINC_IND_FACT = row.getCell(4).getStringCellValue();
+                ClienteVO clienteVO = new ClienteVO(FP_LINC_AREA, FP_LINC_NUM_COM, FP_LINC_FEC_INI_VI, "", "", "", "");
+                clienteVOList.add(clienteVO);
+            }
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidFormatException e) {
+            throw new RuntimeException(e);
+        }
         return clienteVOList;
     }
 

@@ -66,7 +66,7 @@ public class ConsultaPsPorLiena {
         LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSPORLINEA;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSPORLINEA;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel("C:/psporlinea.xlsx");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
@@ -79,7 +79,7 @@ public class ConsultaPsPorLiena {
 
     public void callConsultaPsPorLinea(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto =
-            clienteVO.getArea() + clienteVO.getFono().substring(1) + "-" + clienteVO.getInicioVigencia();
+            clienteVO.getArea() + clienteVO.getFono() + "-" + clienteVO.getInicioVigencia();
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_PSPORLINEA");
             if (fonoRepetido) {
@@ -107,12 +107,12 @@ public class ConsultaPsPorLiena {
 
     private ProgramInterfaceAwps01Co_entrada fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceAwps01Co_entrada entrada = new ProgramInterfaceAwps01Co_entrada();
-        entrada.setAwps01Co_i_area(generalHelper.formatearAreaFono(clienteVO.getArea()));
-        entrada.setAwps01Co_i_num_com(generalHelper.formatearFono(clienteVO.getArea(),clienteVO.getFono()));
+        entrada.setAwps01Co_i_area(clienteVO.getArea());
+        entrada.setAwps01Co_i_num_com(clienteVO.getFono());
         entrada.setFiller1("");
         //TODO: cambiar prueba en duro para esta variable
 //        entrada.setAwps01Co_i_fec_ini_li(clienteVO.getInicioVigencia());
-        entrada.setAwps01Co_i_fec_ini_li("2018-01-01");
+        entrada.setAwps01Co_i_fec_ini_li(clienteVO.getInicioVigencia());
         return entrada;
     }
 }
