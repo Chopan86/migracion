@@ -1,6 +1,6 @@
 package cl.tchile.app.vo;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ public class ConsultaPSPorLineaVO {
     private String awps01Co_o_numregistros;
 
     /** The awps01 co_o_pi_cliente. */
-    private List<Awps01CoOPiClienteVO> awps01Co_o_pi_cliente = new ArrayList<Awps01CoOPiClienteVO>();
+    private List<Awps01CoOPiClienteVO> awps01Co_o_pi_cliente;
 
     /** The awps01 co_o_plan_minuto. */
     private String awps01Co_o_plan_minuto;
@@ -138,7 +138,7 @@ public class ConsultaPSPorLineaVO {
 
 	/**
      * The Class Awps01CoOPiCliente.
-     */
+     */					
     public static class Awps01CoOPiClienteVO{
     	/** The awps01 co_o_sec_ps. */
         private String awps01Co_o_sec_ps;
@@ -228,7 +228,7 @@ public class ConsultaPSPorLineaVO {
         private String awps01Co_o_des_subg2;
 
         /** The awps01 co_o_pi_cliente. */
-        private List<Awps01CoSalidaCliente> awps01Co_o_pi_cliente = new ArrayList<Awps01CoSalidaCliente>();
+//        private List<Awps01CoSalidaCliente> awps01Co_o_pi_cliente = new ArrayList<Awps01CoSalidaCliente>();
         
         
         /**
@@ -698,17 +698,17 @@ public class ConsultaPSPorLineaVO {
 		/**
 		 * @return the awps01Co_o_pi_cliente
 		 */
-		public List<Awps01CoSalidaCliente> getAwps01Co_o_pi_cliente() {
-			return awps01Co_o_pi_cliente;
-		}
-
-
-		/**
-		 * @param awps01Co_o_pi_cliente the awps01Co_o_pi_cliente to set
-		 */
-		public void setAwps01Co_o_pi_cliente(List<Awps01CoSalidaCliente> awps01Co_o_pi_cliente) {
-			this.awps01Co_o_pi_cliente = awps01Co_o_pi_cliente;
-		}
+//		public List<Awps01CoSalidaCliente> getAwps01Co_o_pi_cliente() {
+//			return awps01Co_o_pi_cliente;
+//		}
+//
+//
+//		/**
+//		 * @param awps01Co_o_pi_cliente the awps01Co_o_pi_cliente to set
+//		 */
+//		public void setAwps01Co_o_pi_cliente(List<Awps01CoSalidaCliente> awps01Co_o_pi_cliente) {
+//			this.awps01Co_o_pi_cliente = awps01Co_o_pi_cliente;
+//		}
 
 
 		/**

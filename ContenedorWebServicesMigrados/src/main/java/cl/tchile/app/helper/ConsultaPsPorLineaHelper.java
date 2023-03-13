@@ -13,6 +13,7 @@ import org.json.XML;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.response.awps01wi.awps01ws.ProgramInterface;
 import com.response.awps01wi.awps01ws.ProgramInterface.Awps01CoSalida;
 import com.response.awps01wi.awps01ws.ProgramInterface.Awps01CoSalida.Awps01CoOPiCliente;
@@ -40,15 +41,7 @@ public class ConsultaPsPorLineaHelper {
 		 		+ "            <resp:awps01co_o_desc_cod_ret>PROCESO EXITOSO</resp:awps01co_o_desc_cod_ret>\r\n"
 		 		+ "            <resp:awps01co_o_finpaginacion>1</resp:awps01co_o_finpaginacion>\r\n"
 		 		+ "            <resp:awps01co_o_numregistros>00</resp:awps01co_o_numregistros>\r\n"
-		 		+ "            <resp:awps01co_o_pi_cliente>\r\n"
-		 		+ "               <resp:awps01co_o_sec_ps>0101</resp:awps01co_o_sec_ps>\r\n"
-		 		+ "               <resp:awps01co_o_cod_ps>1234</resp:awps01co_o_cod_ps>\r\n"		 		
-		 		+ "            </resp:awps01co_o_pi_cliente>\r\n"		 		
-		 		+ "            <resp:awps01co_o_pi_cliente>\r\n"
-		 		+ "               <resp:awps01co_o_sec_ps></resp:awps01co_o_sec_ps>\r\n"
-		 		+ "               <resp:awps01co_o_cod_ps></resp:awps01co_o_cod_ps>\r\n"		 		
-		 		+ "            </resp:awps01co_o_pi_cliente>\r\n"
-		 		+ "            <resp:awps01co_o_plan_minuto>N</resp:awps01co_o_plan_minuto>\r\n";
+		 		+ "            <resp:awps01co_o_plan_minuto>N</resp:awps01co_o_plan_minuto>";
 		 
 		Awps01CoSalida salida = new Awps01CoSalida();
 		
@@ -99,15 +92,15 @@ public class ConsultaPsPorLineaHelper {
 			List<Awps01CoOPiCliente2> listaClientes2 = new ArrayList<Awps01CoOPiCliente2>();
 			Awps01CoOPiCliente2 cliente2 = null;
 			
-			for(Awps01CoSalidaCliente salCli: cli.getAwps01Co_o_pi_cliente()) {
-				cliente2 = new Awps01CoOPiCliente2();
-				cliente2.setAwps01CoOSecCar(salCli.getAwps01Co_o_sec_car());
-				cliente2.setAwps01CoOCodCar(salCli.getAwps01Co_o_cod_car());
-				cliente2.setAwps01CoOCodDom(salCli.getAwps01Co_o_cod_dom());
-				cliente2.setAwps01CoOTipDom(salCli.getAwps01Co_o_tip_dom());
-				cliente2.setAwps01CoOValorDom(salCli.getAwps01Co_o_valor_dom());
-				listaClientes2.add(cliente2);
-			}
+//			for(Awps01CoSalidaCliente salCli: cli.getAwps01Co_o_pi_cliente()) {
+//				cliente2 = new Awps01CoOPiCliente2();
+//				cliente2.setAwps01CoOSecCar(salCli.getAwps01Co_o_sec_car());
+//				cliente2.setAwps01CoOCodCar(salCli.getAwps01Co_o_cod_car());
+//				cliente2.setAwps01CoOCodDom(salCli.getAwps01Co_o_cod_dom());
+//				cliente2.setAwps01CoOTipDom(salCli.getAwps01Co_o_tip_dom());
+//				cliente2.setAwps01CoOValorDom(salCli.getAwps01Co_o_valor_dom());
+//				listaClientes2.add(cliente2);
+//			}
 			cliente.setAwps01CoOPiCliente2(listaClientes2);
 
 			listaClientes.add(cliente);			
