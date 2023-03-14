@@ -67,10 +67,10 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 
 //		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
 //		consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
-//		consultaQueryProductDelegate.consultaQueryProduct();
+		consultaQueryProductDelegate.consultaQueryProduct();
 //		consultaAFACDelegate.consultaAfac();
 //		consultaPsPorLiena.consultaPsPorLinea();
-		consultaListaPsLineaV.consultaListaPsLineaV8();
+//		consultaListaPsLineaV.consultaListaPsLineaV8();
 
 
     	System.exit(codigoSalida);

@@ -1,11 +1,6 @@
 Manifest-Version: 1.0
-Built-By: Miguel
-Build-Jdk: 17.0.3
+Build-Jdk-Spec: 17
 Implementation-Title: ContenedorWebserviceMigrados
-Implementation-Version: 0.0.1-SNAPSHOT
-Implementation-Vendor-Id: cl.tchile
-Implementation-Vendor: Pivotal Software, Inc.
-Implementation-URL: http://projects.spring.io/spring-boot/ContenedorWebs
- erviceMigrados/
+Implementation-Version: 1.0.0
 Created-By: Maven Integration for Eclipse
 

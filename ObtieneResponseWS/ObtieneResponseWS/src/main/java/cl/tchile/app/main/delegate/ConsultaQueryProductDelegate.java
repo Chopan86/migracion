@@ -62,13 +62,18 @@ public class ConsultaQueryProductDelegate {
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAQUERYPRODUCTS;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
-        for (ClienteVO clienteVO : listaClientes) {
-            indexLista++;
-            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
+        ClienteVO clienteVO = new ClienteVO();
+        
+        clienteVO.setIdFono("000000000000000228353426");
+        clienteVO.setIdTypeCall("fonoFijo");
+        
+//        for (ClienteVO clienteVO : listaClientes) {
+//            indexLista++;
+//            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaQueryProducts(clienteVO, endPointDataVO, String.valueOf(Constantes.cCOD_ZERO));
-        }
-        generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
-        generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
+//        }
+//        generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
+//        generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
 
@@ -89,7 +94,8 @@ public class ConsultaQueryProductDelegate {
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_QUERY_PRODUCTS");
+                System.out.println(xmlString);
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_QUERY_PRODUCTS");
             }
 
         } catch (Exception e) {
