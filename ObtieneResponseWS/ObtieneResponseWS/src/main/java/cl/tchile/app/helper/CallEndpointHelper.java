@@ -4,6 +4,7 @@ import cl.movistar.queryproduct.queryproduct.QueryproductBindingStub;
 import cl.tch.unifica.fe.services.consultaclienterutlineac.AWLC02WSHTTPSoapBindingStub;
 import cl.tch.unifica.services.consultapsprincipaleslineas.ACCPSPWSHTTPSoapBindingStub;
 import cl.tchile.vo.EndPointDataVO;
+import com.APEWS16I.APE9016.www.APE9016HTTPSoapBindingStub;
 import com.AWMLIP8I.AWLIW8CO.www.AWLIW8COHTTPSoapBindingStub;
 import com.AWPS01WI.AWPS01WS.www.AWPS01WSHTTPSoapBindingStub;
 import com.AWPSL2WI.AWPSL2WS.www.AWPSL2WSHTTPSoapBindingStub;
@@ -59,6 +60,18 @@ public class CallEndpointHelper {
         Class<?> servicelocator = Class.forName(servlocator);
         org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
         AWPS01WSHTTPSoapBindingStub stub = new AWPS01WSHTTPSoapBindingStub(endpointURL, service);
+        stub.setTimeout(Integer.parseInt(timeOut));
+        return stub;
+    }
+    public APE9016HTTPSoapBindingStub callEndPointSoapStubConsultaApelAlturas(EndPointDataVO endPointDataVO)
+        throws InstantiationException, IllegalAccessException, AxisFault, ClassNotFoundException,
+        MalformedURLException {
+        URL endpointURL = new URL(endPointDataVO.getEndPointUrl());
+        String timeOut = endPointDataVO.getTimeOut();
+        String servlocator = endPointDataVO.getServLocator();
+        Class<?> servicelocator = Class.forName(servlocator);
+        org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
+        APE9016HTTPSoapBindingStub stub = new APE9016HTTPSoapBindingStub(endpointURL, service);
         stub.setTimeout(Integer.parseInt(timeOut));
         return stub;
     }

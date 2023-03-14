@@ -9,7 +9,6 @@ import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import com.Request.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wi;
 import com.Response.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wo;
-import com.Response.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2WoAwpsl2Wo_salida;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +55,15 @@ public class ConsultaListaPSFrontEndDelegate {
         "com.AWPSL2WI.AWPSL2WS.www.AWPSL2WSServiceLocator"
     );
 
+    String excelName = "responseErrorsPsForntEnd.xlsx";
+
     public void consultaPsFrontEnd(){
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
-        LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
+        LOGGER.info("******** INICIO PROCESO CONSULTA PsFrontEnd ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSFRONTEND;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSFRONTEND;
+        consultaClienteRutFonoLineaHelper.crearExcelErrorResponse(excelName);
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
@@ -76,6 +78,7 @@ public class ConsultaListaPSFrontEndDelegate {
 
     public void callConsultaPsFrontEnd(ClienteVO clienteVO, EndPointDataVO endPointDataVO, String cod) {
         String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
             if (fonoRepetido) {
@@ -90,7 +93,12 @@ public class ConsultaListaPSFrontEndDelegate {
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
+                if(!salida.getAwpsl2Wo_salida().getAwpsl2Wo_cod_ret().equalsIgnoreCase("000")){
+                    consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
+                } else {
+                    consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
+                }
+
             }
 
         } catch (Exception e) {
@@ -108,5 +116,7 @@ public class ConsultaListaPSFrontEndDelegate {
         entrada.setAwpsl2Wi_cod_ps(cod);
         return entrada;
     }
+
+
 }
 

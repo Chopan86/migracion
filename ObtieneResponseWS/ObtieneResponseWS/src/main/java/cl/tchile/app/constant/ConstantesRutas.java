@@ -53,4 +53,8 @@ public class ConstantesRutas {
 
     public static final String REPETIDOSLISTAPSLINEAV8 = "C:/listaPsLineaV8_repetidos.txt";
     public static final String SINRESPUESTALISTAPSLINEAV8 = "C:/listaPsLineaV8_sin_respuesta.txt";
+
+
+    public static final String REPETIDOSLISTAAPELALTURAS = "C:/apelAlturas_repetidos.txt";
+    public static final String SINRESPUESTAAPELALTURAS = "C:/apelAlturas_sin_respuesta.txt";
 }

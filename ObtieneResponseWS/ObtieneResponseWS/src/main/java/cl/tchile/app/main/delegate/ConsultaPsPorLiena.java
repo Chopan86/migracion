@@ -66,7 +66,7 @@ public class ConsultaPsPorLiena {
         LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSPORLINEA;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSPORLINEA;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel("C:/psporlinea.xlsx");
+        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel("C:/WorkspaceMigracionMainFrame/psporlinea.xlsx","consultaPsPorLinea");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;

@@ -14,42 +14,48 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan("cl.tchile")
-public class ObtieneResponseWSApplication implements CommandLineRunner { 	
+public class ObtieneResponseWSApplication implements CommandLineRunner {
 
-	/** The Constant LOGGER. */
-	private static final Logger LOGGER = LogManager.getLogger(ObtieneResponseWSApplication.class);
+    /**
+     * The Constant LOGGER.
+     */
+    private static final Logger LOGGER = LogManager.getLogger(ObtieneResponseWSApplication.class);
 
-	/** The consulta cliente rut linea C delegate. */
-	@Autowired
-	ConsultaClienteRutLineaCDelegate consultaClienteRutLineaCDelegate;
+    /**
+     * The consulta cliente rut linea C delegate.
+     */
+    @Autowired
+    ConsultaClienteRutLineaCDelegate consultaClienteRutLineaCDelegate;
+
+    @Autowired
+    ConsultaClienteRutLineaBDelegate consultaClienteRutLineaBDelegate;
+    @Autowired
+    ConsultaPsPrincipalesLineasDelegate consultaPsPrincipalesLineasDelegate;
+    @Autowired
+    ConsultaListaPSFrontEndDelegate consultaListaPSFrontEndDelegate;
+    @Autowired
+    ConsultaQueryProductDelegate consultaQueryProductDelegate;
+    @Autowired
+    ConsultaAFACDelegate consultaAFACDelegate;
+
+    @Autowired
+    ConsultaPsPorLiena consultaPsPorLiena;
+
+    @Autowired
+    ConsultaListaPsLineaV consultaListaPsLineaV;
 
 	@Autowired
-	ConsultaClienteRutLineaBDelegate consultaClienteRutLineaBDelegate;
-	@Autowired
-	ConsultaPsPrincipalesLineasDelegate consultaPsPrincipalesLineasDelegate;
-	@Autowired
-	ConsultaListaPSFrontEndDelegate consultaListaPSFrontEndDelegate;
-	@Autowired
-	ConsultaQueryProductDelegate consultaQueryProductDelegate;
-	@Autowired
-	ConsultaAFACDelegate consultaAFACDelegate;
+	ConsultaApelAlturas consultaApelAlturas;
 
-	@Autowired
-	ConsultaPsPorLiena consultaPsPorLiena;
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(ObtieneResponseWSApplication.class, args);
+    }
 
-	@Autowired
-	ConsultaListaPsLineaV consultaListaPsLineaV;
-
-
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(ObtieneResponseWSApplication.class, args);
-	}
-	
     /**
      * Run.
      *
@@ -57,24 +63,22 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
      */
     @Override
     public void run(String... args) {
-    	LOGGER.info("Inicia Ejecucion");
-    	Integer codigoSalida = 0;
+        LOGGER.info("Inicia Ejecucion");
+        Integer codigoSalida = 0;
 //    	consultaClienteRutLineaCDelegate.consultaClienteRutLineaCImpl();
 //		consultaClienteRutLineaCDelegate.consultaClienteRutlineaCxFono();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutLineaBImpl();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
-// TODO: correr los meotdos de abajo
-
 //		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
-//		consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
-		consultaQueryProductDelegate.consultaQueryProduct();
+//		consultaQueryProductDelegate.consultaQueryProduct();
 //		consultaAFACDelegate.consultaAfac();
-//		consultaPsPorLiena.consultaPsPorLinea();
-//		consultaListaPsLineaV.consultaListaPsLineaV8();
+        consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
+        consultaPsPorLiena.consultaPsPorLinea();
+        consultaListaPsLineaV.consultaListaPsLineaV8();
 
+//		consultaApelAlturas.consultaApelAlturas();
 
-    	System.exit(codigoSalida);
+        System.exit(codigoSalida);
     }
 
-  
 }
