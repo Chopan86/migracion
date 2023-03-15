@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -131,8 +134,20 @@ public class ConsultaClienteRutLineaBDelegate {
                 stub.setTimeout(Integer.parseInt(timeOut));
                 salida = stub.AWLC01WSOperation(entrada);
                 StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+//                JAXB.marshal(salida, sw);
+//                String xmlString = sw.toString();
+                String xmlString = stringWriter.toString();
+                xmlString = xmlString.replace("</awlc01Z3_o_direccion_cob>\n"
+                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_direccion_cob>")
+                		.replace("</awlc01Z3_o_lineas>\n"
+                				+ "    <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_lineas>")
+                		.replace("<awlc01Z3_o_direccion_cob/>\n"
+                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "<awlc01Z3_o_direccion_cob/>");
                 consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_B");
             }
 

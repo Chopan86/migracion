@@ -7,6 +7,15 @@
 
 package com.Response.AWLC01WI.AWLC01WS.www;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import cl.tchile.adapter.UnsignedIntAdapter;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAwlc01Z3_salidaAwlc01Z3_o_lineas  implements java.io.Serializable {
     private java.lang.String awlc01Z3_o_area;
 
@@ -57,9 +66,11 @@ public class ProgramInterfaceAwlc01Z3_salidaAwlc01Z3_o_lineas  implements java.i
     private java.lang.String awlc01Z3_o_fec_alta_li;
 
     private java.lang.String awlc01Z3_o_fec_fin_vi;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlc01Z3_o_clie;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlc01Z3_o_num_cuen;
 
     private com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salidaAwlc01Z3_o_lineasAwlc01Z3_o_direccion_cob awlc01Z3_o_direccion_cob;

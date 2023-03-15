@@ -7,17 +7,29 @@
 
 package com.Response.AWLC01WI.AWLC01WS.www;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import cl.tchile.adapter.UnsignedIntAdapter;
+import cl.tchile.adapter.UnsignedShortAdapter;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAwlc01Z3_salida  implements java.io.Serializable {
     private java.lang.String awlc01Z3_o_cod_ret;
 
     private java.lang.String awlc01Z3_o_desc_cod_ret;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlc01Z3_o_sqlcode;
 
     private java.lang.String awlc01Z3_o_parrafo;
 
     private java.lang.String awlc01Z3_o_finpaginacion;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedShortAdapter.class, type = Short.class)
     private org.apache.axis.types.UnsignedShort awlc01Z3_o_numregistros;
 
     private java.lang.String awlc01Z3_o_nom_pag;
@@ -35,7 +47,8 @@ public class ProgramInterfaceAwlc01Z3_salida  implements java.io.Serializable {
     private java.lang.String awlc01Z3_o_rut_tit;
 
     private java.lang.String awlc01Z3_o_dvf_tit;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlc01Z3_o_sec_tit;
 
     private java.lang.String awlc01Z3_o_raz_soc;
