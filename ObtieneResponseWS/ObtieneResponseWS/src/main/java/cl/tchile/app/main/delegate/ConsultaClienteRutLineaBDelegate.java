@@ -3,6 +3,7 @@ package cl.tchile.app.main.delegate;
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
@@ -38,6 +39,9 @@ public class ConsultaClienteRutLineaBDelegate {
      */
     @Autowired
     GeneralHelper generalHelper;
+    
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
 
     /**
      * The general helper.
@@ -134,6 +138,7 @@ public class ConsultaClienteRutLineaBDelegate {
                 stub.setTimeout(Integer.parseInt(timeOut));
                 salida = stub.AWLC01WSOperation(entrada);
                 StringWriter sw = new StringWriter();
+                
                 JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -148,7 +153,27 @@ public class ConsultaClienteRutLineaBDelegate {
                 				+ "    <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_lineas>")
                 		.replace("<awlc01Z3_o_direccion_cob/>\n"
                 		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "<awlc01Z3_o_direccion_cob/>");
-                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_B");
+                
+                /**
+                 * 
+                 * DESCOMENTAR PARA INSERTAR EN BD
+                 * 
+                 * 
+                 * */
+//                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", null, rutCompleto);
+//                
+//                if(codBD == 0) {
+//                	System.out.println(rutCompleto + " | Error insert BD ");
+//                	listClientsNoResponse.add(rutCompleto + " | Error insert BD ");
+//                }
+                
+                /**
+                 * 
+                 * DESCOMENTAR PARA GUARDAR ARCHIVOS
+                 * 
+                 * 
+                 * */
+//                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_B");
             }
 
         } catch (Exception e) {
@@ -184,9 +209,44 @@ public class ConsultaClienteRutLineaBDelegate {
                 stub.setTimeout(Integer.valueOf(timeOut));
                 salida = stub.AWLC01WSOperation(entrada);
                 StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
-                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_FONOSB");
+                
+//                JAXB.marshal(salida, sw);
+//                String xmlString = sw.toString();
+                
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+//                JAXB.marshal(salida, sw);
+//                String xmlString = sw.toString();
+                String xmlString = stringWriter.toString();
+                xmlString = xmlString.replace("</awlc01Z3_o_direccion_cob>\n"
+                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_direccion_cob>")
+                		.replace("</awlc01Z3_o_lineas>\n"
+                				+ "    <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_lineas>")
+                		.replace("<awlc01Z3_o_direccion_cob/>\n"
+                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "<awlc01Z3_o_direccion_cob/>");
+                
+                /**
+                 * 
+                 * DESCOMENTAR PARA INSERTAR EN BD
+                 * 
+                 * 
+                 * */
+//              int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", fonoCompleto, null);
+//              
+//              if(codBD == 0) {
+//              	System.out.println(fonoCompleto + " | Error insert BD ");
+//              	listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+//              }
+                /**
+                 * 
+                 * DESCOMENTAR PARA GUARDAR ARCHIVOS
+                 * 
+                 * 
+                 * */
+//                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_FONOSB");
             }
 
         } catch (Exception e) {

@@ -1,6 +1,11 @@
 package cl.tchile.app;
 
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.app.main.delegate.*;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +51,9 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 
 	@Autowired
 	ConsultaApelAlturas consultaApelAlturas;
+	
+	@Autowired
+	SaveFilesOracle saveFilesOracle;
 
     /**
      * The main method.
@@ -65,18 +73,28 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
     public void run(String... args) {
         LOGGER.info("Inicia Ejecucion");
         Integer codigoSalida = 0;
+        try {
+        	
+        	saveFilesOracle.getConnection();
+        	LOGGER.info("Conecction OK");
 //    	consultaClienteRutLineaCDelegate.consultaClienteRutLineaCImpl();
 //		consultaClienteRutLineaCDelegate.consultaClienteRutlineaCxFono();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutLineaBImpl();
-//		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
+		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
 //		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
 //		consultaQueryProductDelegate.consultaQueryProduct();
 //		consultaAFACDelegate.consultaAfac();
-        consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
-        consultaPsPorLiena.consultaPsPorLinea();
-        consultaListaPsLineaV.consultaListaPsLineaV8();
+//        consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
+//        consultaPsPorLiena.consultaPsPorLinea();
+//        consultaListaPsLineaV.consultaListaPsLineaV8();
 
 //		consultaApelAlturas.consultaApelAlturas();
+        
+			saveFilesOracle.closeConnection();
+			LOGGER.info("Connection close");
+		} catch (ClassNotFoundException | SQLException e) {
+			System.out.println(e);
+		}
 
         System.exit(codigoSalida);
     }
