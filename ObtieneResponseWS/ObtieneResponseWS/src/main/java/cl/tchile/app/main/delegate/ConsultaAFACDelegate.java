@@ -7,6 +7,7 @@ import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import com.Request.WSPMS.APELAFAC.www.ProgramInterfaceApel_afac_pms_i;
@@ -39,6 +40,9 @@ public class ConsultaAFACDelegate {
 
     @Autowired
     ConsultaClienteRutFonoLineaHelper consultaClienteRutFonoLineaHelper;
+
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
     /**
      * listClientsNoResponse
      */
@@ -56,7 +60,7 @@ public class ConsultaAFACDelegate {
         "com.WSPMS.APELAFAC.www.APELAFACServiceLocator"
     );
 
-    public void consultaAfac(){
+    public void consultaAfac() {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA AFAC ********");
@@ -73,12 +77,11 @@ public class ConsultaAFACDelegate {
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
-
-
     public void callConsultaAfac(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_AFAC");
+            fonoRepetido = false;
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: {}", fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
@@ -91,6 +94,15 @@ public class ConsultaAFACDelegate {
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
+
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ConsultaRecursosAFAC", fonoCompleto,
+                    null, null);
+
+                if (codBD == 0) {
+                    System.out.println(fonoCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+                }
+
                 consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_AFAC");
             }
 
@@ -103,7 +115,9 @@ public class ConsultaAFACDelegate {
 
     private ProgramInterfaceApel_afac_pms_i fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceApel_afac_pms_i entrada = new ProgramInterfaceApel_afac_pms_i();
-        String dataInCompleta = generalHelper.formatearAreaFono(clienteVO.getArea()) + generalHelper.formatearFono(clienteVO.getArea(), clienteVO.getFono());
+        String dataInCompleta =
+            generalHelper.formatearAreaFono(clienteVO.getArea()) + generalHelper.formatearFono(clienteVO.getArea(),
+                clienteVO.getFono());
         entrada.setDatain(dataInCompleta);
         return entrada;
     }

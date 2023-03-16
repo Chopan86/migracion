@@ -8,6 +8,7 @@
 package com.Response.WSPMS.APELAFAC.www;
 
 public class ProgramInterfaceApel_afac_pms_o  implements java.io.Serializable {
+
     private java.lang.String dataout;
 
     public ProgramInterfaceApel_afac_pms_o() {

@@ -7,105 +7,115 @@
 
 package com.Response.AWMLIP8I.AWLIW8CO.www;
 
+import cl.tchile.adapter.StringAdapter;
+import cl.tchile.adapter.UnsignedIntAdapter;
+import cl.tchile.adapter.UnsignedShortAdapter;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAwlip8Co_salida  implements java.io.Serializable {
     private java.lang.String awlip8Co_o_finpaginacion;
 
+    @XmlJavaTypeAdapter(value = UnsignedShortAdapter.class, type = Short.class)
     private org.apache.axis.types.UnsignedShort awlip8Co_o_numregistros;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_nom_pag;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_ape1_pag;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_ape2_pag;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_nom_tit;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_ape1_tit;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_ape2_tit;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_rut_tit;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_dvf_tit;
-
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlip8Co_o_sec_tit;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_cod_seg;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_desc_seg;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_fec_alta_li;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_tipo_clie;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_desc_tipo_clie;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_calle;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_num;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_dpto;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_post;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_comun;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_ciuda;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_calle_cob;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_num_cob;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_dpto_cob;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_post_cob;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_comun_cob;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_ciuda_cob;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_zona;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_central;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_pta_comercial;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_fec_instalacion;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_tipo_linea;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_desc_tipo_linea;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_ind_fact;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_est_linea;
 
     private com.Response.AWMLIP8I.AWLIW8CO.www.ProgramInterfaceAwlip8Co_salidaAwlip8Co_o_pi_cliente[] awlip8Co_o_pi_cliente;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_cod_ret;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_desc_cod_ret;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_cod_sub_seg;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_cod_agencia;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_desc_agencia;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_cod_comun;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_cod_comun_cob;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_desc_zona_cent;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_desc_sub_seg;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_plan_minuto;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_mail_cliente;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_fecha_alt_clte;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awlip8Co_o_sec_lin;
 
     public ProgramInterfaceAwlip8Co_salida() {
@@ -1388,6 +1398,7 @@ public class ProgramInterfaceAwlip8Co_salida  implements java.io.Serializable {
         return _equals;
     }
 
+    @XmlTransient
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {

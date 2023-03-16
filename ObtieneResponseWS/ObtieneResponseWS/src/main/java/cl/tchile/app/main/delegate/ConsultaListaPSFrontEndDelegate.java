@@ -109,8 +109,8 @@ public class ConsultaListaPSFrontEndDelegate {
 //                    consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
                 } else {
 
-                    int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ListaPSFrontEnd", null,
-                        fonoCompleto);
+                    int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ListaPSFrontEnd", fonoCompleto,
+                        null, null);
 
                     if (codBD == 0) {
                         System.out.println(fonoCompleto + " | Error insert BD ");

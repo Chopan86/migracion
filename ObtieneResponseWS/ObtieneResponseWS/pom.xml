@@ -92,44 +92,12 @@
 			<version>1.1</version>
 		</dependency>
 
-		
-		<dependency>
-			<artifactId>ConsultaClienteRutLineaB</artifactId>
-			<groupId>cl.tch.unifica</groupId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/libs/ConsultaClienteRutLineaB.jar</systemPath>
-			<version>{version}</version>
-		</dependency>
 
 		<dependency>
 			<artifactId>queryproduct</artifactId>
 			<groupId>cl.tch.unifica</groupId>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/libs/queryproduct.jar</systemPath>
-			<version>{version}</version>
-		</dependency>
-
-		<dependency>
-			<artifactId>consultaclienterutlineac</artifactId>
-			<groupId>cl.tch.unifica</groupId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/libs/consultaclienterutlineac.jar</systemPath>
-			<version>{version}</version>
-		</dependency>
-
-		<dependency>
-			<artifactId>consultapsprincipaleslineas</artifactId>
-			<groupId>cl.tch.unifica</groupId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/libs/consultapsprincipaleslineas.jar</systemPath>
-			<version>{version}</version>
-		</dependency>
-
-		<dependency>
-			<artifactId>ListaPsLineaV8</artifactId>
-			<groupId>cl.tch.unifica</groupId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/libs/ListaPsLineaV8.jar</systemPath>
 			<version>{version}</version>
 		</dependency>
 
@@ -233,8 +201,8 @@
 							<mainClass>cl.tch.app.MovistarPayPagoRecurrenteApplication</mainClass>
 						</manifest>
 						<manifestEntries>
-				             <Class-Path>./ConsultaClienteRutLineaB.jar ./consultaclienterutlineac.jar ./consultapsprincipaleslineas.jar
-								./queryproduct.jar ./ListaPsLineaV8.jar
+				             <Class-Path>
+								./queryproduct.jar
 							 </Class-Path>
 				        </manifestEntries>
 					</archive>

@@ -196,6 +196,10 @@ public class ConsultaClienteRutFonoLineaHelper {
                     isFirstRow = false;
                     continue;
                 }
+                // Validar que existe mas data, sino salirse del FOR
+                if (row.getCell(0) == null || row.getCell(0).getStringCellValue().trim().isEmpty()) {
+                    break;
+                }
                 // Cada fila es una celda del excel
                 if (nameProcess.equalsIgnoreCase("consultaPsPorLinea") || nameProcess.equalsIgnoreCase(
                     "consultaListaPsLineaV8")) {

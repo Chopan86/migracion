@@ -1,20 +1,22 @@
 package cl.tchile.app.main.delegate;
 
-import cl.tch.unifica.services.consultapsprincipaleslineas.ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas;
-import cl.tch.unifica.services.consultapsprincipaleslineas.ProgramInterfaceAccpspwo_salida;
-import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import com.Request.ACCPSPWI.ACCPSPWS.www.ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas;
+import com.Response.ACCPSPWI.ACCPSPWS.www.ProgramInterfaceAccpspwo_salida;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +51,16 @@ public class ConsultaPsPrincipalesLineasDelegate {
      * listRepeatClients
      */
     List<String> listRepeatClients = new ArrayList<>();
+
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
     /**
      * endPointDataVO
      */
     EndPointDataVO endPointDataVO = new EndPointDataVO(
         "http://esb1.ctc.cl:8080/services/ConsultaPSPrincipalesLineas",
         "5000",
-        "cl.tch.unifica.services.consultapsprincipaleslineas.ACCPSPWSServiceLocator"
+        "com.ACCPSPWI.ACCPSPWS.www.ACCPSPWSServiceLocator"
     );
 
     public void consultaPsPrincipalesLineas() {
@@ -78,7 +83,8 @@ public class ConsultaPsPrincipalesLineasDelegate {
     public void callConsultaPsPrincipalesLineas(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
         try {
-            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LINEASPSPRIN");
+//            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LINEASPSPRIN");
+            boolean fonoRepetido = false;
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: {}", fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
@@ -88,10 +94,25 @@ public class ConsultaPsPrincipalesLineasDelegate {
                 ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas[] entrada = fillRequestIn(clienteVO);
                 salida = callEndpointHelper
                     .callEndPointSoapStubLineasPrincipales(endPointDataVO).ACCPSPWSOperation(entrada);
+
                 StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSPRIN");
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAccpspwo_salida.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+                String xmlString = stringWriter.toString();
+
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ConsultaPSPrincipalesLineas", fonoCompleto,
+                    null, null);
+
+                if (codBD == 0) {
+                    System.out.println(fonoCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+                }
+
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto,
+//                    "RUTA_SALIDA_LINEASPSPRIN");
             }
 
         } catch (Exception e) {

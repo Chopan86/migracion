@@ -7,13 +7,25 @@
 
 package com.Response.ACCPSPWI.ACCPSPWS.www;
 
+import cl.tchile.adapter.StringAdapter;
+import cl.tchile.adapter.UnsignedIntAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAccpspwo_salidaAccpspwo_o_lineasAccpspwo_ps_lineas  implements java.io.Serializable {
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt accpspwo_o_ps;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String accpspwo_o_desc;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String accpspwo_o_cod_fam;
-
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt accpspwo_o_subgr2;
 
     public ProgramInterfaceAccpspwo_salidaAccpspwo_o_lineasAccpspwo_ps_lineas() {
@@ -138,6 +150,7 @@ public class ProgramInterfaceAccpspwo_salidaAccpspwo_o_lineasAccpspwo_ps_lineas 
         return _equals;
     }
 
+    @XmlTransient
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {

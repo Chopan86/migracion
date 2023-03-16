@@ -7,6 +7,8 @@
 
 package com.Response.AWLC01WI.AWLC01WS.www;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public class ProgramInterfaceAwlc01Z3_salidaAwlc01Z3_o_lineasAwlc01Z3_o_direccion_cob  implements java.io.Serializable {
     private java.lang.String awlc01Z3_o_calle_cob;
 
@@ -218,7 +220,7 @@ public class ProgramInterfaceAwlc01Z3_salidaAwlc01Z3_o_lineasAwlc01Z3_o_direccio
         __equalsCalc = null;
         return _equals;
     }
-
+    @XmlTransient
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {

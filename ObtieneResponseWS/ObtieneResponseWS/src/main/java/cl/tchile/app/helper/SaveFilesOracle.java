@@ -32,15 +32,16 @@ public class SaveFilesOracle {
      */
     private static final Logger LOGGER = LogManager.getLogger(SaveFilesOracle.class);
 	
-	public int saveResponseInBD(String xmlResponse, String wsName, String linea, String rut) throws ClassNotFoundException, SQLException {
+	public int saveResponseInBD(String xmlResponse, String wsName, String linea, String rut, String fechaIniLi) throws ClassNotFoundException, SQLException {
 //		getConnection();
 		LOGGER.info("Inicia insert");
-		String sql = "INSERT INTO MIGRADOS(RUT, SALIDA, SERVICIO, LINEA) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO MIGRADOS(RUT, SALIDA, SERVICIO, LINEA, FECHA_INI_LI) VALUES (?, ?, ?, ?, ?)";
 	      PreparedStatement statement = conn.prepareStatement(sql);
 	      statement.setString(1, rut);
 	      statement.setString(2, xmlResponse);
 	      statement.setString(3, wsName);
 	      statement.setString(4, linea);
+	      statement.setString(5, fechaIniLi);
 
 	      int codBD = statement.executeUpdate();
 	      
@@ -94,9 +95,9 @@ public class SaveFilesOracle {
 	
 	
 	public void getConnection() throws ClassNotFoundException, SQLException {
-		String dbURL = "jdbc:oracle:thin:@10.186.218.41:1521:cer02";
-	      String username = "ws_portalpagos";
-	      String password = "ws#k03pg";
+		String dbURL = "jdbc:oracle:thin:@10.186.243.192:1521/cercomp03";
+	      String username = "REC_TEC";
+	      String password = "RKujz8NK";
 	      Class.forName("oracle.jdbc.driver.OracleDriver");
 	      conn = DriverManager.getConnection(dbURL, username, password);
 	}

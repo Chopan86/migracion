@@ -10,6 +10,7 @@ package com.Response.AWLC01WI.AWLC01WS.www;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import cl.tchile.adapter.UnsignedIntAdapter;
@@ -797,6 +798,7 @@ public class ProgramInterfaceAwlc01Z3_salidaAwlc01Z3_o_lineas  implements java.i
         return _equals;
     }
 
+    @XmlTransient
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {

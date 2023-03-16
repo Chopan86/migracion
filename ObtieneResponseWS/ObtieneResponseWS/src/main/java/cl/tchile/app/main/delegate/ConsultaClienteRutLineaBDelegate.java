@@ -39,7 +39,7 @@ public class ConsultaClienteRutLineaBDelegate {
      */
     @Autowired
     GeneralHelper generalHelper;
-    
+
     @Autowired
     SaveFilesOracle saveFilesOracle;
 
@@ -77,7 +77,7 @@ public class ConsultaClienteRutLineaBDelegate {
         for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;
             LOGGER.info(generalHelper.progressPercent(indexLista, clienteVOList.size()));
-            callConsultaClienteRutLinaBxFono(clienteVO.getArea(), clienteVO.getFono(),endPointDataVO);
+            callConsultaClienteRutLinaBxFono(clienteVO.getArea(), clienteVO.getFono(), endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
@@ -98,7 +98,7 @@ public class ConsultaClienteRutLineaBDelegate {
         for (ClienteVO clienteVO : listaRutClientes) {
             indexLista++;
             LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size()));
-            callConsultaClienteRutLinaB(clienteVO.getRut(), clienteVO.getDv(),endPointDataVO);
+            callConsultaClienteRutLinaB(clienteVO.getRut(), clienteVO.getDv(), endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
@@ -138,38 +138,27 @@ public class ConsultaClienteRutLineaBDelegate {
                 stub.setTimeout(Integer.parseInt(timeOut));
                 salida = stub.AWLC01WSOperation(entrada);
                 StringWriter sw = new StringWriter();
-                
+
                 JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                xmlString = xmlString.replace("</awlc01Z3_o_direccion_cob>\n"
-                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_direccion_cob>")
-                		.replace("</awlc01Z3_o_lineas>\n"
-                				+ "    <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_lineas>")
-                		.replace("<awlc01Z3_o_direccion_cob/>\n"
-                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "<awlc01Z3_o_direccion_cob/>");
-                
+
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", null, rutCompleto,
+                    null);
+
+                if (codBD == 0) {
+                    System.out.println(rutCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(rutCompleto + " | Error insert BD ");
+                }
+
                 /**
-                 * 
-                 * DESCOMENTAR PARA INSERTAR EN BD
-                 * 
-                 * 
-                 * */
-//                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", null, rutCompleto);
-//                
-//                if(codBD == 0) {
-//                	System.out.println(rutCompleto + " | Error insert BD ");
-//                	listClientsNoResponse.add(rutCompleto + " | Error insert BD ");
-//                }
-                
-                /**
-                 * 
+                 *
                  * DESCOMENTAR PARA GUARDAR ARCHIVOS
-                 * 
-                 * 
+                 *
+                 *
                  * */
 //                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_B");
             }
@@ -184,7 +173,8 @@ public class ConsultaClienteRutLineaBDelegate {
     public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
         String fonoCompleto = area + fono.substring(1);
         try {
-            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSB");
+//            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSB");
+            boolean fonoRepetido = false;
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: " + fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
@@ -207,42 +197,26 @@ public class ConsultaClienteRutLineaBDelegate {
                 stub.setTimeout(Integer.valueOf(timeOut));
                 salida = stub.AWLC01WSOperation(entrada);
                 StringWriter sw = new StringWriter();
-                
-//                JAXB.marshal(salida, sw);
-//                String xmlString = sw.toString();
-                
+
                 JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
-//                JAXB.marshal(salida, sw);
-//                String xmlString = sw.toString();
                 String xmlString = stringWriter.toString();
-                xmlString = xmlString.replace("</awlc01Z3_o_direccion_cob>\n"
-                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_direccion_cob>")
-                		.replace("</awlc01Z3_o_lineas>\n"
-                				+ "    <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_lineas>")
-                		.replace("<awlc01Z3_o_direccion_cob/>\n"
-                		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "<awlc01Z3_o_direccion_cob/>");
-                
+
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", fonoCompleto, null,
+                    null);
+
+                if (codBD == 0) {
+                    System.out.println(fonoCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+                }
                 /**
-                 * 
-                 * DESCOMENTAR PARA INSERTAR EN BD
-                 * 
-                 * 
-                 * */
-//              int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", fonoCompleto, null);
-//              
-//              if(codBD == 0) {
-//              	System.out.println(fonoCompleto + " | Error insert BD ");
-//              	listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
-//              }
-                /**
-                 * 
+                 *
                  * DESCOMENTAR PARA GUARDAR ARCHIVOS
-                 * 
-                 * 
+                 *
+                 *
                  * */
 //                consultarClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_FONOSB");
             }

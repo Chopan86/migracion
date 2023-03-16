@@ -65,7 +65,7 @@ public class ConsultaClienteRutLineaCDelegate {
     EndPointDataVO endPointDataVO = new EndPointDataVO(
         "http://esb0.ctc.cl:8082/services/consultaClienteRutLineaC",
         Constantes.TIMEOUT15,
-        "cl.tch.unifica.fe.services.consultaclienterutlineac.AWLC02WSServiceLocator"
+        "com.AWLC02WI.AWLC02WS.www.AWLC02WSServiceLocator"
     );
 
     /**
@@ -108,7 +108,8 @@ public class ConsultaClienteRutLineaCDelegate {
     public void callConsultaClienteRutLinaCxFono(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
         try {
-            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSC");
+//            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSC");
+            boolean fonoRepetido = false;
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: {}", fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
@@ -126,7 +127,7 @@ public class ConsultaClienteRutLineaCDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
 
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", fonoCompleto, null);
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", fonoCompleto, null, null);
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
@@ -186,7 +187,7 @@ public class ConsultaClienteRutLineaCDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
 
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", null, rutCompleto);
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", null, rutCompleto, null);
 
                 if (codBD == 0) {
                     System.out.println(rutCompleto + " | Error insert BD ");

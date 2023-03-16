@@ -5,18 +5,22 @@ import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import com.Request.AWMLIP8I.AWLIW8CO.www.ProgramInterfaceAwlip8Co_entrada;
 import com.Request.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_entrada;
 import com.Response.AWMLIP8I.AWLIW8CO.www.ProgramInterfaceAwlip8Co_salida;
 import com.Response.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_salida;
+import com.Response.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,9 @@ public class ConsultaListaPsLineaV {
 
     @Autowired
     CallEndpointHelper callEndpointHelper;
+
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
     /**
      * listClientsNoResponse
      */
@@ -66,7 +73,8 @@ public class ConsultaListaPsLineaV {
         LOGGER.info("******** INICIO PROCESO CONSULTA ListaPsLineaV8 ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSLISTAPSLINEAV8;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTALISTAPSLINEAV8;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel("C:/WorkspaceMigracionMainFrame/psporlinea.xlsx","consultaListaPsLineaV8");
+        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
+            "C:/WorkspaceMigracionMainFrame/psporlinea.xlsx", "consultaListaPsLineaV8");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
@@ -82,6 +90,7 @@ public class ConsultaListaPsLineaV {
             clienteVO.getArea() + clienteVO.getFono();
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LISTAPSLINEAV8");
+            fonoRepetido = false; //BORRAR
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: {}", fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
@@ -91,11 +100,27 @@ public class ConsultaListaPsLineaV {
                 ProgramInterfaceAwlip8Co_entrada entrada = fillRequestIn(clienteVO);
                 salida = callEndpointHelper
                     .callEndPointSoapStubConsultaListaPsLineaV8(endPointDataVO).AWLIW8COOperation(entrada);
+
                 StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto,
-                    "RUTA_SALIDA_LISTAPSLINEAV8");
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlip8Co_salida.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshaller.setProperty("com.sun.xml.bind.xmlHeaders", "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+                String xmlString = stringWriter.toString();
+                System.out.println("");
+
+//                //TODO: Ver Formato De Fono 00222456875
+//                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "listaPsLineaV8", fonoCompleto,
+//                    null);
+//
+//                if (codBD == 0) {
+//                    System.out.println(fonoCompleto + " | Error insert BD ");
+//                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+//                }
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto,
+//                    "RUTA_SALIDA_LISTAPSLINEAV8");
             }
 
         } catch (Exception e) {
