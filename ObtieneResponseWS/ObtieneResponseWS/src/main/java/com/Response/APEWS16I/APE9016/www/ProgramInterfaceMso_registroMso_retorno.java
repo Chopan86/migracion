@@ -7,13 +7,22 @@
 
 package com.Response.APEWS16I.APE9016.www;
 
+import cl.tchile.adapter.StringAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceMso_registroMso_retorno  implements java.io.Serializable {
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String mso_cod_retorno;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String mso_cod_error;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String mso_descripcion_error;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String mso_filler;
 
     public ProgramInterfaceMso_registroMso_retorno() {
@@ -137,7 +146,7 @@ public class ProgramInterfaceMso_registroMso_retorno  implements java.io.Seriali
         __equalsCalc = null;
         return _equals;
     }
-
+    @XmlTransient
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {

@@ -41,7 +41,7 @@ public class ConsultaApelAlturas {
      */
     @Autowired
     GeneralHelper generalHelper;
-    
+
     @Autowired
     SaveFilesOracle saveFilesOracle;
 
@@ -71,12 +71,18 @@ public class ConsultaApelAlturas {
     );
 
     public void consultaApelAlturas() {
+        ClienteVO defaultResClienteVO = new ClienteVO();
+        defaultResClienteVO.setCodAltura("");
+        defaultResClienteVO.setCodCiudad("");
+        defaultResClienteVO.setCodCalle("");
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA ApelAlturas ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSLISTAAPELALTURAS;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAAPELALTURAS;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel("C:/WorkspaceMigracionMainFrame/ListaRequestConsultaApelAltura.xlsx", "consultaApelAlturas");
+        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
+            "C:/WorkspaceMigracionMainFrame/ListaRequestConsultaApelAltura.xlsx", "consultaApelAlturas");
+        listaClientes.add(defaultResClienteVO);
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
@@ -101,15 +107,17 @@ public class ConsultaApelAlturas {
                 ProgramInterfaceMsi_registro entrada = fillRequestIn(clienteVO);
                 salida = callEndpointHelper
                     .callEndPointSoapStubConsultaApelAlturas(endPointDataVO).APE9016Operation(entrada);
+                String xmlString;
+                if (entrada.getMsi_entrada().getMsi_alt().equalsIgnoreCase("")) {
+                    salida.getMso_salida().setFiller1("STGO 004028000100");
+                }
                 StringWriter sw = new StringWriter();
-                
-                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceMso_registro.class);
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
-                String xmlString = stringWriter.toString();
-
+                xmlString = stringWriter.toString();
                 int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(clienteVO, xmlString));
 
                 if (codBD == 0) {
@@ -129,23 +137,25 @@ public class ConsultaApelAlturas {
     }
 
     private MigracionVO setMigracionVO(ClienteVO clienteVO, String xmlString) {
-    	MigracionVO vo = new MigracionVO();
-    	vo.setServicio("ApelAfac");
-    	vo.setCiudad(clienteVO.getCodCiudad());
-    	vo.setCalle(clienteVO.getCodCalle());
-    	vo.setAltura(clienteVO.getCodAltura());
-    	vo.setSalida(xmlString);
-		return vo;
-	}
+        MigracionVO vo = new MigracionVO();
+        vo.setServicio("consultaApelAlturas");
+        vo.setCiudad(clienteVO.getCodCiudad().isEmpty() ? "DEAFULT" : clienteVO.getCodCiudad());
+        vo.setCalle(clienteVO.getCodCalle().isEmpty() ? "DEAFULT" : clienteVO.getCodCalle());
+        vo.setAltura(clienteVO.getCodAltura().isEmpty() ? "DEAFULT" : clienteVO.getCodAltura());
+        vo.setSalida(xmlString);
+        return vo;
+    }
 
-	private ProgramInterfaceMsi_registro fillRequestIn(ClienteVO clienteVO) {
+    private ProgramInterfaceMsi_registro fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceMsi_registro entrada = new ProgramInterfaceMsi_registro();
         ProgramInterfaceMsi_registroMsi_entrada entradaRegistro = new ProgramInterfaceMsi_registroMsi_entrada();
         entradaRegistro.setFiller1("");
         entradaRegistro.setFiller2("");
         entradaRegistro.setMsi_ciu(clienteVO.getCodCiudad());
-        entradaRegistro.setMsi_cll(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getCodCalle(),6,Constantes.cCOD_ZERO));
-        entradaRegistro.setMsi_alt(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getCodAltura(),6,Constantes.cCOD_ZERO));
+        entradaRegistro.setMsi_cll(
+            generalHelper.rellenarCadenaPorIzquierda(clienteVO.getCodCalle(), 6, Constantes.cCOD_ZERO));
+        entradaRegistro.setMsi_alt(
+            generalHelper.rellenarCadenaPorIzquierda(clienteVO.getCodAltura(), 6, Constantes.cCOD_ZERO));
         entrada.setMsi_entrada(entradaRegistro);
         return entrada;
     }
