@@ -34,22 +34,20 @@ public class SaveFilesOracle {
     private static final Logger LOGGER = LogManager.getLogger(SaveFilesOracle.class);
 	
 	public int saveResponseInBD(MigracionVO vo) throws ClassNotFoundException, SQLException {
-//		getConnection();
 		LOGGER.info("Inicia insert");
 		String sql = "INSERT INTO MIGRADOS(RUT, SALIDA, SERVICIO, LINEA, FECHA_INI_LI, CIUDAD, CALLE, ALTURA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	      PreparedStatement statement = conn.prepareStatement(sql);
 	      statement.setString(1, vo.getRut());
 	      statement.setString(2, vo.getSalida());
-	      statement.setString(3, vo.getLinea());
-	      statement.setString(4, vo.getServicio());
+	      statement.setString(3, vo.getServicio());
+	      statement.setString(4, vo.getLinea());
 	      statement.setString(5, vo.getFechaIniLi());
 	      statement.setString(6, vo.getCiudad());
 	      statement.setString(7, vo.getCalle());
 	      statement.setString(8, vo.getAltura());
 
 	      int codBD = statement.executeUpdate();
-	      
-//	      closeConnection();
+
 	      LOGGER.info("fin insert: "+ codBD);
 	      return codBD;
 	}

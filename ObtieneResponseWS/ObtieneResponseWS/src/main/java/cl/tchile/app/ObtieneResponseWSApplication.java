@@ -80,16 +80,16 @@ public class ObtieneResponseWSApplication implements CommandLineRunner {
 //    	consultaClienteRutLineaCDelegate.consultaClienteRutLineaCImpl();
 //		consultaClienteRutLineaCDelegate.consultaClienteRutlineaCxFono();
 //		consultaClienteRutLineaBDelegate.consultaClienteRutLineaBImpl();
-		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
+//		consultaClienteRutLineaBDelegate.consultaClienteRutlineaBxFono();
 //		consultaPsPrincipalesLineasDelegate.consultaPsPrincipalesLineas();
 //		consultaQueryProductDelegate.consultaQueryProduct();
 //		consultaAFACDelegate.consultaAfac();
 //        consultaListaPSFrontEndDelegate.consultaPsFrontEnd();
 //        consultaPsPorLiena.consultaPsPorLinea();
-//        consultaListaPsLineaV.consultaListaPsLineaV8();
+        consultaListaPsLineaV.consultaListaPsLineaV8();
 
 //		consultaApelAlturas.consultaApelAlturas();
-        
+//
 			saveFilesOracle.closeConnection();
 			LOGGER.info("Connection close");
 		} catch (ClassNotFoundException | SQLException e) {

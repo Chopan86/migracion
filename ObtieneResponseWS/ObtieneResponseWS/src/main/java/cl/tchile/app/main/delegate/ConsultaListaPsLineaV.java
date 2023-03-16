@@ -76,7 +76,7 @@ public class ConsultaListaPsLineaV {
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSLISTAPSLINEAV8;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTALISTAPSLINEAV8;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
-            "C:/WorkspaceMigracionMainFrame/psporlinea.xlsx", "consultaListaPsLineaV8");
+            "C:/WorkspaceMigracionMainFrame/psporlineaTest.xlsx", "consultaListaPsLineaV8");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
@@ -108,7 +108,6 @@ public class ConsultaListaPsLineaV {
                 JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlip8Co_salida.class);
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshaller.setProperty("com.sun.xml.bind.xmlHeaders", "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
