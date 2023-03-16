@@ -87,7 +87,8 @@ public class ConsultaListaPsLineaV {
 
     public void callConsultaListaPsLineaV8(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto =
-            clienteVO.getArea() + clienteVO.getFono();
+            generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) +
+            generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LISTAPSLINEAV8");
             fonoRepetido = false; //BORRAR
@@ -109,9 +110,7 @@ public class ConsultaListaPsLineaV {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                System.out.println("");
 
-//                //TODO: Ver Formato De Fono 00222456875
 //                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "listaPsLineaV8", fonoCompleto,
 //                    null);
 //
@@ -132,8 +131,8 @@ public class ConsultaListaPsLineaV {
 
     private ProgramInterfaceAwlip8Co_entrada fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceAwlip8Co_entrada entrada = new ProgramInterfaceAwlip8Co_entrada();
-        entrada.setAwlip8Co_i_area(clienteVO.getArea());
-        entrada.setAwlip8Co_i_num_com(clienteVO.getFono());
+        entrada.setAwlip8Co_i_area(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(),3,Constantes.cCOD_ZERO));
+        entrada.setAwlip8Co_i_num_com(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(),8,Constantes.cCOD_ZERO));
         entrada.setFiller1("");
         return entrada;
     }

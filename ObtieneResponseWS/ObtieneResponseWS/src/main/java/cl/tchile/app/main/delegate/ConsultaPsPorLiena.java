@@ -82,8 +82,10 @@ public class ConsultaPsPorLiena {
     }
 
     public void callConsultaPsPorLinea(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
-        String fonoCompleto =
-            clienteVO.getArea() + clienteVO.getFono() + "-" + clienteVO.getInicioVigencia();
+        String fonoCompletoBD =
+                generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) +
+                generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
+        String fonoCompleto = fonoCompletoBD+"-"+clienteVO.getInicioVigencia();
         try {
             boolean fonoRepetido = false;
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_PSPORLINEA");
@@ -104,16 +106,16 @@ public class ConsultaPsPorLiena {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                System.out.println("");
-//                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaPSporLinea", clienteVO.getArea() + clienteVO.getFono(),
-//                    null, entrada.getAwps01Co_i_fec_ini_li());
-//
-//                if (codBD == 0) {
-//                    System.out.println(fonoCompleto + " | Error insert BD ");
-//                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
-//                }
 
-//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto,
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaPSporLinea", clienteVO.getArea() + clienteVO.getFono(),
+                    null, entrada.getAwps01Co_i_fec_ini_li());
+
+                if (codBD == 0) {
+                    System.out.println(fonoCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+                }
+
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompletoBD,
 //                    "RUTA_SALIDA_PSPORLINEA");
             }
 
@@ -126,8 +128,8 @@ public class ConsultaPsPorLiena {
 
     private ProgramInterfaceAwps01Co_entrada fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceAwps01Co_entrada entrada = new ProgramInterfaceAwps01Co_entrada();
-        entrada.setAwps01Co_i_area(clienteVO.getArea());
-        entrada.setAwps01Co_i_num_com(clienteVO.getFono());
+        entrada.setAwps01Co_i_area(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(),3,Constantes.cCOD_ZERO));
+        entrada.setAwps01Co_i_num_com(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(),8,Constantes.cCOD_ZERO));
         entrada.setAwps01Co_i_fec_ini_li(clienteVO.getInicioVigencia());
         entrada.setFiller1("");
         return entrada;

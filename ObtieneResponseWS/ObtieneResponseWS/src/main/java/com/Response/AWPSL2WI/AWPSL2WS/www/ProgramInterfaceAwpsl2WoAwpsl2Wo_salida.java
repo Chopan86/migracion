@@ -7,6 +7,7 @@
 
 package com.Response.AWPSL2WI.AWPSL2WS.www;
 
+import cl.tchile.adapter.StringAdapter;
 import cl.tchile.adapter.UnsignedIntAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,16 +19,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAwpsl2WoAwpsl2Wo_salida implements java.io.Serializable {
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awpsl2Wo_cod_ret;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awpsl2Wo_desc_ret;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awpsl2Wo_cod_db;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awpsl2Wo_parrafo;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awpsl2Wo_servicio;
-
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String awpsl2Wo_finpag;
     @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awpsl2Wo_numreg;
@@ -114,8 +116,6 @@ public class ProgramInterfaceAwpsl2WoAwpsl2Wo_salida implements java.io.Serializ
     public java.lang.String getAwpsl2Wo_parrafo() {
         return awpsl2Wo_parrafo;
     }
-
-
 
     /**
      * Sets the awpsl2Wo_parrafo value for this ProgramInterfaceAwpsl2WoAwpsl2Wo_salida.

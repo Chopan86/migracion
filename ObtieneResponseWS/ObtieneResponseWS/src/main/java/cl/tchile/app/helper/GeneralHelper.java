@@ -167,4 +167,8 @@ public class GeneralHelper {
 				e.printStackTrace();
 			}
 	}
+
+	public String quitarNumerosIzquierda(String numero){
+		return numero.replaceFirst("^0+(?!$)", "");
+	}
 }
