@@ -101,4 +101,12 @@ public class ClienteVO extends RutClienteVO{
 		super(area, fono, inicioVigencia, rut, dv);
 	}
 
+	@Override
+	public String toString() {
+		return "ClienteVO [idFono=" + idFono + ", idTypeCall=" + idTypeCall + ", codCiudad=" + codCiudad + ", codCalle="
+				+ codCalle + ", codAltura=" + codAltura + "]";
+	}
+	
+	
+
 }

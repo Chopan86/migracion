@@ -6,6 +6,8 @@ import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
 import com.Request.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_entrada;
 import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
@@ -145,10 +147,9 @@ public class ConsultaClienteRutLineaBDelegate {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", null, rutCompleto,
-                    null);
-
+                
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut",rutCompleto, xmlString));
+                
                 if (codBD == 0) {
                     System.out.println(rutCompleto + " | Error insert BD ");
                     listClientsNoResponse.add(rutCompleto + " | Error insert BD ");
@@ -170,7 +171,20 @@ public class ConsultaClienteRutLineaBDelegate {
         }
     }
 
-    public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
+    private MigracionVO setMigracionVO(String tipo, String valueTipo, String xmlString) {
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("consultaClienteRutLineaB");
+    	if("rut".equals(tipo)) {
+    		vo.setRut(valueTipo);
+    		vo.setSalida(xmlString);
+    	}else {
+    		vo.setLinea(valueTipo);
+    		vo.setSalida(xmlString);
+    	}
+		return vo;
+	}
+
+	public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
         String fonoCompleto = area + fono.substring(1);
         try {
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSB");
@@ -205,8 +219,7 @@ public class ConsultaClienteRutLineaBDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
 
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaB", fonoCompleto, null,
-                    null);
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea",fonoCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");

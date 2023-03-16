@@ -7,6 +7,8 @@ import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import com.Request.ACCPSPWI.ACCPSPWS.www.ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas;
 import com.Response.ACCPSPWI.ACCPSPWS.www.ProgramInterfaceAccpspwo_salida;
 import org.apache.logging.log4j.LogManager;
@@ -101,10 +103,9 @@ public class ConsultaPsPrincipalesLineasDelegate {
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
-                String xmlString = stringWriter.toString();
-
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ConsultaPSPrincipalesLineas", fonoCompleto,
-                    null, null);
+                String xmlString = stringWriter.toString();                
+                
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
@@ -122,7 +123,15 @@ public class ConsultaPsPrincipalesLineasDelegate {
         }
     }
 
-    private ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas[] fillRequestIn(ClienteVO clienteVO) {
+    private MigracionVO setMigracionVO(String fonoCompleto, String xmlString) {
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("ConsultaPSPrincipalesLineas");
+    	vo.setLinea(fonoCompleto);
+    	vo.setSalida(xmlString);
+		return vo;
+	}
+
+	private ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas[] fillRequestIn(ClienteVO clienteVO) {
 
         ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas[] entrada = new ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas[50];
         entrada[0] = new ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas();

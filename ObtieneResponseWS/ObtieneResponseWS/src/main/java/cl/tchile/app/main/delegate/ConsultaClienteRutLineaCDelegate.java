@@ -7,6 +7,8 @@ import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,7 +129,7 @@ public class ConsultaClienteRutLineaCDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
 
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", fonoCompleto, null, null);
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea",fonoCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
@@ -143,6 +145,19 @@ public class ConsultaClienteRutLineaCDelegate {
             listClientsNoResponse.add(fonoCompleto + " | " + e);
         }
     }
+    
+    private MigracionVO setMigracionVO(String tipo, String valueTipo, String xmlString) {
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("consultaClienteRutLineaC");
+    	if("rut".equals(tipo)) {
+    		vo.setRut(valueTipo);
+    		vo.setSalida(xmlString);
+    	}else {
+    		vo.setLinea(valueTipo);
+    		vo.setSalida(xmlString);
+    	}
+		return vo;
+	}
 
     /**
      * @param clienteVO ClienteVO
@@ -187,7 +202,7 @@ public class ConsultaClienteRutLineaCDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
 
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", null, rutCompleto, null);
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut",rutCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(rutCompleto + " | Error insert BD ");

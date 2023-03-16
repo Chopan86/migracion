@@ -10,6 +10,8 @@ import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import com.Request.WSPMS.APELAFAC.www.ProgramInterfaceApel_afac_pms_i;
 import com.Response.WSPMS.APELAFAC.www.ProgramInterfaceApel_afac_pms_o;
 import org.apache.logging.log4j.LogManager;
@@ -94,9 +96,8 @@ public class ConsultaAFACDelegate {
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
-
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ConsultaRecursosAFAC", fonoCompleto,
-                    null, null);
+                
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
@@ -113,7 +114,15 @@ public class ConsultaAFACDelegate {
         }
     }
 
-    private ProgramInterfaceApel_afac_pms_i fillRequestIn(ClienteVO clienteVO) {
+    private MigracionVO setMigracionVO(String fonoCompleto, String xmlString) {
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("ConsultaRecursosAFAC");
+    	vo.setLinea(fonoCompleto);
+    	vo.setSalida(xmlString);
+		return vo;
+	}
+
+	private ProgramInterfaceApel_afac_pms_i fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceApel_afac_pms_i entrada = new ProgramInterfaceApel_afac_pms_i();
         String dataInCompleta =
             generalHelper.formatearAreaFono(clienteVO.getArea()) + generalHelper.formatearFono(clienteVO.getArea(),

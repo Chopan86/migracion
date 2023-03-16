@@ -7,8 +7,11 @@ import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,10 @@ import java.util.List;
 public class ConsultaQueryProductDelegate {
 
     private static final Logger LOGGER = LogManager.getLogger(ConsultaQueryProductDelegate.class);
+    
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
+    
     /**
      * The general helper.
      */
@@ -94,7 +101,14 @@ public class ConsultaQueryProductDelegate {
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
-                System.out.println(xmlString);
+                
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
+                
+                if (codBD == 0) {
+                    System.out.println(fonoCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+                }
+                
 //                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_QUERY_PRODUCTS");
             }
 
@@ -104,6 +118,14 @@ public class ConsultaQueryProductDelegate {
             listClientsNoResponse.add(fonoCompleto + " | " + e);
         }
     }
+    
+    private MigracionVO setMigracionVO(String fonoCompleto, String xmlString) {
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("queryproduct");
+    	vo.setLinea(fonoCompleto);
+    	vo.setSalida(xmlString);
+		return vo;
+	}
 
     private QueryproductRequest fillRequestIn(ClienteVO clienteVO, String cod) {
         QueryproductRequest entrada = new QueryproductRequest();

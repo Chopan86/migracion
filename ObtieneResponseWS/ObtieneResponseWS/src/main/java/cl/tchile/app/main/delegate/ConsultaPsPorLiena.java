@@ -7,6 +7,8 @@ import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import com.Request.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_entrada;
 import com.Response.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_salida;
 import org.apache.logging.log4j.LogManager;
@@ -106,9 +108,8 @@ public class ConsultaPsPorLiena {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-
-                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaPSporLinea", clienteVO.getArea() + clienteVO.getFono(),
-                    null, entrada.getAwps01Co_i_fec_ini_li());
+                
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString, entrada.getAwps01Co_i_fec_ini_li()));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
@@ -126,7 +127,16 @@ public class ConsultaPsPorLiena {
         }
     }
 
-    private ProgramInterfaceAwps01Co_entrada fillRequestIn(ClienteVO clienteVO) {
+    private MigracionVO setMigracionVO(String fonoCompleto, String xmlString, String fechaIniLi) {
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("consultaPSporLinea");
+    	vo.setLinea(fonoCompleto);
+    	vo.setSalida(xmlString);
+    	vo.setFechaIniLi(fechaIniLi);
+		return vo;
+	}
+
+	private ProgramInterfaceAwps01Co_entrada fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceAwps01Co_entrada entrada = new ProgramInterfaceAwps01Co_entrada();
         entrada.setAwps01Co_i_area(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(),3,Constantes.cCOD_ZERO));
         entrada.setAwps01Co_i_num_com(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(),8,Constantes.cCOD_ZERO));

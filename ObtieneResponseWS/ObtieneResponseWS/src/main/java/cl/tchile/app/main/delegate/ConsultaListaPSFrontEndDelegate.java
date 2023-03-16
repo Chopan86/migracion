@@ -8,6 +8,8 @@ import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import com.Request.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wi;
 import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
 import com.Response.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wo;
@@ -108,9 +110,8 @@ public class ConsultaListaPSFrontEndDelegate {
                 if(!salida.getAwpsl2Wo_salida().getAwpsl2Wo_cod_ret().equalsIgnoreCase("000")){
 //                    consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
                 } else {
-
-                    int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ListaPSFrontEnd", fonoCompleto,
-                        null, null);
+                	
+                	int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
 
                     if (codBD == 0) {
                         System.out.println(fonoCompleto + " | Error insert BD ");
@@ -128,7 +129,16 @@ public class ConsultaListaPSFrontEndDelegate {
         }
     }
 
-    private ProgramInterfaceAwpsl2Wi fillRequestIn(ClienteVO clienteVO, String cod) {
+    private MigracionVO setMigracionVO(String fonoCompleto, String xmlString) {
+		MigracionVO vo = new MigracionVO();
+		vo.setServicio("ListaPSFrontEnd");
+		vo.setLinea(fonoCompleto);
+		vo.setSalida(xmlString);
+		return vo;
+	}
+
+
+	private ProgramInterfaceAwpsl2Wi fillRequestIn(ClienteVO clienteVO, String cod) {
         ProgramInterfaceAwpsl2Wi entrada = new ProgramInterfaceAwpsl2Wi();
         entrada.setAwpsl2Wi_area(generalHelper.formatearAreaFono(clienteVO.getArea()));
         entrada.setAwpsl2Wi_num_com(generalHelper.formatearFono(clienteVO.getArea(), clienteVO.getFono()));

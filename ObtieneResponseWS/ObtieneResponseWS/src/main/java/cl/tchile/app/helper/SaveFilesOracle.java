@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import cl.tchile.app.ObtieneResponseWSApplication;
+import cl.tchile.vo.MigracionVO;
 
 /**
  * @author fsaavedr
@@ -32,16 +33,19 @@ public class SaveFilesOracle {
      */
     private static final Logger LOGGER = LogManager.getLogger(SaveFilesOracle.class);
 	
-	public int saveResponseInBD(String xmlResponse, String wsName, String linea, String rut, String fechaIniLi) throws ClassNotFoundException, SQLException {
+	public int saveResponseInBD(MigracionVO vo) throws ClassNotFoundException, SQLException {
 //		getConnection();
 		LOGGER.info("Inicia insert");
-		String sql = "INSERT INTO MIGRADOS(RUT, SALIDA, SERVICIO, LINEA, FECHA_INI_LI) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO MIGRADOS(RUT, SALIDA, SERVICIO, LINEA, FECHA_INI_LI, CIUDAD, CALLE, ALTURA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	      PreparedStatement statement = conn.prepareStatement(sql);
-	      statement.setString(1, rut);
-	      statement.setString(2, xmlResponse);
-	      statement.setString(3, wsName);
-	      statement.setString(4, linea);
-	      statement.setString(5, fechaIniLi);
+	      statement.setString(1, vo.getRut());
+	      statement.setString(2, vo.getSalida());
+	      statement.setString(3, vo.getLinea());
+	      statement.setString(4, vo.getServicio());
+	      statement.setString(5, vo.getFechaIniLi());
+	      statement.setString(6, vo.getCiudad());
+	      statement.setString(7, vo.getCalle());
+	      statement.setString(8, vo.getAltura());
 
 	      int codBD = statement.executeUpdate();
 	      

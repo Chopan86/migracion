@@ -5,17 +5,25 @@ import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
+
 import com.Request.APEWS16I.APE9016.www.ProgramInterfaceMsi_registro;
 import com.Request.APEWS16I.APE9016.www.ProgramInterfaceMsi_registroMsi_entrada;
 import com.Response.APEWS16I.APE9016.www.ProgramInterfaceMso_registro;
+import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +41,9 @@ public class ConsultaApelAlturas {
      */
     @Autowired
     GeneralHelper generalHelper;
+    
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
 
     /**
      * The general helper.
@@ -91,10 +102,23 @@ public class ConsultaApelAlturas {
                 salida = callEndpointHelper
                     .callEndPointSoapStubConsultaApelAlturas(endPointDataVO).APE9016Operation(entrada);
                 StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, codCiudadCalleAltura,
-                    "RUTA_SALIDA_APELALTURAS");
+                
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+                String xmlString = stringWriter.toString();
+
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(clienteVO, xmlString));
+
+                if (codBD == 0) {
+                    System.out.println(clienteVO.toString() + " | Error insert BD ");
+                    listClientsNoResponse.add(clienteVO.toString() + " | Error insert BD ");
+                }
+//                
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, codCiudadCalleAltura,
+//                    "RUTA_SALIDA_APELALTURAS");
             }
 
         } catch (Exception e) {
@@ -104,7 +128,17 @@ public class ConsultaApelAlturas {
         }
     }
 
-    private ProgramInterfaceMsi_registro fillRequestIn(ClienteVO clienteVO) {
+    private MigracionVO setMigracionVO(ClienteVO clienteVO, String xmlString) {
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("ApelAfac");
+    	vo.setCiudad(clienteVO.getCodCiudad());
+    	vo.setCalle(clienteVO.getCodCalle());
+    	vo.setAltura(clienteVO.getCodAltura());
+    	vo.setSalida(xmlString);
+		return vo;
+	}
+
+	private ProgramInterfaceMsi_registro fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceMsi_registro entrada = new ProgramInterfaceMsi_registro();
         ProgramInterfaceMsi_registroMsi_entrada entradaRegistro = new ProgramInterfaceMsi_registroMsi_entrada();
         entradaRegistro.setFiller1("");
