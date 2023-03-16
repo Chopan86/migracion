@@ -93,13 +93,13 @@
 		</dependency>
 
 
-		<dependency>
+		<!--<dependency>
 			<artifactId>queryproduct</artifactId>
 			<groupId>cl.tch.unifica</groupId>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/libs/queryproduct.jar</systemPath>
 			<version>{version}</version>
-		</dependency>
+		</dependency>-->
 
 		<!-- Integracion SOAP -->
 		<dependency>
@@ -202,7 +202,6 @@
 						</manifest>
 						<manifestEntries>
 				             <Class-Path>
-								./queryproduct.jar
 							 </Class-Path>
 				        </manifestEntries>
 					</archive>

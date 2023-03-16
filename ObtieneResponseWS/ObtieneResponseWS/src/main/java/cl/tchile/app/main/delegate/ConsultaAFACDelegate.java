@@ -1,7 +1,5 @@
 package cl.tchile.app.main.delegate;
 
-import cl.movistar.queryproduct.queryproduct.QueryproductRequest;
-import cl.movistar.queryproduct.queryproduct.QueryproductResponse;
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;

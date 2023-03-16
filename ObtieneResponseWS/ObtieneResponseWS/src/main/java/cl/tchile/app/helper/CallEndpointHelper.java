@@ -1,6 +1,5 @@
 package cl.tchile.app.helper;
 
-import cl.movistar.queryproduct.queryproduct.QueryproductBindingStub;
 
 import cl.tchile.vo.EndPointDataVO;
 import com.ACCPSPWI.ACCPSPWS.www.ACCPSPWSHTTPSoapBindingStub;
@@ -10,6 +9,8 @@ import com.AWMLIP8I.AWLIW8CO.www.AWLIW8COHTTPSoapBindingStub;
 import com.AWPS01WI.AWPS01WS.www.AWPS01WSHTTPSoapBindingStub;
 import com.AWPSL2WI.AWPSL2WS.www.AWPSL2WSHTTPSoapBindingStub;
 import com.WSPMS.APELAFAC.www.APELAFACHTTPSoapBindingStub;
+import com.telefonica.midrange.queryproductService.QueryproductBindingStub;
+
 import org.apache.axis.AxisFault;
 import org.springframework.stereotype.Component;
 

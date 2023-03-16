@@ -1,7 +1,6 @@
 package cl.tchile.app.main.delegate;
 
-import cl.movistar.queryproduct.queryproduct.QueryproductRequest;
-import cl.movistar.queryproduct.queryproduct.QueryproductResponse;
+
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
@@ -16,6 +15,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.telefonica.midrange.queryproductService.types.QueryproductRequest;
+import com.telefonica.midrange.queryproductService.types.QueryproductResponse;
 
 import javax.xml.bind.JAXB;
 import java.io.StringWriter;
@@ -69,18 +71,18 @@ public class ConsultaQueryProductDelegate {
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAQUERYPRODUCTS;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
-        ClienteVO clienteVO = new ClienteVO();
+//        ClienteVO clienteVO = new ClienteVO();
+//        
+//        clienteVO.setIdFono("000000000000000228353426");
+//        clienteVO.setIdTypeCall("fonoFijo");
         
-        clienteVO.setIdFono("000000000000000228353426");
-        clienteVO.setIdTypeCall("fonoFijo");
-        
-//        for (ClienteVO clienteVO : listaClientes) {
-//            indexLista++;
-//            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
+        for (ClienteVO clienteVO : listaClientes) {
+            indexLista++;
+            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaQueryProducts(clienteVO, endPointDataVO, String.valueOf(Constantes.cCOD_ZERO));
-//        }
+        }
 //        generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
-//        generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
+        generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
 
