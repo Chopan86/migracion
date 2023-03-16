@@ -221,37 +221,47 @@ public class ProgramInterfaceAwlc02Wo_salidaAwlc02Wo_o_lineasAwlc02Wo_o_direccio
         return _equals;
     }
 
-    private boolean __hashCodeCalc = false;
-    public synchronized int hashCode() {
-        if (__hashCodeCalc) {
-            return 0;
-        }
-        __hashCodeCalc = true;
-        int _hashCode = 1;
-        if (getAwlc02Wo_o_calle_cob() != null) {
-            _hashCode += getAwlc02Wo_o_calle_cob().hashCode();
-        }
-        if (getAwlc02Wo_o_num_cob() != null) {
-            _hashCode += getAwlc02Wo_o_num_cob().hashCode();
-        }
-        if (getAwlc02Wo_o_dpto_cob() != null) {
-            _hashCode += getAwlc02Wo_o_dpto_cob().hashCode();
-        }
-        if (getAwlc02Wo_o_post_cob() != null) {
-            _hashCode += getAwlc02Wo_o_post_cob().hashCode();
-        }
-        if (getAwlc02Wo_o_cod_comun_cob() != null) {
-            _hashCode += getAwlc02Wo_o_cod_comun_cob().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_comun_cob() != null) {
-            _hashCode += getAwlc02Wo_o_desc_comun_cob().hashCode();
-        }
-        if (getAwlc02Wo_o_ciuda_cob() != null) {
-            _hashCode += getAwlc02Wo_o_ciuda_cob().hashCode();
-        }
-        __hashCodeCalc = false;
-        return _hashCode;
-    }
+//    @XmlTransient
+//    public boolean is__hashCodeCalc() {
+//        return __hashCodeCalc;
+//    }
+//    @XmlTransient
+//    public Object get__equalsCalc() {
+//        return __equalsCalc;
+//    }
+
+
+//    private boolean __hashCodeCalc = false;
+//    public synchronized int hashCode() {
+//        if (__hashCodeCalc) {
+//            return 0;
+//        }
+//        __hashCodeCalc = true;
+//        int _hashCode = 1;
+//        if (getAwlc02Wo_o_calle_cob() != null) {
+//            _hashCode += getAwlc02Wo_o_calle_cob().hashCode();
+//        }
+//        if (getAwlc02Wo_o_num_cob() != null) {
+//            _hashCode += getAwlc02Wo_o_num_cob().hashCode();
+//        }
+//        if (getAwlc02Wo_o_dpto_cob() != null) {
+//            _hashCode += getAwlc02Wo_o_dpto_cob().hashCode();
+//        }
+//        if (getAwlc02Wo_o_post_cob() != null) {
+//            _hashCode += getAwlc02Wo_o_post_cob().hashCode();
+//        }
+//        if (getAwlc02Wo_o_cod_comun_cob() != null) {
+//            _hashCode += getAwlc02Wo_o_cod_comun_cob().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_comun_cob() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_comun_cob().hashCode();
+//        }
+//        if (getAwlc02Wo_o_ciuda_cob() != null) {
+//            _hashCode += getAwlc02Wo_o_ciuda_cob().hashCode();
+//        }
+//        __hashCodeCalc = false;
+//        return _hashCode;
+//    }
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =

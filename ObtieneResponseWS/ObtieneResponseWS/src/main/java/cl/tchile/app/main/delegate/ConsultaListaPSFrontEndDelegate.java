@@ -5,9 +5,11 @@ import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import com.Request.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wi;
+import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
 import com.Response.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +42,9 @@ public class ConsultaListaPSFrontEndDelegate {
 
     @Autowired
     ConsultaClienteRutFonoLineaHelper consultaClienteRutFonoLineaHelper;
+
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
     /**
      * listClientsNoResponse
      */
@@ -63,7 +70,7 @@ public class ConsultaListaPSFrontEndDelegate {
         LOGGER.info("******** INICIO PROCESO CONSULTA PsFrontEnd ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSFRONTEND;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSFRONTEND;
-        consultaClienteRutFonoLineaHelper.crearExcelErrorResponse(excelName);
+//        consultaClienteRutFonoLineaHelper.crearExcelErrorResponse(excelName);
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
@@ -81,6 +88,7 @@ public class ConsultaListaPSFrontEndDelegate {
 
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
+            fonoRepetido = false;
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: {}", fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
@@ -91,12 +99,24 @@ public class ConsultaListaPSFrontEndDelegate {
                 salida = callEndpointHelper
                     .callEndPointSoapStubLienasPsFrontEnd(endPointDataVO).AWPSL2WSOperation(entrada);
                 StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwpsl2Wo.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+                String xmlString = stringWriter.toString();
                 if(!salida.getAwpsl2Wo_salida().getAwpsl2Wo_cod_ret().equalsIgnoreCase("000")){
-                    consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
+//                    consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
                 } else {
-                    consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
+
+                    int codBD = saveFilesOracle.saveResponseInBD(xmlString, "ListaPSFrontEnd", null,
+                        fonoCompleto);
+
+                    if (codBD == 0) {
+                        System.out.println(fonoCompleto + " | Error insert BD ");
+                        listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+                    }
+//                    consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
                 }
 
             }

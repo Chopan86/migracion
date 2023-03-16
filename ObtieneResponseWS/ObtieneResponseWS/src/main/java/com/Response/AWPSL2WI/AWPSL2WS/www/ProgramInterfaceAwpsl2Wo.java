@@ -7,6 +7,13 @@
 
 package com.Response.AWPSL2WI.AWPSL2WS.www;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAwpsl2Wo  implements java.io.Serializable {
     private com.Response.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2WoAwpsl2Wo_salida awpsl2Wo_salida;
 
@@ -92,7 +99,9 @@ public class ProgramInterfaceAwpsl2Wo  implements java.io.Serializable {
         return _equals;
     }
 
+    @XmlTransient
     private boolean __hashCodeCalc = false;
+
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
             return 0;

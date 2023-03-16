@@ -1157,149 +1157,158 @@ public class ProgramInterfaceAwlc02Wo_salida  implements java.io.Serializable {
         __equalsCalc = null;
         return _equals;
     }
-    
-    
-    private boolean __hashCodeCalc = false;
-    public synchronized int hashCode() {
-        if (__hashCodeCalc) {
-            return 0;
-        }
-        __hashCodeCalc = true;
-        int _hashCode = 1;
-        if (getAwlc02Wo_o_cod_ret() != null) {
-            _hashCode += getAwlc02Wo_o_cod_ret().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_cod_ret() != null) {
-            _hashCode += getAwlc02Wo_o_desc_cod_ret().hashCode();
-        }
-        if (getAwlc02Wo_o_sqlcode() != null) {
-            _hashCode += getAwlc02Wo_o_sqlcode().hashCode();
-        }
-        if (getAwlc02Wo_o_parrafo() != null) {
-            _hashCode += getAwlc02Wo_o_parrafo().hashCode();
-        }
-        if (getAwlc02Wo_o_finpaginacion() != null) {
-            _hashCode += getAwlc02Wo_o_finpaginacion().hashCode();
-        }
-        if (getAwlc02Wo_o_numregistros() != null) {
-            _hashCode += getAwlc02Wo_o_numregistros().hashCode();
-        }
-        if (getAwlc02Wo_o_nom_pag() != null) {
-            _hashCode += getAwlc02Wo_o_nom_pag().hashCode();
-        }
-        if (getAwlc02Wo_o_ape1_pag() != null) {
-            _hashCode += getAwlc02Wo_o_ape1_pag().hashCode();
-        }
-        if (getAwlc02Wo_o_ape2_pag() != null) {
-            _hashCode += getAwlc02Wo_o_ape2_pag().hashCode();
-        }
-        if (getAwlc02Wo_o_nom_tit() != null) {
-            _hashCode += getAwlc02Wo_o_nom_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_ape1_tit() != null) {
-            _hashCode += getAwlc02Wo_o_ape1_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_ape2_tit() != null) {
-            _hashCode += getAwlc02Wo_o_ape2_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_rut_tit() != null) {
-            _hashCode += getAwlc02Wo_o_rut_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_dvf_tit() != null) {
-            _hashCode += getAwlc02Wo_o_dvf_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_sec_tit() != null) {
-            _hashCode += getAwlc02Wo_o_sec_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_raz_soc() != null) {
-            _hashCode += getAwlc02Wo_o_raz_soc().hashCode();
-        }
-        if (getAwlc02Wo_o_nom_fan() != null) {
-            _hashCode += getAwlc02Wo_o_nom_fan().hashCode();
-        }
-        if (getAwlc02Wo_o_cod_giro() != null) {
-            _hashCode += getAwlc02Wo_o_cod_giro().hashCode();
-        }
-        if (getAwlc02Wo_o_tipo_clie() != null) {
-            _hashCode += getAwlc02Wo_o_tipo_clie().hashCode();
-        }
-        if (getAwlc02Wo_o_tipo_seg() != null) {
-            _hashCode += getAwlc02Wo_o_tipo_seg().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_tipo_clie() != null) {
-            _hashCode += getAwlc02Wo_o_desc_tipo_clie().hashCode();
-        }
-        if (getAwlc02Wo_o_cod_seg() != null) {
-            _hashCode += getAwlc02Wo_o_cod_seg().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_seg() != null) {
-            _hashCode += getAwlc02Wo_o_desc_seg().hashCode();
-        }
-        if (getAwlc02Wo_o_cod_sub_seg() != null) {
-            _hashCode += getAwlc02Wo_o_cod_sub_seg().hashCode();
-        }
-        if (getAwlc02Wo_o_tipo_clie_mac() != null) {
-            _hashCode += getAwlc02Wo_o_tipo_clie_mac().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_clie_mac() != null) {
-            _hashCode += getAwlc02Wo_o_desc_clie_mac().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_sub_seg() != null) {
-            _hashCode += getAwlc02Wo_o_desc_sub_seg().hashCode();
-        }
-        if (getAwlc02Wo_o_mail_cliente() != null) {
-            _hashCode += getAwlc02Wo_o_mail_cliente().hashCode();
-        }
-        if (getAwlc02Wo_o_fecha_alt_clte() != null) {
-            _hashCode += getAwlc02Wo_o_fecha_alt_clte().hashCode();
-        }
-        if (getAwlc02Wo_o_area_fax() != null) {
-            _hashCode += getAwlc02Wo_o_area_fax().hashCode();
-        }
-        if (getAwlc02Wo_o_num_fax() != null) {
-            _hashCode += getAwlc02Wo_o_num_fax().hashCode();
-        }
-        if (getAwlc02Wo_o_num_celula() != null) {
-            _hashCode += getAwlc02Wo_o_num_celula().hashCode();
-        }
-        if (getAwlc02Wo_o_pag_web() != null) {
-            _hashCode += getAwlc02Wo_o_pag_web().hashCode();
-        }
-        if (getAwlc02Wo_o_calle_tit() != null) {
-            _hashCode += getAwlc02Wo_o_calle_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_num_tit() != null) {
-            _hashCode += getAwlc02Wo_o_num_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_piso_tit() != null) {
-            _hashCode += getAwlc02Wo_o_piso_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_dpto_tit() != null) {
-            _hashCode += getAwlc02Wo_o_dpto_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_comun_tit() != null) {
-            _hashCode += getAwlc02Wo_o_desc_comun_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_desc_ciuda_tit() != null) {
-            _hashCode += getAwlc02Wo_o_desc_ciuda_tit().hashCode();
-        }
-        if (getAwlc02Wo_o_lineas() != null) {
-            for (int i=0;
-                 i<java.lang.reflect.Array.getLength(getAwlc02Wo_o_lineas());
-                 i++) {
-                java.lang.Object obj = java.lang.reflect.Array.get(getAwlc02Wo_o_lineas(), i);
-                if (obj != null &&
-                    !obj.getClass().isArray()) {
-                    _hashCode += obj.hashCode();
-                }
-            }
-        }
-        if (getAwlc02Wo_o_respaldo() != null) {
-            _hashCode += getAwlc02Wo_o_respaldo().hashCode();
-        }
-        __hashCodeCalc = false;
-        return _hashCode;
-    }
+
+//    @XmlTransient
+//    public boolean is__hashCodeCalc() {
+//        return __hashCodeCalc;
+//    }
+//
+//    @XmlTransient
+//    public Object get__equalsCalc() {
+//        return __equalsCalc;
+//    }
+//
+//    private boolean __hashCodeCalc = false;
+//    public synchronized int hashCode() {
+//        if (__hashCodeCalc) {
+//            return 0;
+//        }
+//        __hashCodeCalc = true;
+//        int _hashCode = 1;
+//        if (getAwlc02Wo_o_cod_ret() != null) {
+//            _hashCode += getAwlc02Wo_o_cod_ret().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_cod_ret() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_cod_ret().hashCode();
+//        }
+//        if (getAwlc02Wo_o_sqlcode() != null) {
+//            _hashCode += getAwlc02Wo_o_sqlcode().hashCode();
+//        }
+//        if (getAwlc02Wo_o_parrafo() != null) {
+//            _hashCode += getAwlc02Wo_o_parrafo().hashCode();
+//        }
+//        if (getAwlc02Wo_o_finpaginacion() != null) {
+//            _hashCode += getAwlc02Wo_o_finpaginacion().hashCode();
+//        }
+//        if (getAwlc02Wo_o_numregistros() != null) {
+//            _hashCode += getAwlc02Wo_o_numregistros().hashCode();
+//        }
+//        if (getAwlc02Wo_o_nom_pag() != null) {
+//            _hashCode += getAwlc02Wo_o_nom_pag().hashCode();
+//        }
+//        if (getAwlc02Wo_o_ape1_pag() != null) {
+//            _hashCode += getAwlc02Wo_o_ape1_pag().hashCode();
+//        }
+//        if (getAwlc02Wo_o_ape2_pag() != null) {
+//            _hashCode += getAwlc02Wo_o_ape2_pag().hashCode();
+//        }
+//        if (getAwlc02Wo_o_nom_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_nom_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_ape1_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_ape1_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_ape2_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_ape2_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_rut_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_rut_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_dvf_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_dvf_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_sec_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_sec_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_raz_soc() != null) {
+//            _hashCode += getAwlc02Wo_o_raz_soc().hashCode();
+//        }
+//        if (getAwlc02Wo_o_nom_fan() != null) {
+//            _hashCode += getAwlc02Wo_o_nom_fan().hashCode();
+//        }
+//        if (getAwlc02Wo_o_cod_giro() != null) {
+//            _hashCode += getAwlc02Wo_o_cod_giro().hashCode();
+//        }
+//        if (getAwlc02Wo_o_tipo_clie() != null) {
+//            _hashCode += getAwlc02Wo_o_tipo_clie().hashCode();
+//        }
+//        if (getAwlc02Wo_o_tipo_seg() != null) {
+//            _hashCode += getAwlc02Wo_o_tipo_seg().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_tipo_clie() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_tipo_clie().hashCode();
+//        }
+//        if (getAwlc02Wo_o_cod_seg() != null) {
+//            _hashCode += getAwlc02Wo_o_cod_seg().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_seg() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_seg().hashCode();
+//        }
+//        if (getAwlc02Wo_o_cod_sub_seg() != null) {
+//            _hashCode += getAwlc02Wo_o_cod_sub_seg().hashCode();
+//        }
+//        if (getAwlc02Wo_o_tipo_clie_mac() != null) {
+//            _hashCode += getAwlc02Wo_o_tipo_clie_mac().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_clie_mac() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_clie_mac().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_sub_seg() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_sub_seg().hashCode();
+//        }
+//        if (getAwlc02Wo_o_mail_cliente() != null) {
+//            _hashCode += getAwlc02Wo_o_mail_cliente().hashCode();
+//        }
+//        if (getAwlc02Wo_o_fecha_alt_clte() != null) {
+//            _hashCode += getAwlc02Wo_o_fecha_alt_clte().hashCode();
+//        }
+//        if (getAwlc02Wo_o_area_fax() != null) {
+//            _hashCode += getAwlc02Wo_o_area_fax().hashCode();
+//        }
+//        if (getAwlc02Wo_o_num_fax() != null) {
+//            _hashCode += getAwlc02Wo_o_num_fax().hashCode();
+//        }
+//        if (getAwlc02Wo_o_num_celula() != null) {
+//            _hashCode += getAwlc02Wo_o_num_celula().hashCode();
+//        }
+//        if (getAwlc02Wo_o_pag_web() != null) {
+//            _hashCode += getAwlc02Wo_o_pag_web().hashCode();
+//        }
+//        if (getAwlc02Wo_o_calle_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_calle_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_num_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_num_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_piso_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_piso_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_dpto_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_dpto_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_comun_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_comun_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_desc_ciuda_tit() != null) {
+//            _hashCode += getAwlc02Wo_o_desc_ciuda_tit().hashCode();
+//        }
+//        if (getAwlc02Wo_o_lineas() != null) {
+//            for (int i=0;
+//                 i<java.lang.reflect.Array.getLength(getAwlc02Wo_o_lineas());
+//                 i++) {
+//                java.lang.Object obj = java.lang.reflect.Array.get(getAwlc02Wo_o_lineas(), i);
+//                if (obj != null &&
+//                    !obj.getClass().isArray()) {
+//                    _hashCode += obj.hashCode();
+//                }
+//            }
+//        }
+//        if (getAwlc02Wo_o_respaldo() != null) {
+//            _hashCode += getAwlc02Wo_o_respaldo().hashCode();
+//        }
+//        __hashCodeCalc = false;
+//        return _hashCode;
+//    }
 
     // Type metadata
     private static org.apache.axis.description.TypeDesc typeDesc =

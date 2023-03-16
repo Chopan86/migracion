@@ -4,6 +4,7 @@ import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import org.apache.logging.log4j.LogManager;
@@ -48,6 +49,9 @@ public class ConsultaClienteRutLineaCDelegate {
 
     @Autowired
     CallEndpointHelper callEndpointHelper;
+
+    @Autowired
+    SaveFilesOracle saveFilesOracle;
 
     /**
      * Listas clientes repetidos
@@ -114,10 +118,22 @@ public class ConsultaClienteRutLineaCDelegate {
                 ProgramInterfaceAwlc02Wi_entrada entrada = fillRequestIn(clienteVO,
                     String.valueOf(Constantes.cCOD_ZERO));
                 salida = callEndpointHelper.callEndPointSoapStub(endPointDataVO).AWLC02WSOperation(entrada);
-                StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_FONOSC");
+
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc02Wo_salida.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+                String xmlString = stringWriter.toString();
+
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", fonoCompleto, null);
+
+                if (codBD == 0) {
+                    System.out.println(fonoCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
+                }
+
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_FONOSC");
             }
 
         } catch (Exception e) {
@@ -152,6 +168,7 @@ public class ConsultaClienteRutLineaCDelegate {
         try {
             rutCompleto = clienteVO.getRut() + "-" + clienteVO.getDv();
             boolean rutRepetido = generalHelper.isRepeatValue(rutCompleto, "RUTA_SALIDA_RUT_C");
+            rutRepetido = false;//Quitar
             if (rutRepetido) {
                 LOGGER.info("SE AGREGA RUT A REPETIDOS: " + rutCompleto);
                 listRepeatClients.add(rutCompleto);
@@ -161,19 +178,20 @@ public class ConsultaClienteRutLineaCDelegate {
                 ProgramInterfaceAwlc02Wo_salida salida;
                 ProgramInterfaceAwlc02Wi_entrada entrada = fillRequestIn(clienteVO, (Constantes.sCOD_ONE));
                 salida = callEndpointHelper.callEndPointSoapStub(endPointDataVO).AWLC02WSOperation(entrada);
-                StringWriter sw = new StringWriter();
-                JAXB.marshal(salida, sw);
-//                String xmlString = sw.toString();
                 
-                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc02Wo_salida.class);
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
-//                JAXB.marshal(salida, sw);
-//                String xmlString = sw.toString();
                 String xmlString = stringWriter.toString();
-                System.out.println(xmlString);
+
+                int codBD = saveFilesOracle.saveResponseInBD(xmlString, "consultaClienteRutLineaC", null, rutCompleto);
+
+                if (codBD == 0) {
+                    System.out.println(rutCompleto + " | Error insert BD ");
+                    listClientsNoResponse.add(rutCompleto + " | Error insert BD ");
+                }
 //                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_C");
             }
         } catch (Exception e) {

@@ -7,6 +7,16 @@
 
 package com.Response.AWPSL2WI.AWPSL2WS.www;
 
+import cl.tchile.adapter.UnsignedIntAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAwpsl2WoAwpsl2Wo_lista_ps  implements java.io.Serializable {
     private java.lang.String awpsl2Wo_cod_ps;
 
@@ -39,7 +49,7 @@ public class ProgramInterfaceAwpsl2WoAwpsl2Wo_lista_ps  implements java.io.Seria
     private java.lang.String awpsl2Wo_des_subg2;
 
     private java.lang.String awpsl2Wo_est_ps;
-
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awpsl2Wo_cant_ps;
 
     public ProgramInterfaceAwpsl2WoAwpsl2Wo_lista_ps() {
@@ -488,8 +498,9 @@ public class ProgramInterfaceAwpsl2WoAwpsl2Wo_lista_ps  implements java.io.Seria
         __equalsCalc = null;
         return _equals;
     }
-
+    @XmlTransient
     private boolean __hashCodeCalc = false;
+
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
             return 0;

@@ -144,8 +144,6 @@ public class ConsultaClienteRutLineaBDelegate {
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
-//                JAXB.marshal(salida, sw);
-//                String xmlString = sw.toString();
                 String xmlString = stringWriter.toString();
                 xmlString = xmlString.replace("</awlc01Z3_o_direccion_cob>\n"
                 		+ "        <__hashCodeCalc>false</__hashCodeCalc>", "</awlc01Z3_o_direccion_cob>")
