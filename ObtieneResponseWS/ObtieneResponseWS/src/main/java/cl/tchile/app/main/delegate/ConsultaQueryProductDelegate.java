@@ -60,7 +60,7 @@ public class ConsultaQueryProductDelegate {
     EndPointDataVO endPointDataVO = new EndPointDataVO(
         "http://esb1.ctc.cl:4453/QueryProductWEB/services/queryproduct",
         Constantes.TIMEOUT15,
-        "cl.movistar.queryproduct.queryproduct.QueryproductServiceLocator"
+        "com.telefonica.midrange.queryproductService.QueryproductServiceLocator"
     );
 
     public void consultaQueryProduct(){
@@ -100,6 +100,9 @@ public class ConsultaQueryProductDelegate {
                 QueryproductRequest entrada = fillRequestIn(clienteVO, cod);
                 salida = callEndpointHelper
                     .callEndPointSoapStubQueryProducts(endPointDataVO).consultaQueryProduct(entrada);
+                if(null != salida && !salida.getResponseMsj().getCodError().equalsIgnoreCase("000")){
+                    throw new Exception(salida.getResponseMsj().getCodError() + " | " + salida.getResponseMsj().getMsgError());
+                }
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
