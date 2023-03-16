@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+	targetNamespace="http://midrange.telefonica.com/queryproductService"
+	xmlns:imports="http://midrange.telefonica.com/queryproductService/types"
+	xmlns:tns="http://midrange.telefonica.com/queryproductService"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<types>
+		<xsd:schema
+			targetNamespace="http://midrange.telefonica.com/queryproductService/types"
+			xmlns:tnsType="http://midrange.telefonica.com/queryproductService/types"
+			elementFormDefault="qualified"
+			xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/" >
+			
+			<!-- ######## INICIO definición esquemas ######## -->
+
+			<!-- Tipo Complejo para REQUEST del servicio -->
+			<xsd:complexType name="queryproductRequest">
+				<xsd:sequence>
+				
+				<!-- id: elemento restringido por mínimo y máximo de caracteres y Obligatorio -->
+					<xsd:element name="id" nillable="false">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:minLength value="24"/>
+								<xsd:maxLength value="24"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					
+					<!-- idType de elemento restringido por mínimo y máximo de caracteres y Obligatorio -->
+					<xsd:element name="idType" nillable="false">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:minLength value="8"/> <!-- fonoFijo-->
+								<xsd:maxLength value="18"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					
+				</xsd:sequence>
+			</xsd:complexType>
+			<!-- Tipo Complejo para REQUEST del servicio -->
+
+			<!-- Tipo Complejo para RESPONSE del servicio -->
+			<xsd:complexType name="queryproductResponse">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="0" name="ResponseMsj" type="tnsType:ResponseMsj"/>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="ResponseData" type="tnsType:product"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<!-- Tipo Complejo para RESPONSE del servicio -->
+			<!-- ResponseMsj Tipo Complejo -->
+			<xsd:complexType name="ResponseMsj">
+				<xsd:sequence>
+					<xsd:element name="codError" nillable="true" type="xsd:string"/>
+					<xsd:element name="msgError" nillable="true" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+			<!-- Product: Tipo Complejo -->
+			<xsd:complexType name="product">
+				<xsd:sequence>
+					<xsd:element name="idType" nillable="true" type="tnsType:stringLimit_18"/>
+					<xsd:element name="id" nillable="true" type="tnsType:stringLimit_24"/>
+					<xsd:element name="name" nillable="true" type="tnsType:stringLimit_30"/>
+					<xsd:element name="description" nillable="true" type="tnsType:stringLimit_100"/>
+					<xsd:element maxOccurs="5" minOccurs="0" name="productBundle" type="tnsType:productBundle"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			
+				<!-- ProductBundle de Tipo Complejo -->
+				<xsd:complexType name="productBundle">
+					<xsd:sequence>
+						<xsd:element name="idType" nillable="true" type="tnsType:stringLimit_18"/>
+						<xsd:element name="id" nillable="true" type="tnsType:stringLimit_24"/>					
+						<xsd:element name="name" nillable="true" type="tnsType:stringLimit_30"/>
+						<xsd:element name="description" nillable="true" type="tnsType:stringLimit_100"/>
+						<xsd:element name="productStatus" nillable="true" type="tnsType:stringLimit_16"/>
+						<xsd:element name="productSerialNumber" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>					
+						<xsd:element maxOccurs="1" minOccurs="0" name="productCapacity" type="tnsType:productCapacity"/>					
+						<xsd:element maxOccurs="5" minOccurs="0" name="productOffering" type="tnsType:productOffering"/>
+						<xsd:element maxOccurs="60" minOccurs="0" name="productCharacteristic" type="tnsType:productCharacteristic"/>						
+						<xsd:element maxOccurs="1" minOccurs="0" name="place" type="tnsType:place"/>						
+						<xsd:element maxOccurs="1" minOccurs="0" name="productInvolvementRole" type="tnsType:productInvolvementRole"/>						
+						<xsd:element maxOccurs="30" minOccurs="0" name="customerFacingService" type="tnsType:customerFacingService"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="productPrice" type="tnsType:productPrice"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="productSpecification" type="tnsType:productSpecification"/>						
+					</xsd:sequence>
+				</xsd:complexType>
+			
+				<!-- validFor de Tipo Complejo -->
+				<xsd:complexType name="validFor">
+					<xsd:sequence>
+						<xsd:element name="startDateTime" nillable="true" type="xsd:dateTime"/>
+						<xsd:element name="endDateTime" nillable="true" type="xsd:dateTime"/>					
+					</xsd:sequence>
+				</xsd:complexType>
+				
+				<!-- ProductCapacity de Tipo Complejo -->
+				<xsd:complexType name="productCapacity">
+					<xsd:sequence>
+						<xsd:element name="plannedOrActualCapacity" nillable="true" type="tnsType:stringLimit_12"/>
+						<xsd:element name="capacityAmount" nillable="true" type="tnsType:longLimit_18"/>
+						<xsd:element name="capacityAmountFrom" nillable="true" type="tnsType:longLimit_18"/>
+						<xsd:element name="capacityAmountTo" nillable="true" type="tnsType:longLimit_18"/>
+						<xsd:element name="rangeInterval" nillable="true" type="tnsType:stringLimit_12"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				
+				<!-- ProductOffering de Tipo Complejo -->
+				<xsd:complexType name="productOffering">
+					<xsd:sequence>
+						<xsd:element name="id" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="name" nillable="true" type="tnsType:stringLimit_30"/>
+						<xsd:element name="description" nillable="true" type="tnsType:stringLimit_100"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>
+						<xsd:element name="status" nillable="true" type="tnsType:stringLimit_16"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				
+				<!-- ProductCharacteristic de Tipo Complejo -->
+				<xsd:complexType name="productCharacteristic">
+					<xsd:sequence>
+						<xsd:element name="idPs" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="descPs" nillable="true" type="tnsType:stringLimit_200"/>
+						<xsd:element name="idFam" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="descFam" nillable="true" type="tnsType:stringLimit_200"/>
+						<xsd:element name="idSubg1" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="descSubg1" nillable="true" type="tnsType:stringLimit_200"/>
+						<xsd:element name="idSubg2" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="descSubg2" nillable="true" type="tnsType:stringLimit_200"/>
+						<xsd:element name="talla" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				
+				<!-- Place de Tipo Complejo -->
+				<xsd:complexType name="place">
+					<xsd:sequence>
+						<xsd:element name="id" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="localAddress" type="tnsType:localAddress"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				
+						<!-- LocalAddress de Tipo Complejo -->
+						<xsd:complexType name="localAddress">
+							<xsd:sequence>
+								<xsd:element name="type" nillable="true" type="tnsType:stringLimit_18"/>
+								<xsd:element name="positionNr" nillable="true" type="tnsType:stringLimit_30"/>
+								<xsd:element name="fullAdress" nillable="true" type="tnsType:stringLimit_200"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					
+				<!-- ProductInvolvementRole de Tipo Complejo -->
+				<xsd:complexType name="productInvolvementRole">
+					<xsd:sequence>
+						<xsd:element name="involvementRole" nillable="true" type="tnsType:stringLimit_20"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="partyRole" type="tnsType:partyRole"/>
+						<xsd:element name="involvementIdentificationRole" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="customerAccount" type="tnsType:customerAccount"/>
+						<xsd:element name="resourceRole" nillable="true" type="tnsType:stringLimit_24"/>
+					</xsd:sequence>
+				</xsd:complexType>
+					
+						<!-- PartyRole de Tipo Complejo -->
+						<xsd:complexType name="partyRole">
+							<xsd:sequence>
+								<xsd:element name="partyRoleId" nillable="true" type="tnsType:stringLimit_24"/>
+								<xsd:element name="status" nillable="true" type="tnsType:stringLimit_16"/>
+								<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>
+								<xsd:element name="name" nillable="true" type="tnsType:stringLimit_30"/>
+							</xsd:sequence>
+						</xsd:complexType>
+						
+						<!-- CustomerAccount de Tipo Complejo -->
+						<xsd:complexType name="customerAccount">
+							<xsd:sequence>
+								<xsd:element name="id" nillable="true" type="tnsType:stringLimit_24"/>
+								<xsd:element name="name" nillable="true" type="tnsType:stringLimit_30"/>
+								<xsd:element name="accountType" nillable="true" type="tnsType:stringLimit_18"/>
+								<xsd:element name="accountStatus" nillable="true" type="tnsType:stringLimit_16"/>
+								<xsd:element name="creditLimit" nillable="true" type="tnsType:longLimit_18"/>
+								<xsd:element name="pin" nillable="true" type="tnsType:stringLimit_24"/>
+							</xsd:sequence>
+						</xsd:complexType>
+			
+			
+				<!-- CustomerFacingService de Tipo Complejo -->
+				<xsd:complexType name="customerFacingService">
+					<xsd:sequence>
+						<xsd:element name="isServiceEnabled" nillable="true" type="xsd:boolean"/>
+						<xsd:element name="hasStarted" nillable="true" type="xsd:boolean"/>
+						<xsd:element name="isMandatory" nillable="true" type="xsd:boolean"/>
+						<xsd:element name="startMode" nillable="true" type="tnsType:integerLimit_9"/>						
+						<xsd:element name="isStateful" nillable="true" type="xsd:boolean"/>
+						<xsd:element name="commonName" nillable="true" type="tnsType:stringLimit_30"/>
+						<xsd:element name="description" nillable="true" type="tnsType:stringLimit_100"/>
+						<xsd:element name="objectID" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="cfsStatus" nillable="true" type="tnsType:integerLimit_9"/>
+						<xsd:element maxOccurs="15" minOccurs="0" name="productCharacteristic" type="tnsType:productCharacteristic"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			
+				<!-- ProductPrice de Tipo Complejo -->
+				<xsd:complexType name="productPrice">
+					<xsd:sequence>
+						<xsd:element name="id" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="name" nillable="true" type="tnsType:stringLimit_30"/>
+						<xsd:element name="description" nillable="true" type="tnsType:stringLimit_100"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>
+					</xsd:sequence>
+				</xsd:complexType>
+				
+				<!-- ProductSpecification de Tipo Complejo -->
+				<xsd:complexType name="productSpecification">
+					<xsd:sequence>
+						<xsd:element name="id" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="name" nillable="true" type="tnsType:stringLimit_30"/>
+						<xsd:element name="description" nillable="true" type="tnsType:stringLimit_100"/>
+						<xsd:element name="productNumber" nillable="true" type="tnsType:stringLimit_24"/>
+						<xsd:element name="brand" nillable="true" type="tnsType:stringLimit_30"/>
+						<xsd:element maxOccurs="1" minOccurs="0" name="validFor" type="tnsType:validFor"/>
+						<xsd:element name="lifecycleStatus" nillable="true" type="tnsType:stringLimit_16"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			
+			
+			<!--INICIO Limitaciones -->
+			<!-- String-->
+			<xsd:simpleType name="stringLimit_12">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="12" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_14">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="14" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_16">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="16" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_18">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="18" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_20">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="20" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_24">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="24" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_30">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="30" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_35">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="35" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_100">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="100" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<xsd:simpleType name="stringLimit_200">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="200" />
+				</xsd:restriction>
+			</xsd:simpleType>
+					
+			<!-- Long-->
+			<xsd:simpleType name="longLimit_18">
+				<xsd:restriction base="xsd:long">
+					<xsd:maxInclusive value="999999999999999999" />
+				</xsd:restriction>
+			</xsd:simpleType>
+			
+			<!-- Integer-->
+			<xsd:simpleType name="integerLimit_9">
+				<xsd:restriction base="xsd:integer">
+					<xsd:maxInclusive value="999999999" />
+				</xsd:restriction>
+			</xsd:simpleType>			
+			<!--FIN Limitaciones -->
+			
+			
+			
+			
+			<!-- ######## FIN definición esquemas ######## -->
+
+			<!-- Definicion Request -->
+			<xsd:element name="consultaQueryProductMsgRequest" nillable="true" type="tnsType:queryproductRequest"/>
+			<!-- Definicion Request -->
+
+			<!-- Definicion Response -->
+			<xsd:element name="consultaQueryProductMsgResponse" nillable="true" type="tnsType:queryproductResponse"/>
+			<!-- Definicion Response -->
+
+		</xsd:schema>
+
+	</types>
+
+	<message name="consultaQueryProductRequestMsg">
+		<part element="imports:consultaQueryProductMsgRequest" name="consultaQueryProductRequestParameter"/>
+	</message>
+	<message name="consultaQueryProductResponseMsg">
+		<part element="imports:consultaQueryProductMsgResponse" name="consultaQueryProductResponseParameter"/>
+	</message>
+
+	<portType name="queryproductPortType">
+		<operation name="consultaQueryProduct">
+			<input message="tns:consultaQueryProductRequestMsg"/>
+			<output message="tns:consultaQueryProductResponseMsg"/>
+		</operation>
+	</portType>
+
+	<binding name="queryproductBinding" type="tns:queryproductPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="consultaQueryProduct">
+			<soap:operation soapAction="http://midrange.telefonica.com/queryproductService/consultaQueryProduct" style="document"/>
+			<input>
+				<soap:body parts="consultaQueryProductRequestParameter" use="literal"/>
+			</input>
+			<output>
+				<soap:body parts="consultaQueryProductResponseParameter" use="literal"/>
+			</output>
+		</operation>
+	</binding>
+
+	<service name="queryproductService">
+		<port binding="tns:queryproductBinding" name="queryproduct">
+			<soap:address location="http://localhost:8080/QueryProductWEB/services/queryproduct"/>
+		</port>
+	</service>
+
+</definitions>
