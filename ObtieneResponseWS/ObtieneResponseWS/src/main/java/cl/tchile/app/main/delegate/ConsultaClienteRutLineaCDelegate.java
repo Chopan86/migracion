@@ -1,7 +1,5 @@
 package cl.tchile.app.main.delegate;
 
-import cl.tch.unifica.fe.services.consultaclienterutlineac.ProgramInterfaceAwlc02Wi_entrada;
-import cl.tch.unifica.fe.services.consultaclienterutlineac.ProgramInterfaceAwlc02Wo_salida;
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
@@ -13,7 +11,14 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.Request.AWLC02WI.AWLC02WS.www.ProgramInterfaceAwlc02Wi_entrada;
+import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
+import com.Response.AWLC02WI.AWLC02WS.www.ProgramInterfaceAwlc02Wo_salida;
+
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,8 +163,18 @@ public class ConsultaClienteRutLineaCDelegate {
                 salida = callEndpointHelper.callEndPointSoapStub(endPointDataVO).AWLC02WSOperation(entrada);
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
-                String xmlString = sw.toString();
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_C");
+//                String xmlString = sw.toString();
+                
+                JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc01Z3_salida.class);
+                Marshaller marshaller = context.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                StringWriter stringWriter = new StringWriter();
+                marshaller.marshal(salida, stringWriter);
+//                JAXB.marshal(salida, sw);
+//                String xmlString = sw.toString();
+                String xmlString = stringWriter.toString();
+                System.out.println(xmlString);
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_C");
             }
         } catch (Exception e) {
             LOGGER.error(String.format("No se proceso el rut: %1$s por la siguiente razón: %2$s", rutCompleto, e));

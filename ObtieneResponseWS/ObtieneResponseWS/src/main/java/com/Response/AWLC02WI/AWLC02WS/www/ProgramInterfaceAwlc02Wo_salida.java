@@ -7,17 +7,29 @@
 
 package com.Response.AWLC02WI.AWLC02WS.www;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import cl.tchile.adapter.UnsignedIntAdapter;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceAwlc02Wo_salida  implements java.io.Serializable {
     private java.lang.String awlc02Wo_o_cod_ret;
 
     private java.lang.String awlc02Wo_o_desc_cod_ret;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlc02Wo_o_sqlcode;
 
     private java.lang.String awlc02Wo_o_parrafo;
 
     private java.lang.String awlc02Wo_o_finpaginacion;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlc02Wo_o_numregistros;
 
     private java.lang.String awlc02Wo_o_nom_pag;
@@ -35,7 +47,8 @@ public class ProgramInterfaceAwlc02Wo_salida  implements java.io.Serializable {
     private java.lang.String awlc02Wo_o_rut_tit;
 
     private java.lang.String awlc02Wo_o_dvf_tit;
-
+    
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt awlc02Wo_o_sec_tit;
 
     private java.lang.String awlc02Wo_o_raz_soc;
@@ -1144,7 +1157,8 @@ public class ProgramInterfaceAwlc02Wo_salida  implements java.io.Serializable {
         __equalsCalc = null;
         return _equals;
     }
-
+    
+    
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {

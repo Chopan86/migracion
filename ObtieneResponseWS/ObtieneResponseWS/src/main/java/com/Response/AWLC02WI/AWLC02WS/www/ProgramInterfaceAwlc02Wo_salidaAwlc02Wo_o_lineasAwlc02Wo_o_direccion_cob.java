@@ -7,6 +7,8 @@
 
 package com.Response.AWLC02WI.AWLC02WS.www;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 public class ProgramInterfaceAwlc02Wo_salidaAwlc02Wo_o_lineasAwlc02Wo_o_direccion_cob  implements java.io.Serializable {
     private java.lang.String awlc02Wo_o_calle_cob;
 

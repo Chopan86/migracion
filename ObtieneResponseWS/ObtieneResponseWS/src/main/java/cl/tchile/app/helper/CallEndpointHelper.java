@@ -1,10 +1,10 @@
 package cl.tchile.app.helper;
 
 import cl.movistar.queryproduct.queryproduct.QueryproductBindingStub;
-import cl.tch.unifica.fe.services.consultaclienterutlineac.AWLC02WSHTTPSoapBindingStub;
 import cl.tch.unifica.services.consultapsprincipaleslineas.ACCPSPWSHTTPSoapBindingStub;
 import cl.tchile.vo.EndPointDataVO;
 import com.APEWS16I.APE9016.www.APE9016HTTPSoapBindingStub;
+import com.AWLC02WI.AWLC02WS.www.AWLC02WSHTTPSoapBindingStub;
 import com.AWMLIP8I.AWLIW8CO.www.AWLIW8COHTTPSoapBindingStub;
 import com.AWPS01WI.AWPS01WS.www.AWPS01WSHTTPSoapBindingStub;
 import com.AWPSL2WI.AWPSL2WS.www.AWPSL2WSHTTPSoapBindingStub;
