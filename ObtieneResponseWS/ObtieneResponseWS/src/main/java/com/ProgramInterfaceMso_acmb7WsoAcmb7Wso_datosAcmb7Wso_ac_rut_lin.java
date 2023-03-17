@@ -7,9 +7,20 @@
 
 package com;
 
+import cl.tchile.adapter.StringAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramInterfaceMso_acmb7WsoAcmb7Wso_datosAcmb7Wso_ac_rut_lin  implements java.io.Serializable {
+
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String acmb7Wso_ac_rut;
 
+    @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String acmb7Wso_ac_dv;
 
     public ProgramInterfaceMso_acmb7WsoAcmb7Wso_datosAcmb7Wso_ac_rut_lin() {
@@ -83,7 +94,7 @@ public class ProgramInterfaceMso_acmb7WsoAcmb7Wso_datosAcmb7Wso_ac_rut_lin  impl
         __equalsCalc = null;
         return _equals;
     }
-
+    @XmlTransient
     private boolean __hashCodeCalc = false;
     public synchronized int hashCode() {
         if (__hashCodeCalc) {
