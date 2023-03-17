@@ -22,6 +22,7 @@ import javax.xml.bind.Marshaller;
 
 import java.io.StringWriter;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class ConsultaClienteRutLineaBDelegate {
     /**
      * consultaClienteRutlineaBxFono
      */
-    public void consultaClienteRutlineaBxFono() {
+    public void consultaClienteRutlineaBxFono() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         String pathSalidaRepetidos = "C:/telefonosRepetidos.txt";
@@ -78,6 +79,7 @@ public class ConsultaClienteRutLineaBDelegate {
         int indexLista = 0;
         for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, clienteVOList.size()));
             callConsultaClienteRutLinaBxFono(clienteVO.getArea(), clienteVO.getFono(), endPointDataVO);
         }
@@ -88,7 +90,7 @@ public class ConsultaClienteRutLineaBDelegate {
     /**
      * Consulta cliente rut linea B impl.
      */
-    public void consultaClienteRutLineaBImpl() {
+    public void consultaClienteRutLineaBImpl() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         String pathSalidaRepetidos = "C:/clientesRepetidos.txt";
@@ -99,6 +101,7 @@ public class ConsultaClienteRutLineaBDelegate {
         int indexLista = 0;
         for (ClienteVO clienteVO : listaRutClientes) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size()));
             callConsultaClienteRutLinaB(clienteVO.getRut(), clienteVO.getDv(), endPointDataVO);
         }
@@ -116,7 +119,8 @@ public class ConsultaClienteRutLineaBDelegate {
         String rutCompleto = null;
         try {
             rutCompleto = rut + "-" + dv;
-            boolean rutRepetido = generalHelper.isRepeatValue(rutCompleto, "RUTA_SALIDA_RUT_B");
+//            boolean rutRepetido = generalHelper.isRepeatValue(rutCompleto, "RUTA_SALIDA_RUT_B");
+            boolean rutRepetido = false;
             if (rutRepetido) {
                 LOGGER.info("SE AGREGA RUT A REPETIDOS: {}", rutCompleto);
                 listRepeatClients.add(rutCompleto);
@@ -148,7 +152,7 @@ public class ConsultaClienteRutLineaBDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
                 
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut",rutCompleto, xmlString));
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut",rut+dv, xmlString));
                 
                 if (codBD == 0) {
                     System.out.println(rutCompleto + " | Error insert BD ");

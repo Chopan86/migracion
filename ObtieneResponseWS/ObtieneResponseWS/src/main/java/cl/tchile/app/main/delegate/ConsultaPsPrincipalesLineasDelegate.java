@@ -20,6 +20,7 @@ import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class ConsultaPsPrincipalesLineasDelegate {
         "com.ACCPSPWI.ACCPSPWS.www.ACCPSPWSServiceLocator"
     );
 
-    public void consultaPsPrincipalesLineas() {
+    public void consultaPsPrincipalesLineas() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
@@ -75,6 +76,7 @@ public class ConsultaPsPrincipalesLineasDelegate {
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaPsPrincipalesLineas(clienteVO, endPointDataVO);
         }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.bind.JAXB;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class ConsultaAFACDelegate {
         "com.WSPMS.APELAFAC.www.APELAFACServiceLocator"
     );
 
-    public void consultaAfac() {
+    public void consultaAfac() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA AFAC ********");
@@ -70,6 +71,7 @@ public class ConsultaAFACDelegate {
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaAfac(clienteVO, endPointDataVO);
         }

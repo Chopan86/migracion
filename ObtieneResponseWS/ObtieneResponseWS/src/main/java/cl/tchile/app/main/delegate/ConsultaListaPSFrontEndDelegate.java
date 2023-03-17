@@ -22,6 +22,7 @@ import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class ConsultaListaPSFrontEndDelegate {
 
     String excelName = "responseErrorsPsForntEnd.xlsx";
 
-    public void consultaPsFrontEnd(){
+    public void consultaPsFrontEnd() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA PsFrontEnd ********");
@@ -77,6 +78,7 @@ public class ConsultaListaPSFrontEndDelegate {
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaPsFrontEnd(clienteVO, endPointDataVO, String.valueOf(Constantes.cCOD_ZERO));
         }

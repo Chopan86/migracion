@@ -57,4 +57,5 @@ public class ConstantesRutas {
 
     public static final String REPETIDOSLISTAAPELALTURAS = "C:/apelAlturas_repetidos.txt";
     public static final String SINRESPUESTAAPELALTURAS = "C:/apelAlturas_sin_respuesta.txt";
+    public static final String FICHEROPSPORLINEAREAD = "C:/WorkspaceMigracionMainFrame/psporlinea.xlsx";
 }

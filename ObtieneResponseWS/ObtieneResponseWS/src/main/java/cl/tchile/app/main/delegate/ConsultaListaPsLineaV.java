@@ -24,6 +24,7 @@ import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,17 +70,18 @@ public class ConsultaListaPsLineaV {
         "com.AWMLIP8I.AWLIW8CO.www.AWLIW8COServiceLocator"
     );
 
-    public void consultaListaPsLineaV8() {
+    public void consultaListaPsLineaV8() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA ListaPsLineaV8 ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSLISTAPSLINEAV8;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTALISTAPSLINEAV8;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
-            "C:/WorkspaceMigracionMainFrame/psporlineaTest.xlsx", "consultaListaPsLineaV8");
+            ConstantesRutas.FICHEROPSPORLINEAREAD, "consultaListaPsLineaV8");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaListaPsLineaV8(clienteVO, endPointDataVO);
         }

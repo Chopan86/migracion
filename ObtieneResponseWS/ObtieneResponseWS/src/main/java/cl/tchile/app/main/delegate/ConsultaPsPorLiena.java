@@ -20,6 +20,7 @@ import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,17 +66,18 @@ public class ConsultaPsPorLiena {
         "com.AWPS01WI.AWPS01WS.www.AWPS01WSServiceLocator"
     );
 
-    public void consultaPsPorLinea() {
+    public void consultaPsPorLinea() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSPORLINEA;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSPORLINEA;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
-            "C:/WorkspaceMigracionMainFrame/psporlineaTest.xlsx", "consultaPsPorLinea");
+            ConstantesRutas.FICHEROPSPORLINEAREAD, "consultaPsPorLinea");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaPsPorLinea(clienteVO, endPointDataVO);
         }
@@ -109,7 +111,7 @@ public class ConsultaPsPorLiena {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
                 
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString, entrada.getAwps01Co_i_fec_ini_li()));
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompletoBD, xmlString, entrada.getAwps01Co_i_fec_ini_li()));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");

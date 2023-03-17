@@ -1,6 +1,5 @@
 package cl.tchile.app.main.delegate;
 
-
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
@@ -21,6 +20,7 @@ import com.telefonica.midrange.queryproductService.types.QueryproductResponse;
 
 import javax.xml.bind.JAXB;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +31,10 @@ import java.util.List;
 public class ConsultaQueryProductDelegate {
 
     private static final Logger LOGGER = LogManager.getLogger(ConsultaQueryProductDelegate.class);
-    
+
     @Autowired
     SaveFilesOracle saveFilesOracle;
-    
+
     /**
      * The general helper.
      */
@@ -63,7 +63,7 @@ public class ConsultaQueryProductDelegate {
         "com.telefonica.midrange.queryproductService.QueryproductServiceLocator"
     );
 
-    public void consultaQueryProduct(){
+    public void consultaQueryProduct() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA QueryProducts ********");
@@ -71,21 +71,16 @@ public class ConsultaQueryProductDelegate {
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAQUERYPRODUCTS;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
-//        ClienteVO clienteVO = new ClienteVO();
-//        
-//        clienteVO.setIdFono("000000000000000228353426");
-//        clienteVO.setIdTypeCall("fonoFijo");
-        
+
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
+            saveFilesOracle.reiniciarConexion(indexLista);
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaQueryProducts(clienteVO, endPointDataVO, String.valueOf(Constantes.cCOD_ZERO));
         }
 //        generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
-
-
 
     public void callConsultaQueryProducts(ClienteVO clienteVO, EndPointDataVO endPointDataVO, String cod) {
         String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
@@ -100,20 +95,21 @@ public class ConsultaQueryProductDelegate {
                 QueryproductRequest entrada = fillRequestIn(clienteVO, cod);
                 salida = callEndpointHelper
                     .callEndPointSoapStubQueryProducts(endPointDataVO).consultaQueryProduct(entrada);
-                if(null != salida && !salida.getResponseMsj().getCodError().equalsIgnoreCase("000")){
-                    throw new Exception(salida.getResponseMsj().getCodError() + " | " + salida.getResponseMsj().getMsgError());
+                if (null != salida && !salida.getResponseMsj().getCodError().equalsIgnoreCase("000")) {
+                    throw new Exception(
+                        salida.getResponseMsj().getCodError() + " | " + salida.getResponseMsj().getMsgError());
                 }
                 StringWriter sw = new StringWriter();
                 JAXB.marshal(salida, sw);
                 String xmlString = sw.toString();
-                
+
                 int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
-                
+
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
                     listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
                 }
-                
+
 //                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_QUERY_PRODUCTS");
             }
 
@@ -123,19 +119,19 @@ public class ConsultaQueryProductDelegate {
             listClientsNoResponse.add(fonoCompleto + " | " + e);
         }
     }
-    
+
     private MigracionVO setMigracionVO(String fonoCompleto, String xmlString) {
-    	MigracionVO vo = new MigracionVO();
-    	vo.setServicio("queryproduct");
-    	vo.setLinea(fonoCompleto);
-    	vo.setSalida(xmlString);
-		return vo;
-	}
+        MigracionVO vo = new MigracionVO();
+        vo.setServicio("queryproduct");
+        vo.setLinea(fonoCompleto);
+        vo.setSalida(xmlString);
+        return vo;
+    }
 
     private QueryproductRequest fillRequestIn(ClienteVO clienteVO, String cod) {
         QueryproductRequest entrada = new QueryproductRequest();
         entrada.setIdType(Constantes.idTypeQueryProducts);
-        entrada.setId(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getIdFono(),24,Constantes.cCOD_ZERO));
+        entrada.setId(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getIdFono(), 24, Constantes.cCOD_ZERO));
         return entrada;
     }
 }
