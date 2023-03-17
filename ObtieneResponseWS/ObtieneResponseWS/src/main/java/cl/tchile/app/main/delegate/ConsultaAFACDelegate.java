@@ -82,8 +82,8 @@ public class ConsultaAFACDelegate {
     public void callConsultaAfac(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
         try {
-            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_AFAC");
-            fonoRepetido = false;
+//            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_AFAC");
+            boolean fonoRepetido = false;
             if (fonoRepetido) {
                 LOGGER.info("SE AGREGA A FONOS REPETIDOS: {}", fonoCompleto);
                 listRepeatClients.add(fonoCompleto);
@@ -104,7 +104,7 @@ public class ConsultaAFACDelegate {
                     listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
                 }
 
-                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_AFAC");
+//                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_AFAC");
             }
 
         } catch (Exception e) {

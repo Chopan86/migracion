@@ -2,6 +2,7 @@ package cl.tchile.app.helper;
 
 
 import cl.tchile.vo.EndPointDataVO;
+import com.ACB701WSHTTPSoapBindingStub;
 import com.ACCPSPWI.ACCPSPWS.www.ACCPSPWSHTTPSoapBindingStub;
 import com.APEWS16I.APE9016.www.APE9016HTTPSoapBindingStub;
 import com.AWLC02WI.AWLC02WS.www.AWLC02WSHTTPSoapBindingStub;
@@ -74,6 +75,19 @@ public class CallEndpointHelper {
         Class<?> servicelocator = Class.forName(servlocator);
         org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
         APE9016HTTPSoapBindingStub stub = new APE9016HTTPSoapBindingStub(endpointURL, service);
+        stub.setTimeout(Integer.parseInt(timeOut));
+        return stub;
+    }
+
+    public ACB701WSHTTPSoapBindingStub callEndPointSoapStubConsultaDatosClienteCuenta(EndPointDataVO endPointDataVO)
+        throws InstantiationException, IllegalAccessException, AxisFault, ClassNotFoundException,
+        MalformedURLException {
+        URL endpointURL = new URL(endPointDataVO.getEndPointUrl());
+        String timeOut = endPointDataVO.getTimeOut();
+        String servlocator = endPointDataVO.getServLocator();
+        Class<?> servicelocator = Class.forName(servlocator);
+        org.apache.axis.client.Service service = (org.apache.axis.client.Service) servicelocator.newInstance();
+        ACB701WSHTTPSoapBindingStub stub = new ACB701WSHTTPSoapBindingStub(endpointURL, service);
         stub.setTimeout(Integer.parseInt(timeOut));
         return stub;
     }

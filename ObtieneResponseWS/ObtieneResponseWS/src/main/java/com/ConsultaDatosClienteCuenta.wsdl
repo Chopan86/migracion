@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.ACB701WS.ACMB7WSI.com" xmlns:reqns="http://www.ACB701WS.ACMB7WSI.Request.com" xmlns:resns="http://www.ACB701WS.ACMB7WSI.Response.com" xmlns:tns="http://www.ACB701WS.ACMB7WSI.com" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dpx="http://www.DPWPROXY.DPWPROXI.Response.com" xmlns:dp="http://www.datapower.com/extensions" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con="http://eviware.com/soapui/config">
+<wsdl:types>
+<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.ACB701WS.ACMB7WSI.Request.com" xmlns:tns="http://www.ACB701WS.ACMB7WSI.Request.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+<xsd:sequence>
+<xsd:element nillable="false" name="msi_acmb7wsi" minOccurs="0" maxOccurs="1">
+<xsd:complexType mixed="false">
+<xsd:sequence>
+<xsd:element nillable="false" name="acmb7wsi_ac_flag">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="false" name="acmb7wsi_ac_area">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="3" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="false" name="acmb7wsi_ac_nu_com">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="8" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="false" name="acmb7wsi_ac_id_cli">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="12" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="false" name="acmb7wsi_ac_nu_cta">
+<xsd:simpleType>
+<xsd:restriction base="xsd:unsignedInt">
+<xsd:maxInclusive value="999999999" />
+<xsd:minInclusive value="0" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element nillable="false" type="tns:ProgramInterface" name="ACB701WSOperation" />
+</xsd:schema>
+<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.ACB701WS.ACMB7WSI.Response.com" xmlns:tns="http://www.ACB701WS.ACMB7WSI.Response.com" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:complexType abstract="false" block="#all" final="#all" mixed="false" name="ProgramInterface">
+<xsd:sequence>
+<xsd:element nillable="false" name="mso_acmb7wso" minOccurs="0" maxOccurs="1">
+<xsd:complexType mixed="false">
+<xsd:sequence>
+<xsd:element nillable="false" name="acmb7wso_errores" minOccurs="0" maxOccurs="1">
+<xsd:complexType mixed="false">
+<xsd:sequence>
+<xsd:element nillable="true" name="acmb7wso_cod_error">
+<xsd:simpleType>
+<xsd:restriction base="xsd:unsignedInt">
+<xsd:maxInclusive value="999999999" />
+<xsd:minInclusive value="0" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_desc_error">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="50" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_programa">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="8" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_cod_db">
+<xsd:simpleType>
+<xsd:restriction base="xsd:unsignedInt">
+<xsd:maxInclusive value="999999999" />
+<xsd:minInclusive value="0" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_desc_db">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="50" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element nillable="false" name="acmb7wso_datos" minOccurs="0" maxOccurs="1">
+<xsd:complexType mixed="false">
+<xsd:sequence>
+<xsd:element nillable="true" name="acmb7wso_ac_ds20">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="20" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ciclo">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_co_n4">
+<xsd:simpleType>
+<xsd:restriction base="xsd:unsignedInt">
+<xsd:maxInclusive value="9999" />
+<xsd:minInclusive value="0" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_nom">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="30" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ind_bol_fac">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_nom_cll">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="40" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_otras_ind">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="22" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_nu_cll">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="6" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_nu_piso">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="2" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_nu_dep">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="6" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ds_ciu">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="15" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_co_pos">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="7" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_co_cmn">
+<xsd:simpleType>
+<xsd:restriction base="xsd:unsignedInt">
+<xsd:maxInclusive value="9999" />
+<xsd:minInclusive value="0" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ds_cmn">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="30" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="false" name="acmb7wso_ac_rut_cli" minOccurs="0" maxOccurs="1">
+<xsd:complexType mixed="false">
+<xsd:sequence>
+<xsd:element nillable="true" name="acmb7wso_ac_rut">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="12" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_dv">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_id_cli">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="12" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_rsg_cli">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="2" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_nu_cta">
+<xsd:simpleType>
+<xsd:restriction base="xsd:unsignedInt">
+<xsd:maxInclusive value="999999999" />
+<xsd:minInclusive value="0" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ds_giro">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="30" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="false" name="acmb7wso_ac_rut_lin" minOccurs="0" maxOccurs="1">
+<xsd:complexType mixed="false">
+<xsd:sequence>
+<xsd:element nillable="true" name="acmb7wso_ac_rut">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="12" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_dv">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ds_convenio">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="30" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_co_min">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="2" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_co_rep">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="3" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_dia_venc">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="4" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_num_fon">
+<xsd:simpleType>
+<xsd:restriction base="xsd:unsignedInt">
+<xsd:maxInclusive value="999999999" />
+<xsd:minInclusive value="0" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_fac_agrupada">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="30" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_tipo_cta">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_telefono">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="8" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_area_pag">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="3" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_rut">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="12" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_dv">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_emp_fact">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_num_contra">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="9" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ind_imp">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+<xsd:element nillable="true" name="acmb7wso_ac_ok">
+<xsd:simpleType>
+<xsd:restriction base="xsd:string">
+<xsd:maxLength value="1" />
+<xsd:whiteSpace value="preserve" />
+</xsd:restriction>
+</xsd:simpleType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element nillable="false" type="tns:ProgramInterface" name="ACB701WSOperationResponse" />
+</xsd:schema>
+</wsdl:types>
+<wsdl:message name="ACB701WSOperationRequest">
+<wsdl:part name="RequestPart" element="reqns:ACB701WSOperation" />
+</wsdl:message>
+<wsdl:message name="ACB701WSOperationResponse">
+<wsdl:part name="ResponsePart" element="resns:ACB701WSOperationResponse" />
+</wsdl:message>
+<wsdl:portType name="ACB701WSPort">
+<wsdl:operation name="ACB701WSOperation">
+<wsdl:input message="tns:ACB701WSOperationRequest" name="ACB701WSOperationRequest" />
+<wsdl:output message="tns:ACB701WSOperationResponse" name="ACB701WSOperationResponse" />
+</wsdl:operation>
+</wsdl:portType>
+<wsdl:binding name="ACB701WSHTTPSoapBinding" type="tns:ACB701WSPort">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+<wsdl:operation name="ACB701WSOperation">
+<soap:operation soapAction="" style="document" />
+<wsdl:input name="ACB701WSOperationRequest">
+<soap:body parts="RequestPart" use="literal" />
+</wsdl:input>
+<wsdl:output name="ACB701WSOperationResponse">
+<soap:body parts="ResponsePart" use="literal" />
+</wsdl:output>
+</wsdl:operation>
+</wsdl:binding>
+<wsdl:service name="ACB701WSService">
+<wsdl:port binding="tns:ACB701WSHTTPSoapBinding" name="ACB701WSPort">
+<soap:address location="http://esb.ctc.cl/services/ConsultaDatosClienteCuenta" />
+</wsdl:port>
+</wsdl:service>
+</wsdl:definitions>
