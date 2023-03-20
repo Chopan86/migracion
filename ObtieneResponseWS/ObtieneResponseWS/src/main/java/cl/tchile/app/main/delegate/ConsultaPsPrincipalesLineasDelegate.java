@@ -72,7 +72,9 @@ public class ConsultaPsPrincipalesLineasDelegate {
         LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSPRINCIPALES;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSPRINCIPALES;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+//        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+        List<ClienteVO> listaClientes = generalHelper.obtenerDatosDesdeExcel(
+                ConstantesRutas.FICHEROPSPORLINEAREAD, "Generico");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
@@ -85,7 +87,8 @@ public class ConsultaPsPrincipalesLineasDelegate {
     }
 
     public void callConsultaPsPrincipalesLineas(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
-        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+//        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+    	String fonoCompleto = generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) + generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
         try {
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LINEASPSPRIN");
             boolean fonoRepetido = false;
@@ -137,8 +140,8 @@ public class ConsultaPsPrincipalesLineasDelegate {
 
         ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas[] entrada = new ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas[50];
         entrada[0] = new ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas();
-        entrada[0].setAccpspwi_i_area(generalHelper.formatearAreaFono(clienteVO.getArea()));
-        entrada[0].setAccpspwi_i_num_com(generalHelper.formatearFono(clienteVO.getArea(), clienteVO.getFono()));
+        entrada[0].setAccpspwi_i_area(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(),3,'0'));
+        entrada[0].setAccpspwi_i_num_com(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(), 8, '0'));
         entrada[0].setAccpspwi_i_ini_vi(clienteVO.getInicioVigencia());
         for (int i = 1; i <= entrada.length - 1; i++) {
             entrada[i] = new ProgramInterfaceAccpspwi_entradaAccpspwi_i_lineas();

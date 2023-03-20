@@ -1,14 +1,11 @@
 package cl.tchile.app.main.delegate;
 
-import cl.tchile.app.constant.Constantes;
-import cl.tchile.app.constant.ConstantesRutas;
-import cl.tchile.app.helper.CallEndpointHelper;
-import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
-import cl.tchile.app.helper.GeneralHelper;
-import cl.tchile.app.helper.SaveFilesOracle;
-import cl.tchile.vo.ClienteVO;
-import cl.tchile.vo.EndPointDataVO;
-import cl.tchile.vo.MigracionVO;
+import java.io.StringWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.JAXB;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,11 +15,16 @@ import org.springframework.stereotype.Component;
 import com.telefonica.midrange.queryproductService.types.QueryproductRequest;
 import com.telefonica.midrange.queryproductService.types.QueryproductResponse;
 
-import javax.xml.bind.JAXB;
-import java.io.StringWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import cl.tchile.app.constant.Constantes;
+import cl.tchile.app.constant.ConstantesRutas;
+import cl.tchile.app.helper.CallEndpointHelper;
+import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
+import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
+import cl.tchile.exception.ObtenerResponseException;
+import cl.tchile.vo.ClienteVO;
+import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
 
 /**
  * ConsultaPsPrincipalesLineas
@@ -46,6 +48,7 @@ public class ConsultaQueryProductDelegate {
 
     @Autowired
     ConsultaClienteRutFonoLineaHelper consultaClienteRutFonoLineaHelper;
+    
     /**
      * listClientsNoResponse
      */
@@ -62,19 +65,26 @@ public class ConsultaQueryProductDelegate {
         Constantes.TIMEOUT15,
         "com.telefonica.midrange.queryproductService.QueryproductServiceLocator"
     );
-
+    
     public void consultaQueryProduct() throws SQLException, ClassNotFoundException {
+//    	bot = new EchoBot();
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA QueryProducts ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSQUERYPRODUCTS;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAQUERYPRODUCTS;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+//        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+        List<ClienteVO> listaClientes = generalHelper.obtenerDatosDesdeExcel(
+                ConstantesRutas.FICHEROPSPORLINEAREAD, "Generico");
         int indexLista = 0;
-
+        
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
+//            int resto = indexLista % 100;
+//            if (resto == 0) {
+//            	bot.enviarMensaje("6114130269", "Progreso "+ indexLista +" de "+listaClientes.size());
+//            }
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaQueryProducts(clienteVO, endPointDataVO, String.valueOf(Constantes.cCOD_ZERO));
         }
@@ -82,8 +92,9 @@ public class ConsultaQueryProductDelegate {
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
-    public void callConsultaQueryProducts(ClienteVO clienteVO, EndPointDataVO endPointDataVO, String cod) {
-        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+    public void callConsultaQueryProducts(ClienteVO clienteVO, EndPointDataVO endPointDataVO, String cod) throws SQLException {
+//        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+    	String fonoCompleto = generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) + generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_QUERY_PRODUCTS");
             if (fonoRepetido) {
@@ -96,7 +107,7 @@ public class ConsultaQueryProductDelegate {
                 salida = callEndpointHelper
                     .callEndPointSoapStubQueryProducts(endPointDataVO).consultaQueryProduct(entrada);
                 if (null != salida && !salida.getResponseMsj().getCodError().equalsIgnoreCase("000")) {
-                    throw new Exception(
+                    throw new ObtenerResponseException(
                         salida.getResponseMsj().getCodError() + " | " + salida.getResponseMsj().getMsgError());
                 }
                 StringWriter sw = new StringWriter();
@@ -114,6 +125,12 @@ public class ConsultaQueryProductDelegate {
             }
 
         } catch (Exception e) {
+        	if( !(e instanceof ObtenerResponseException)) {      	        
+//        	    bot.enviarMensaje("6114130269", "Linea: "+ fonoCompleto +" - ERROR! SE CIERRA CONEXION BD. "+e);
+        		LOGGER.info("ERROR - SE CIERRA CONEXION BD");
+        		saveFilesOracle.closeConnection();
+        	}
+//        	bot.enviarMensaje("6114130269", "Linea: "+ fonoCompleto +" - "+e);
             LOGGER.error("No se proceso el fono: " + fonoCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA FONO SIN RESPUESTA : " + fonoCompleto);
             listClientsNoResponse.add(fonoCompleto + " | " + e);

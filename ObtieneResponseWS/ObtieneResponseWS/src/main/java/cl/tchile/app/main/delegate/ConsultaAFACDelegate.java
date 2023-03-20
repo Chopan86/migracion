@@ -1,27 +1,30 @@
 package cl.tchile.app.main.delegate;
 
-import cl.tchile.app.constant.Constantes;
-import cl.tchile.app.constant.ConstantesRutas;
-import cl.tchile.app.helper.CallEndpointHelper;
-import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
-import cl.tchile.app.helper.GeneralHelper;
-import cl.tchile.app.helper.SaveFilesOracle;
-import cl.tchile.vo.ClienteVO;
-import cl.tchile.vo.EndPointDataVO;
-import cl.tchile.vo.MigracionVO;
+import java.io.StringWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.Request.WSPMS.APELAFAC.www.ProgramInterfaceApel_afac_pms_i;
-import com.Response.WSPMS.APELAFAC.www.ProgramInterfaceApel_afac_pms_o;
+import javax.xml.bind.JAXB;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXB;
-import java.io.StringWriter;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import com.Request.WSPMS.APELAFAC.www.ProgramInterfaceApel_afac_pms_i;
+import com.Response.WSPMS.APELAFAC.www.ProgramInterfaceApel_afac_pms_o;
+
+import cl.tchile.app.constant.Constantes;
+import cl.tchile.app.constant.ConstantesRutas;
+import cl.tchile.app.helper.CallEndpointHelper;
+import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
+import cl.tchile.app.helper.EchoBot;
+import cl.tchile.app.helper.GeneralHelper;
+import cl.tchile.app.helper.SaveFilesOracle;
+import cl.tchile.vo.ClienteVO;
+import cl.tchile.vo.EndPointDataVO;
+import cl.tchile.vo.MigracionVO;
 
 /**
  * ConsultaPsPrincipalesLineas
@@ -44,6 +47,8 @@ public class ConsultaAFACDelegate {
 
     @Autowired
     SaveFilesOracle saveFilesOracle;
+    
+    EchoBot bot;
     /**
      * listClientsNoResponse
      */
@@ -62,16 +67,23 @@ public class ConsultaAFACDelegate {
     );
 
     public void consultaAfac() throws SQLException, ClassNotFoundException {
+    	bot = new EchoBot();
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA AFAC ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSAFAC;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAAFAC;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+//        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+        List<ClienteVO> listaClientes = generalHelper.obtenerDatosDesdeExcel(
+                ConstantesRutas.FICHEROPSPORLINEAREAD, "Generico");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
+//          int resto = indexLista % 50;
+//          if (resto == 0) {
+//          	bot.enviarMensaje("6114130269", "Progreso "+ indexLista +" de "+listaClientes.size());
+//          }
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
             callConsultaAfac(clienteVO, endPointDataVO);
         }
@@ -80,7 +92,8 @@ public class ConsultaAFACDelegate {
     }
 
     public void callConsultaAfac(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
-        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+//        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono();
+    	String fonoCompleto = generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) + generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
         try {
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_AFAC");
             boolean fonoRepetido = false;
@@ -108,6 +121,7 @@ public class ConsultaAFACDelegate {
             }
 
         } catch (Exception e) {
+        	bot.enviarMensaje("6114130269", "No se proceso el fono: " + fonoCompleto + " por la siguiente razón: " + e);
             LOGGER.error("No se proceso el fono: " + fonoCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA FONO SIN RESPUESTA : " + fonoCompleto);
             listClientsNoResponse.add(fonoCompleto + " | " + e);
@@ -124,9 +138,11 @@ public class ConsultaAFACDelegate {
 
 	private ProgramInterfaceApel_afac_pms_i fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceApel_afac_pms_i entrada = new ProgramInterfaceApel_afac_pms_i();
-        String dataInCompleta =
-            generalHelper.formatearAreaFono(clienteVO.getArea()) + generalHelper.formatearFono(clienteVO.getArea(),
-                clienteVO.getFono());
+        String dataInCompleta = 
+        		generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(), 3, '0') + 
+        		generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(), 8, '0');
+//            generalHelper.formatearAreaFono(clienteVO.getArea()) + generalHelper.formatearFono(clienteVO.getArea(),
+//                clienteVO.getFono());
         entrada.setDatain(dataInCompleta);
         return entrada;
     }

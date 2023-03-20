@@ -41,7 +41,7 @@ public class ProgramInterfaceMso_acmb7WsoAcmb7Wso_datos implements java.io.Seria
     private java.lang.String acmb7Wso_ac_ds_ciu;
     @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String acmb7Wso_ac_co_pos;
-    @XmlJavaTypeAdapter(StringAdapter.class)
+    @XmlJavaTypeAdapter(value = UnsignedIntAdapter.class, type = Long.class)
     private org.apache.axis.types.UnsignedInt acmb7Wso_ac_co_cmn;
     @XmlJavaTypeAdapter(StringAdapter.class)
     private java.lang.String acmb7Wso_ac_ds_cmn;

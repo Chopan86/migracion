@@ -98,7 +98,7 @@ public class ConsultaClienteRutLineaCDelegate {
             LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size(),"consultaClienteRutLineaC N1"));
             callConsultaClienteRutLinaC(clienteVO, endPointDataVO);
         }
-        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), "Carga Linea C RUT completada N1");
+//        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), "Carga Linea C RUT completada N1");
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
@@ -109,7 +109,8 @@ public class ConsultaClienteRutLineaCDelegate {
         String pathSalidaRepetidos = "C:/telefonosCRepetidos.txt";
         String pathSalidaNoResponse = "C:/telefonosCNoResponse.txt";
         LOGGER.info("******** INICIO PROCESO LINEAS X FONO  ********");
-        List<ClienteVO> clienteVOList = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+        List<ClienteVO> clienteVOList = generalHelper.obtenerDatosDesdeExcel(
+                ConstantesRutas.FICHEROPSPORLINEAREAD, "Generico");
         indexLista = 0;
         for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;
@@ -117,13 +118,14 @@ public class ConsultaClienteRutLineaCDelegate {
             LOGGER.info(generalHelper.progressPercent(indexLista, clienteVOList.size(),"consultaClienteRutLineaC"));
             callConsultaClienteRutLinaCxFono(clienteVO, endPointDataVO);
         }
-        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), "Carga Linea C completada");
+//        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), "Carga Linea C completada");
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
     public void callConsultaClienteRutLinaCxFono(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
-        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+//        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+    	String fonoCompleto = generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) + generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
         try {
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSC");
             boolean fonoRepetido = false;
@@ -181,8 +183,8 @@ public class ConsultaClienteRutLineaCDelegate {
      */
     private ProgramInterfaceAwlc02Wi_entrada fillRequestIn(ClienteVO clienteVO, String cod) {
         ProgramInterfaceAwlc02Wi_entrada entrada = new ProgramInterfaceAwlc02Wi_entrada();
-        entrada.setAwlc02Wi_i_area(generalHelper.formatearAreaFono(clienteVO.getArea()));
-        entrada.setAwlc02Wi_i_num_com(generalHelper.formatearFono(clienteVO.getArea(), clienteVO.getFono()));
+        entrada.setAwlc02Wi_i_area(clienteVO.getArea());
+        entrada.setAwlc02Wi_i_num_com(clienteVO.getFono());
         entrada.setAwlc02Wi_i_rut(
             generalHelper.rellenarCadenaPorIzquierda(clienteVO.getRut(), 12, Constantes.cCOD_ZERO));
         entrada.setAwlc02Wi_i_dv(clienteVO.getDv());

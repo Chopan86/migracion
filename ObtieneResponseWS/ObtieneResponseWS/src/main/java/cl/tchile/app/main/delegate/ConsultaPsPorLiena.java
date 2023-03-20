@@ -80,13 +80,12 @@ public class ConsultaPsPorLiena {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
-        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871),
-            "******** INICIO PROCESO CONSULTA PsPrincipales 4 Thread ********");
+//        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871),
+//            "******** INICIO PROCESO CONSULTA PsPrincipales 4 Thread ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSPORLINEA;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSPORLINEA;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
+        List<ClienteVO> listaClientes = generalHelper.obtenerDatosDesdeExcel(
             ConstantesRutas.FICHEROPSPORLINEAREAD, "consultaPsPorLinea");
-
 
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
@@ -138,7 +137,7 @@ public class ConsultaPsPorLiena {
 
         } catch (Exception e) {
             String error = fonoCompleto + " | " + e + " | Fila:" + indexLista + " | consultaPSporLinea FULL";
-            restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), error);
+//            restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), error);
             LOGGER.error("No se proceso el fono: " + fonoCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA FONO SIN RESPUESTA : " + fonoCompleto);
             listClientsNoResponse.add(fonoCompleto + " | " + e);

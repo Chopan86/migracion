@@ -1,6 +1,23 @@
 package cl.tchile.app.main.delegate;
 
-import cl.tchile.app.bot.RestTemplateTelegramBot;
+import java.io.StringWriter;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
+import com.Request.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_entrada;
+import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
+
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
@@ -9,23 +26,6 @@ import cl.tchile.app.helper.SaveFilesOracle;
 import cl.tchile.vo.ClienteVO;
 import cl.tchile.vo.EndPointDataVO;
 import cl.tchile.vo.MigracionVO;
-
-import com.AWLC01WI.AWLC01WS.www.AWLC01WSHTTPSoapBindingStub;
-import com.Request.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_entrada;
-import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
-import java.io.StringWriter;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Class ConsultaClienteRutLineaCDelegate.
@@ -52,8 +52,6 @@ public class ConsultaClienteRutLineaBDelegate {
      */
     @Autowired
     ConsultaClienteRutFonoLineaHelper consultarClienteRutFonoLineaHelper;
-
-    private final RestTemplateTelegramBot restTemplateTelegramBot;
     /**
      * Lista clientes repetidos
      */
@@ -69,13 +67,8 @@ public class ConsultaClienteRutLineaBDelegate {
         "com.AWLC01WI.AWLC01WS.www.AWLC01WSServiceLocator"
     );
 
-    @Autowired
-    public ConsultaClienteRutLineaBDelegate(RestTemplateTelegramBot restTemplateTelegramBot) {
-        this.restTemplateTelegramBot = restTemplateTelegramBot;
-    }
-
     /**
-     * consultaClienteRutlineaBxFono
+     * consultaClienteRutlineaBxFono X FONO
      */
     public void consultaClienteRutlineaBxFono() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
@@ -83,7 +76,8 @@ public class ConsultaClienteRutLineaBDelegate {
         String pathSalidaRepetidos = "C:/telefonosRepetidos.txt";
         String pathSalidaNoResponse = "C:/telefonosNoResponse.txt";
         LOGGER.info("******** INICIO PROCESO LINEAS X FONO  ********");
-        List<ClienteVO> clienteVOList = consultarClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+        List<ClienteVO> clienteVOList = generalHelper.obtenerDatosDesdeExcel(
+                ConstantesRutas.FICHEROPSPORLINEAREAD, "Generico");
         int indexLista = 0;
         for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;
@@ -95,31 +89,26 @@ public class ConsultaClienteRutLineaBDelegate {
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
-    int indexLista = 0;
-
     /**
-     * Consulta cliente rut linea B impl.
+     * Consulta cliente  X RUT
      */
-    public void consultaClienteRutLineaBImpl() throws Exception {
+    public void consultaClienteRutLineaBImpl() throws SQLException, ClassNotFoundException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         String pathSalidaRepetidos = "C:/clientesRepetidos.txt";
         String pathSalidaNoResponse = "C:/clientesSinRespuesta.txt";
         LOGGER.info("******** INICIO PROCESO ********");
-        List<ClienteVO> listaRutClientes = consultarClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero(
-            ConstantesRutas.LECTURARUTSN1);
+        List<ClienteVO> listaRutClientes = consultarClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero(ConstantesRutas.LECTURARUTSN1);
         LOGGER.info("Cantidad Total Ruts a Buscar: " + listaRutClientes.size());
-        indexLista = 0;
-
+        int indexLista = 0;
         for (ClienteVO clienteVO : listaRutClientes) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
-            LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size(), "consultaClienteRutLineaB N1"));
+            LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size()));
             callConsultaClienteRutLinaB(clienteVO.getRut(), clienteVO.getDv(), endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
-
     }
 
     /**
@@ -128,7 +117,7 @@ public class ConsultaClienteRutLineaBDelegate {
      * @param rut the rut
      * @param dv  the dv
      */
-    public void callConsultaClienteRutLinaB(String rut, String dv, EndPointDataVO endPointDataVO) throws Exception {
+    public void callConsultaClienteRutLinaB(String rut, String dv, EndPointDataVO endPointDataVO) {
         String rutCompleto = null;
         try {
             rutCompleto = rut + "-" + dv;
@@ -164,10 +153,9 @@ public class ConsultaClienteRutLineaBDelegate {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                System.out.println("");
-
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut", rut + dv, xmlString));
-
+                
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut",rut+dv, xmlString));
+                
                 if (codBD == 0) {
                     System.out.println(rutCompleto + " | Error insert BD ");
                     listClientsNoResponse.add(rutCompleto + " | Error insert BD ");
@@ -183,30 +171,28 @@ public class ConsultaClienteRutLineaBDelegate {
             }
 
         } catch (Exception e) {
-            String error = rutCompleto + " | " + e + " | Fila:" + indexLista + " | consultaClienteRutLineaB N1";
-            restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), error);
             LOGGER.error("No se proceso el rut: " + rutCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA A RUT SIN RESPUESTA : " + rutCompleto);
-
             listClientsNoResponse.add(rutCompleto + " | " + e);
         }
     }
 
     private MigracionVO setMigracionVO(String tipo, String valueTipo, String xmlString) {
-        MigracionVO vo = new MigracionVO();
-        vo.setServicio("consultaClienteRutLineaB");
-        if ("rut".equals(tipo)) {
-            vo.setRut(valueTipo);
-            vo.setSalida(xmlString);
-        } else {
-            vo.setLinea(valueTipo);
-            vo.setSalida(xmlString);
-        }
-        return vo;
-    }
+    	MigracionVO vo = new MigracionVO();
+    	vo.setServicio("consultaClienteRutLineaB");
+    	if("rut".equals(tipo)) {
+    		vo.setRut(valueTipo);
+    		vo.setSalida(xmlString);
+    	}else {
+    		vo.setLinea(valueTipo);
+    		vo.setSalida(xmlString);
+    	}
+		return vo;
+	}
 
-    public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
-        String fonoCompleto = area + fono.substring(1);
+	public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
+//        String fonoCompleto = area + fono.substring(1);
+		String fonoCompleto = generalHelper.quitarNumerosIzquierda(area) + generalHelper.quitarNumerosIzquierda(fono);
         try {
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSB");
             boolean fonoRepetido = false;
@@ -217,8 +203,10 @@ public class ConsultaClienteRutLineaBDelegate {
             if (!fonoRepetido) {
                 ProgramInterfaceAwlc01Z3_salida salida = null;
                 ProgramInterfaceAwlc01Z3_entrada entrada = new ProgramInterfaceAwlc01Z3_entrada();
-                entrada.setAwlc01Z3_i_area(generalHelper.formatearAreaFono(area));
-                entrada.setAwlc01Z3_i_num_com(generalHelper.formatearFono(area, fono));
+//                entrada.setAwlc01Z3_i_area(generalHelper.formatearAreaFono(area));
+                entrada.setAwlc01Z3_i_area(area);
+//                entrada.setAwlc01Z3_i_num_com(generalHelper.formatearFono(area, fono));
+                entrada.setAwlc01Z3_i_num_com(fono);
                 entrada.setAwlc01Z3_i_rut("");
                 entrada.setAwlc01Z3_i_dv("");
                 entrada.setAwlc01Z3_i_criterio(Character.toString(Constantes.cCOD_ZERO));
@@ -239,9 +227,8 @@ public class ConsultaClienteRutLineaBDelegate {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                System.out.println("");
 
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea", fonoCompleto, xmlString));
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea",fonoCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");

@@ -75,7 +75,7 @@ public class ConsultaListaPsLineaV {
         LOGGER.info("******** INICIO PROCESO CONSULTA ListaPsLineaV8 ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSLISTAPSLINEAV8;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTALISTAPSLINEAV8;
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
+        List<ClienteVO> listaClientes = generalHelper.obtenerDatosDesdeExcel(
             ConstantesRutas.FICHEROPSPORLINEAREAD, "consultaListaPsLineaV8");
         indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {

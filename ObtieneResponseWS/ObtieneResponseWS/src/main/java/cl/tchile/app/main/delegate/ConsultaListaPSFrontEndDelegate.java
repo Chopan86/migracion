@@ -74,7 +74,9 @@ public class ConsultaListaPSFrontEndDelegate {
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSFRONTEND;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSFRONTEND;
         consultaClienteRutFonoLineaHelper.crearExcelErrorResponse(excelName);
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+//        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
+        List<ClienteVO> listaClientes = generalHelper.obtenerDatosDesdeExcel(
+                ConstantesRutas.FICHEROPSPORLINEAREAD, "Generico");
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
@@ -88,7 +90,8 @@ public class ConsultaListaPSFrontEndDelegate {
 
 
     public void callConsultaPsFrontEnd(ClienteVO clienteVO, EndPointDataVO endPointDataVO, String cod) {
-        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+//        String fonoCompleto = clienteVO.getArea() + clienteVO.getFono().substring(1);
+    	String fonoCompleto = generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) + generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
 
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
@@ -109,18 +112,18 @@ public class ConsultaListaPSFrontEndDelegate {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                if(!salida.getAwpsl2Wo_salida().getAwpsl2Wo_cod_ret().equalsIgnoreCase("000")){
-                   consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
-                   consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
-                } else {
-                	
+//                if(!salida.getAwpsl2Wo_salida().getAwpsl2Wo_cod_ret().equalsIgnoreCase("000")){
+//                   consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
+//                   consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
+//                } else {
+//                	
                 	int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
 
                     if (codBD == 0) {
                         System.out.println(fonoCompleto + " | Error insert BD ");
                         listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
                     }
-                }
+//                }
 
             }
 
@@ -142,8 +145,8 @@ public class ConsultaListaPSFrontEndDelegate {
 
 	private ProgramInterfaceAwpsl2Wi fillRequestIn(ClienteVO clienteVO, String cod) {
         ProgramInterfaceAwpsl2Wi entrada = new ProgramInterfaceAwpsl2Wi();
-        entrada.setAwpsl2Wi_area(generalHelper.formatearAreaFono(clienteVO.getArea()));
-        entrada.setAwpsl2Wi_num_com(generalHelper.formatearFono(clienteVO.getArea(), clienteVO.getFono()));
+        entrada.setAwpsl2Wi_area(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(),3,'0'));
+        entrada.setAwpsl2Wi_num_com(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(),8,'0'));
         entrada.setAwpsl2Wi_fec_ini_li(clienteVO.getInicioVigencia());
         entrada.setAwpsl2Wi_cod_ps(cod);
         return entrada;

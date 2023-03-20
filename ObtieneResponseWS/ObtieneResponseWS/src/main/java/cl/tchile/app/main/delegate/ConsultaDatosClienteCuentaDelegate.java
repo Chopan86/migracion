@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class ConsultaDatosClienteCuentaDelegate {
         "com.ACB701WSServiceLocator"
     );
 
-    public void consultaDatosClienteCuenta() {
+    public void consultaDatosClienteCuenta() throws SQLException {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA consultaDatosClienteCuenta ********");
@@ -79,7 +80,7 @@ public class ConsultaDatosClienteCuentaDelegate {
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
-    public void callConsultaDatosClienteCuenta(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
+    public void callConsultaDatosClienteCuenta(ClienteVO clienteVO, EndPointDataVO endPointDataVO) throws SQLException {
         String fonoCompleto = clienteVO.getArea() + clienteVO.getFono();
         try {
 
@@ -105,16 +106,18 @@ public class ConsultaDatosClienteCuentaDelegate {
             }
 
         } catch (Exception e) {
+        	saveFilesOracle.closeConnection();
             LOGGER.error("No se proceso el CLIENTE: " + fonoCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA CLIENTE SIN RESPUESTA : " + fonoCompleto);
             listClientsNoResponse.add(fonoCompleto + " | " + e);
+            
         }
     }
 
     private MigracionVO setMigracionVO(ClienteVO clienteVO, String xmlString) {
         MigracionVO vo = new MigracionVO();
         vo.setServicio("ConsultaDatosClienteCuenta");
-        vo.setLinea(clienteVO.getArea()+clienteVO.getFono());
+        vo.setLinea("DEFAULT");
         vo.setSalida(xmlString);
         return vo;
     }
@@ -124,6 +127,7 @@ public class ConsultaDatosClienteCuentaDelegate {
         entrada.setAcmb7Wsi_ac_flag("1");
         entrada.setAcmb7Wsi_ac_area(clienteVO.getArea());
         entrada.setAcmb7Wsi_ac_nu_com(clienteVO.getFono());
+        entrada.setAcmb7Wsi_ac_id_cli("");
         return entrada;
     }
 }
