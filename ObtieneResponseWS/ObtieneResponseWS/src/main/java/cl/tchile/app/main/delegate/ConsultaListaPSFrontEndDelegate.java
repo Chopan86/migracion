@@ -73,7 +73,7 @@ public class ConsultaListaPSFrontEndDelegate {
         LOGGER.info("******** INICIO PROCESO CONSULTA PsFrontEnd ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSFRONTEND;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSFRONTEND;
-//        consultaClienteRutFonoLineaHelper.crearExcelErrorResponse(excelName);
+        consultaClienteRutFonoLineaHelper.crearExcelErrorResponse(excelName);
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
         int indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
@@ -110,7 +110,8 @@ public class ConsultaListaPSFrontEndDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
                 if(!salida.getAwpsl2Wo_salida().getAwpsl2Wo_cod_ret().equalsIgnoreCase("000")){
-//                    consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
+                   consultaClienteRutFonoLineaHelper.crearSalidaResponseErrorCode(salida, entrada, excelName);
+                   consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
                 } else {
                 	
                 	int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
@@ -119,7 +120,6 @@ public class ConsultaListaPSFrontEndDelegate {
                         System.out.println(fonoCompleto + " | Error insert BD ");
                         listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
                     }
-//                    consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto, "RUTA_SALIDA_LINEASPSFRONTEND");
                 }
 
             }

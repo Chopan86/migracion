@@ -11,16 +11,12 @@ import cl.tchile.vo.EndPointDataVO;
 import cl.tchile.vo.MigracionVO;
 
 import com.Request.AWMLIP8I.AWLIW8CO.www.ProgramInterfaceAwlip8Co_entrada;
-import com.Request.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_entrada;
 import com.Response.AWMLIP8I.AWLIW8CO.www.ProgramInterfaceAwlip8Co_salida;
-import com.Response.AWPS01WI.AWPS01WS.www.ProgramInterfaceAwps01Co_salida;
-import com.Response.AWPSL2WI.AWPSL2WS.www.ProgramInterfaceAwpsl2Wo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
@@ -53,6 +49,8 @@ public class ConsultaListaPsLineaV {
 
     @Autowired
     SaveFilesOracle saveFilesOracle;
+
+
     /**
      * listClientsNoResponse
      */
@@ -70,7 +68,8 @@ public class ConsultaListaPsLineaV {
         "com.AWMLIP8I.AWLIW8CO.www.AWLIW8COServiceLocator"
     );
 
-    public void consultaListaPsLineaV8() throws SQLException, ClassNotFoundException {
+    int indexLista = 0;
+    public void consultaListaPsLineaV8() throws Exception {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA ListaPsLineaV8 ********");
@@ -78,11 +77,11 @@ public class ConsultaListaPsLineaV {
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTALISTAPSLINEAV8;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
             ConstantesRutas.FICHEROPSPORLINEAREAD, "consultaListaPsLineaV8");
-        int indexLista = 0;
+        indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
-            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
+            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size(), "listaPsLineaV8 FULL"));
             callConsultaListaPsLineaV8(clienteVO, endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
@@ -92,7 +91,7 @@ public class ConsultaListaPsLineaV {
     public void callConsultaListaPsLineaV8(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
         String fonoCompleto =
             generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) +
-            generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
+                generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
         try {
             boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_LISTAPSLINEAV8");
             fonoRepetido = false; //BORRAR
@@ -113,21 +112,20 @@ public class ConsultaListaPsLineaV {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                
+
                 int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompleto, xmlString));
-      
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
                     listClientsNoResponse.add(fonoCompleto + " | Error insert BD ");
                 }
-                
-                
+
 //                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, fonoCompleto,
 //                    "RUTA_SALIDA_LISTAPSLINEAV8");
             }
 
         } catch (Exception e) {
+            String error = fonoCompleto + " | " + e + " | Fila:" + indexLista +"listaPsLineaV8 FULL";
             LOGGER.error("No se proceso el fono: " + fonoCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA FONO SIN RESPUESTA : " + fonoCompleto);
             listClientsNoResponse.add(fonoCompleto + " | " + e);
@@ -135,17 +133,19 @@ public class ConsultaListaPsLineaV {
     }
 
     private MigracionVO setMigracionVO(String fonoCompleto, String xmlString) {
-    	MigracionVO vo = new MigracionVO();
-    	vo.setServicio("listaPsLineaV8");
-    	vo.setLinea(fonoCompleto);
-    	vo.setSalida(xmlString);
-		return vo;
-	}
+        MigracionVO vo = new MigracionVO();
+        vo.setServicio("listaPsLineaV8");
+        vo.setLinea(fonoCompleto);
+        vo.setSalida(xmlString);
+        return vo;
+    }
 
-	private ProgramInterfaceAwlip8Co_entrada fillRequestIn(ClienteVO clienteVO) {
+    private ProgramInterfaceAwlip8Co_entrada fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceAwlip8Co_entrada entrada = new ProgramInterfaceAwlip8Co_entrada();
-        entrada.setAwlip8Co_i_area(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(),3,Constantes.cCOD_ZERO));
-        entrada.setAwlip8Co_i_num_com(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(),8,Constantes.cCOD_ZERO));
+        entrada.setAwlip8Co_i_area(
+            generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(), 3, Constantes.cCOD_ZERO));
+        entrada.setAwlip8Co_i_num_com(
+            generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(), 8, Constantes.cCOD_ZERO));
         entrada.setFiller1("");
         return entrada;
     }

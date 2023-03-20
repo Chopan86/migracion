@@ -1,6 +1,8 @@
 package cl.tchile.app.main.delegate;
 
+import cl.tchile.app.bot.RestTemplateTelegramBot;
 import cl.tchile.app.constant.Constantes;
+import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
@@ -15,10 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.Request.AWLC02WI.AWLC02WS.www.ProgramInterfaceAwlc02Wi_entrada;
-import com.Response.AWLC01WI.AWLC01WS.www.ProgramInterfaceAwlc01Z3_salida;
 import com.Response.AWLC02WI.AWLC02WS.www.ProgramInterfaceAwlc02Wo_salida;
 
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
@@ -56,6 +56,8 @@ public class ConsultaClienteRutLineaCDelegate {
     @Autowired
     SaveFilesOracle saveFilesOracle;
 
+    private final RestTemplateTelegramBot restTemplateTelegramBot;
+
     /**
      * Listas clientes repetidos
      */
@@ -71,41 +73,51 @@ public class ConsultaClienteRutLineaCDelegate {
         "com.AWLC02WI.AWLC02WS.www.AWLC02WSServiceLocator"
     );
 
+    int indexLista = 0;
+
+    @Autowired
+    public ConsultaClienteRutLineaCDelegate(RestTemplateTelegramBot restTemplateTelegramBot) {
+        this.restTemplateTelegramBot = restTemplateTelegramBot;
+    }
+
     /**
      * Consulta cliente rut linea C impl.
      */
-    public void consultaClienteRutLineaCImpl() throws SQLException, ClassNotFoundException {
+    public void consultaClienteRutLineaCImpl() throws Exception {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA RUT C ********");
         String pathSalidaRepetidos = "C:/rutsCRepetidos.txt";
         String pathSalidaNoResponse = "C:/rutsCNoResponse.txt";
-        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero();
-        int indexLista = 0;
+        List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero(
+            ConstantesRutas.LECTURARUTSN1);
+        indexLista = 0;
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
-            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
+            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size(),"consultaClienteRutLineaC N1"));
             callConsultaClienteRutLinaC(clienteVO, endPointDataVO);
         }
+        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), "Carga Linea C RUT completada N1");
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
-    public void consultaClienteRutlineaCxFono() throws SQLException, ClassNotFoundException {
+    public void consultaClienteRutlineaCxFono() throws Exception {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         String pathSalidaRepetidos = "C:/telefonosCRepetidos.txt";
         String pathSalidaNoResponse = "C:/telefonosCNoResponse.txt";
         LOGGER.info("******** INICIO PROCESO LINEAS X FONO  ********");
         List<ClienteVO> clienteVOList = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeFichero();
-        int indexLista = 0;
+        indexLista = 0;
         for (ClienteVO clienteVO : clienteVOList) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
-            LOGGER.info(generalHelper.progressPercent(indexLista, clienteVOList.size()));
+            LOGGER.info(generalHelper.progressPercent(indexLista, clienteVOList.size(),"consultaClienteRutLineaC"));
             callConsultaClienteRutLinaCxFono(clienteVO, endPointDataVO);
         }
+        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), "Carga Linea C completada");
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
@@ -132,7 +144,7 @@ public class ConsultaClienteRutLineaCDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
 
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea",fonoCompleto, xmlString));
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea", fonoCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
@@ -148,19 +160,19 @@ public class ConsultaClienteRutLineaCDelegate {
             listClientsNoResponse.add(fonoCompleto + " | " + e);
         }
     }
-    
+
     private MigracionVO setMigracionVO(String tipo, String valueTipo, String xmlString) {
-    	MigracionVO vo = new MigracionVO();
-    	vo.setServicio("consultaClienteRutLineaC");
-    	if("rut".equals(tipo)) {
-    		vo.setRut(valueTipo);
-    		vo.setSalida(xmlString);
-    	}else {
-    		vo.setLinea(valueTipo);
-    		vo.setSalida(xmlString);
-    	}
-		return vo;
-	}
+        MigracionVO vo = new MigracionVO();
+        vo.setServicio("consultaClienteRutLineaC");
+        if ("rut".equals(tipo)) {
+            vo.setRut(valueTipo);
+            vo.setSalida(xmlString);
+        } else {
+            vo.setLinea(valueTipo);
+            vo.setSalida(xmlString);
+        }
+        return vo;
+    }
 
     /**
      * @param clienteVO ClienteVO
@@ -182,7 +194,7 @@ public class ConsultaClienteRutLineaCDelegate {
      * @param clienteVO      ClienteVO
      * @param endPointDataVO EndPointDataVO
      */
-    public void callConsultaClienteRutLinaC(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
+    public void callConsultaClienteRutLinaC(ClienteVO clienteVO, EndPointDataVO endPointDataVO) throws Exception {
         String rutCompleto = null;
         try {
             rutCompleto = clienteVO.getRut() + "-" + clienteVO.getDv();
@@ -197,7 +209,7 @@ public class ConsultaClienteRutLineaCDelegate {
                 ProgramInterfaceAwlc02Wo_salida salida;
                 ProgramInterfaceAwlc02Wi_entrada entrada = fillRequestIn(clienteVO, (Constantes.sCOD_ONE));
                 salida = callEndpointHelper.callEndPointSoapStub(endPointDataVO).AWLC02WSOperation(entrada);
-                
+
                 JAXBContext context = JAXBContext.newInstance(ProgramInterfaceAwlc02Wo_salida.class);
                 Marshaller marshaller = context.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -205,7 +217,8 @@ public class ConsultaClienteRutLineaCDelegate {
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
 
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut",clienteVO.getRut()+clienteVO.getDv(), xmlString));
+                int codBD = saveFilesOracle.saveResponseInBD(
+                    setMigracionVO("rut", clienteVO.getRut() + clienteVO.getDv(), xmlString));
 
                 if (codBD == 0) {
                     System.out.println(rutCompleto + " | Error insert BD ");
@@ -214,6 +227,8 @@ public class ConsultaClienteRutLineaCDelegate {
 //                consultaClienteRutFonoLineaHelper.crearSalidaResponse(xmlString, rutCompleto, "RUTA_SALIDA_RUT_C");
             }
         } catch (Exception e) {
+            String error = rutCompleto + " | " + e + " | Fila:" + indexLista + " | consultaClienteRutLineaC N1";
+            restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), error);
             LOGGER.error(String.format("No se proceso el rut: %1$s por la siguiente razón: %2$s", rutCompleto, e));
             LOGGER.info("SE AGREGA A RUT SIN RESPUESTA : {}", rutCompleto);
             listClientsNoResponse.add(rutCompleto + " | " + e);

@@ -151,14 +151,14 @@ public class ConsultaClienteRutFonoLineaHelper {
      *
      * @return the list
      */
-    public List<ClienteVO> obtieneRutClienteDesdeFichero() {
+    public List<ClienteVO> obtieneRutClienteDesdeFichero(String pathArchivo) {
         File archivo = null;
         FileReader fr = null;
         BufferedReader br = null;
         List<ClienteVO> clienteVOList = new ArrayList<>();
         ClienteVO clienteVO = null;
         try {
-            archivo = new File(ConstantesRutas.LECTURARUTS);
+            archivo = new File(pathArchivo);
             fr = new FileReader(archivo);
             br = new BufferedReader(fr);
             String linea;
@@ -197,7 +197,8 @@ public class ConsultaClienteRutFonoLineaHelper {
                     continue;
                 }
                 // Validar que existe mas data, sino salirse del FOR
-                if (row.getCell(0) == null || row.getCell(0).getStringCellValue().trim().isEmpty()) {
+                if (row.getCell(0) == null || row.getCell(0).getStringCellValue().trim().isEmpty()
+                    && row.getCell(1) == null || row.getCell(1).getStringCellValue().trim().isEmpty()) {
                     break;
                 }
                 // Cada fila es una celda del excel
@@ -219,6 +220,10 @@ public class ConsultaClienteRutFonoLineaHelper {
                     ClienteVO clienteVO =
                         new ClienteVO("", "", "", "", "", "", "", CIUDAD, CODIGO_CALLE, ALTURA);
                     clienteVOList.add(clienteVO);
+                }
+
+                if(nameProcess.equalsIgnoreCase("Generico")){
+
                 }
 
             }
@@ -252,8 +257,9 @@ public class ConsultaClienteRutFonoLineaHelper {
                         String[] partes = separarColumnasDeDatos(linea);
                         clienteVO.setInicioVigencia(partes[1]);
                     }
-                    clienteVO.setArea(linea.substring(2, 4));
-                    clienteVO.setFono(linea.substring(linea.length() - 8));
+                    //224564568
+                    clienteVO.setArea(linea.substring(2, 4));//45
+                    clienteVO.setFono(linea.substring(linea.length() - 8));//24564568
                     clienteVO.setIdFono(linea.substring(2));
                     clienteVOList.add(clienteVO);
                 }

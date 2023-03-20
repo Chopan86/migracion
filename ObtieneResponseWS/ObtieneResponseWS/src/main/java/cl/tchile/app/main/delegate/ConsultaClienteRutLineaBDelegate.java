@@ -1,6 +1,8 @@
 package cl.tchile.app.main.delegate;
 
+import cl.tchile.app.bot.RestTemplateTelegramBot;
 import cl.tchile.app.constant.Constantes;
+import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.ConsultaClienteRutFonoLineaHelper;
 import cl.tchile.app.helper.GeneralHelper;
 import cl.tchile.app.helper.SaveFilesOracle;
@@ -16,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
@@ -51,6 +52,8 @@ public class ConsultaClienteRutLineaBDelegate {
      */
     @Autowired
     ConsultaClienteRutFonoLineaHelper consultarClienteRutFonoLineaHelper;
+
+    private final RestTemplateTelegramBot restTemplateTelegramBot;
     /**
      * Lista clientes repetidos
      */
@@ -65,6 +68,11 @@ public class ConsultaClienteRutLineaBDelegate {
         Constantes.TIMEOUT15,
         "com.AWLC01WI.AWLC01WS.www.AWLC01WSServiceLocator"
     );
+
+    @Autowired
+    public ConsultaClienteRutLineaBDelegate(RestTemplateTelegramBot restTemplateTelegramBot) {
+        this.restTemplateTelegramBot = restTemplateTelegramBot;
+    }
 
     /**
      * consultaClienteRutlineaBxFono
@@ -87,26 +95,31 @@ public class ConsultaClienteRutLineaBDelegate {
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
+    int indexLista = 0;
+
     /**
      * Consulta cliente rut linea B impl.
      */
-    public void consultaClienteRutLineaBImpl() throws SQLException, ClassNotFoundException {
+    public void consultaClienteRutLineaBImpl() throws Exception {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         String pathSalidaRepetidos = "C:/clientesRepetidos.txt";
         String pathSalidaNoResponse = "C:/clientesSinRespuesta.txt";
         LOGGER.info("******** INICIO PROCESO ********");
-        List<ClienteVO> listaRutClientes = consultarClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero();
+        List<ClienteVO> listaRutClientes = consultarClienteRutFonoLineaHelper.obtieneRutClienteDesdeFichero(
+            ConstantesRutas.LECTURARUTSN1);
         LOGGER.info("Cantidad Total Ruts a Buscar: " + listaRutClientes.size());
-        int indexLista = 0;
+        indexLista = 0;
+
         for (ClienteVO clienteVO : listaRutClientes) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
-            LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size()));
+            LOGGER.info(generalHelper.progressPercent(indexLista, listaRutClientes.size(), "consultaClienteRutLineaB N1"));
             callConsultaClienteRutLinaB(clienteVO.getRut(), clienteVO.getDv(), endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
+
     }
 
     /**
@@ -115,7 +128,7 @@ public class ConsultaClienteRutLineaBDelegate {
      * @param rut the rut
      * @param dv  the dv
      */
-    public void callConsultaClienteRutLinaB(String rut, String dv, EndPointDataVO endPointDataVO) {
+    public void callConsultaClienteRutLinaB(String rut, String dv, EndPointDataVO endPointDataVO) throws Exception {
         String rutCompleto = null;
         try {
             rutCompleto = rut + "-" + dv;
@@ -151,9 +164,10 @@ public class ConsultaClienteRutLineaBDelegate {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut",rut+dv, xmlString));
-                
+                System.out.println("");
+
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("rut", rut + dv, xmlString));
+
                 if (codBD == 0) {
                     System.out.println(rutCompleto + " | Error insert BD ");
                     listClientsNoResponse.add(rutCompleto + " | Error insert BD ");
@@ -169,26 +183,29 @@ public class ConsultaClienteRutLineaBDelegate {
             }
 
         } catch (Exception e) {
+            String error = rutCompleto + " | " + e + " | Fila:" + indexLista + " | consultaClienteRutLineaB N1";
+            restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), error);
             LOGGER.error("No se proceso el rut: " + rutCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA A RUT SIN RESPUESTA : " + rutCompleto);
+
             listClientsNoResponse.add(rutCompleto + " | " + e);
         }
     }
 
     private MigracionVO setMigracionVO(String tipo, String valueTipo, String xmlString) {
-    	MigracionVO vo = new MigracionVO();
-    	vo.setServicio("consultaClienteRutLineaB");
-    	if("rut".equals(tipo)) {
-    		vo.setRut(valueTipo);
-    		vo.setSalida(xmlString);
-    	}else {
-    		vo.setLinea(valueTipo);
-    		vo.setSalida(xmlString);
-    	}
-		return vo;
-	}
+        MigracionVO vo = new MigracionVO();
+        vo.setServicio("consultaClienteRutLineaB");
+        if ("rut".equals(tipo)) {
+            vo.setRut(valueTipo);
+            vo.setSalida(xmlString);
+        } else {
+            vo.setLinea(valueTipo);
+            vo.setSalida(xmlString);
+        }
+        return vo;
+    }
 
-	public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
+    public void callConsultaClienteRutLinaBxFono(String area, String fono, EndPointDataVO endPointDataVO) {
         String fonoCompleto = area + fono.substring(1);
         try {
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_FONOSB");
@@ -222,8 +239,9 @@ public class ConsultaClienteRutLineaBDelegate {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
+                System.out.println("");
 
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea",fonoCompleto, xmlString));
+                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO("linea", fonoCompleto, xmlString));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");

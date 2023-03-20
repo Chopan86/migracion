@@ -1,4 +1,6 @@
 package cl.tchile.app.main.delegate;
+
+import cl.tchile.app.bot.RestTemplateTelegramBot;
 import cl.tchile.app.constant.Constantes;
 import cl.tchile.app.constant.ConstantesRutas;
 import cl.tchile.app.helper.CallEndpointHelper;
@@ -16,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
@@ -49,6 +50,8 @@ public class ConsultaPsPorLiena {
 
     @Autowired
     SaveFilesOracle saveFilesOracle;
+
+    private final RestTemplateTelegramBot restTemplateTelegramBot;
     /**
      * listClientsNoResponse
      */
@@ -66,30 +69,40 @@ public class ConsultaPsPorLiena {
         "com.AWPS01WI.AWPS01WS.www.AWPS01WSServiceLocator"
     );
 
-    public void consultaPsPorLinea() throws SQLException, ClassNotFoundException {
+    @Autowired
+    public ConsultaPsPorLiena(RestTemplateTelegramBot restTemplateTelegramBot) {
+        this.restTemplateTelegramBot = restTemplateTelegramBot;
+    }
+
+
+    int indexLista = 0;
+    public void consultaPsPorLinea() throws Exception {
         listClientsNoResponse = new ArrayList<>();
         listRepeatClients = new ArrayList<>();
         LOGGER.info("******** INICIO PROCESO CONSULTA PsPrincipales ********");
+        restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871),
+            "******** INICIO PROCESO CONSULTA PsPrincipales 4 Thread ********");
         String pathSalidaRepetidos = ConstantesRutas.REPETIDOSPSPORLINEA;
         String pathSalidaNoResponse = ConstantesRutas.SINRESPUESTAPSPORLINEA;
         List<ClienteVO> listaClientes = consultaClienteRutFonoLineaHelper.obtenerDatosDesdeExcel(
             ConstantesRutas.FICHEROPSPORLINEAREAD, "consultaPsPorLinea");
-        int indexLista = 0;
+
+
         for (ClienteVO clienteVO : listaClientes) {
             indexLista++;
             saveFilesOracle.reiniciarConexion(indexLista);
-            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size()));
+            LOGGER.info(generalHelper.progressPercent(indexLista, listaClientes.size(),"consultaPSporLinea FULL"));
             callConsultaPsPorLinea(clienteVO, endPointDataVO);
         }
         generalHelper.outputRepeatClients(listRepeatClients, pathSalidaRepetidos);
         generalHelper.outputErrorClients(listClientsNoResponse, pathSalidaNoResponse);
     }
 
-    public void callConsultaPsPorLinea(ClienteVO clienteVO, EndPointDataVO endPointDataVO) {
+    public void callConsultaPsPorLinea(ClienteVO clienteVO, EndPointDataVO endPointDataVO) throws Exception {
         String fonoCompletoBD =
-                generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) +
+            generalHelper.quitarNumerosIzquierda(clienteVO.getArea()) +
                 generalHelper.quitarNumerosIzquierda(clienteVO.getFono());
-        String fonoCompleto = fonoCompletoBD+"-"+clienteVO.getInicioVigencia();
+        String fonoCompleto = fonoCompletoBD + "-" + clienteVO.getInicioVigencia();
         try {
             boolean fonoRepetido = false;
 //            boolean fonoRepetido = generalHelper.isRepeatValue(fonoCompleto, "RUTA_SALIDA_PSPORLINEA");
@@ -110,8 +123,9 @@ public class ConsultaPsPorLiena {
                 StringWriter stringWriter = new StringWriter();
                 marshaller.marshal(salida, stringWriter);
                 String xmlString = stringWriter.toString();
-                
-                int codBD = saveFilesOracle.saveResponseInBD(setMigracionVO(fonoCompletoBD, xmlString, entrada.getAwps01Co_i_fec_ini_li()));
+
+                int codBD = saveFilesOracle.saveResponseInBD(
+                    setMigracionVO(fonoCompletoBD, xmlString, entrada.getAwps01Co_i_fec_ini_li()));
 
                 if (codBD == 0) {
                     System.out.println(fonoCompleto + " | Error insert BD ");
@@ -123,6 +137,8 @@ public class ConsultaPsPorLiena {
             }
 
         } catch (Exception e) {
+            String error = fonoCompleto + " | " + e + " | Fila:" + indexLista + " | consultaPSporLinea FULL";
+            restTemplateTelegramBot.peticionHttpGet(String.valueOf(-837310871), error);
             LOGGER.error("No se proceso el fono: " + fonoCompleto + " por la siguiente razón: " + e);
             LOGGER.info("SE AGREGA FONO SIN RESPUESTA : " + fonoCompleto);
             listClientsNoResponse.add(fonoCompleto + " | " + e);
@@ -130,18 +146,20 @@ public class ConsultaPsPorLiena {
     }
 
     private MigracionVO setMigracionVO(String fonoCompleto, String xmlString, String fechaIniLi) {
-    	MigracionVO vo = new MigracionVO();
-    	vo.setServicio("consultaPSporLinea");
-    	vo.setLinea(fonoCompleto);
-    	vo.setSalida(xmlString);
-    	vo.setFechaIniLi(fechaIniLi);
-		return vo;
-	}
+        MigracionVO vo = new MigracionVO();
+        vo.setServicio("consultaPSporLinea");
+        vo.setLinea(fonoCompleto);
+        vo.setSalida(xmlString);
+        vo.setFechaIniLi(fechaIniLi);
+        return vo;
+    }
 
-	private ProgramInterfaceAwps01Co_entrada fillRequestIn(ClienteVO clienteVO) {
+    private ProgramInterfaceAwps01Co_entrada fillRequestIn(ClienteVO clienteVO) {
         ProgramInterfaceAwps01Co_entrada entrada = new ProgramInterfaceAwps01Co_entrada();
-        entrada.setAwps01Co_i_area(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(),3,Constantes.cCOD_ZERO));
-        entrada.setAwps01Co_i_num_com(generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(),8,Constantes.cCOD_ZERO));
+        entrada.setAwps01Co_i_area(
+            generalHelper.rellenarCadenaPorIzquierda(clienteVO.getArea(), 3, Constantes.cCOD_ZERO));
+        entrada.setAwps01Co_i_num_com(
+            generalHelper.rellenarCadenaPorIzquierda(clienteVO.getFono(), 8, Constantes.cCOD_ZERO));
         entrada.setAwps01Co_i_fec_ini_li(clienteVO.getInicioVigencia());
         entrada.setFiller1("");
         return entrada;

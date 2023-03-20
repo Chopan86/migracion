@@ -90,6 +90,7 @@ public class SaveFilesOracle {
     }
 
     public void getConnection() throws ClassNotFoundException, SQLException {
+        // BD PRODUCCIÓN
         String dbURL = "jdbc:oracle:thin:@10.186.225.126:1521/REC_TEC_SRV";
         String username = "REC_TEC";
         String password = "PRujz8RE";
@@ -107,7 +108,7 @@ public class SaveFilesOracle {
     }
 
     public void reiniciarConexion(int recuento) throws SQLException, ClassNotFoundException {
-        int resto = recuento % 50;
+        int resto = recuento % 20;
         if (resto == 0) {
             System.out.println("Reinicio Conexion");
             closeConnection();

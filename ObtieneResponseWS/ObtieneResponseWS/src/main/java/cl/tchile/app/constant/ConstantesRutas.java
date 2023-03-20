@@ -24,7 +24,11 @@ public class ConstantesRutas {
     /**
      * lecturaRuts
      */
-    public static final String LECTURARUTS = System.getenv("RUTA_LECTURA_RUTS");
+    public static final String LECTURARUTSN1 = "C:/WorkspaceMigracionMainFrame/ruts1.txt";
+    public static final String LECTURARUTSN2 = "C:/WorkspaceMigracionMainFrame/ruts2.txt";
+    public static final String LECTURARUTSN3 = "C:/WorkspaceMigracionMainFrame/ruts3.txt";
+    public static final String LECTURARUTSN4 = "C:/WorkspaceMigracionMainFrame/ruts4.txt";
+
     /**
      * repetidosPsprincipales
      */
@@ -57,5 +61,10 @@ public class ConstantesRutas {
 
     public static final String REPETIDOSLISTAAPELALTURAS = "C:/apelAlturas_repetidos.txt";
     public static final String SINRESPUESTAAPELALTURAS = "C:/apelAlturas_sin_respuesta.txt";
-    public static final String FICHEROPSPORLINEAREAD = "C:/WorkspaceMigracionMainFrame/psporlinea.xlsx";
+    public static final String FICHEROPSPORLINEAREAD = "C:/WorkspaceMigracionMainFrame/psporlineaFULLACTUALIZADO.xlsx";
+    public static final String FICHEROPSPORLINEAREAD2 = "C:/WorkspaceMigracionMainFrame/psporlineaA.xlsx";
+    public static final String FICHEROPSPORLINEAREAD3 = "C:/WorkspaceMigracionMainFrame/psporlineaB.xlsx";
+    public static final String FICHEROPSPORLINEAREAD4 = "C:/WorkspaceMigracionMainFrame/psporlineaC.xlsx";
+
+    public static final String SINRESPUESTADATOSCUENTACLIENTE = "C:/datos_cuenta_cliente_sin_respuesta.txt";
 }
